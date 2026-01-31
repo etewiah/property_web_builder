@@ -1,0 +1,23 @@
+<%
+  badge_classes = case status
+                  when 'draft'
+                    'bg-gray-100 text-gray-800'
+                  when 'generating'
+                    'bg-yellow-100 text-yellow-800'
+                  when 'completed'
+                    'bg-green-100 text-green-800'
+                  when 'shared'
+                    'bg-blue-100 text-blue-800'
+                  else
+                    'bg-gray-100 text-gray-800'
+                  end
+%>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= badge_classes %>">
+  <% if status == 'generating' %>
+    <svg class="animate-spin -ml-0.5 mr-1.5 h-3 w-3" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+    </svg>
+  <% end %>
+  <%= status.titleize %>
+</span>

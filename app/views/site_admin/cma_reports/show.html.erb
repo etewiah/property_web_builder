@@ -1,0 +1,404 @@
+<div class="max-w-7xl mx-auto">
+  <!-- Breadcrumb -->
+  <nav class="mb-4 text-sm">
+    <%= link_to "CMA Reports", site_admin_cma_reports_path, class: "text-blue-600 hover:text-blue-800" %> /
+    <span class="text-gray-500"><%= @report.reference_number %></span>
+  </nav>
+
+  <!-- Report Header -->
+  <div class="mb-6 bg-white rounded-lg shadow p-6">
+    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between">
+      <div>
+        <div class="flex items-center space-x-3">
+          <h1 class="text-2xl font-bold text-gray-900"><%= @report.title %></h1>
+          <%= render 'status_badge', status: @report.status %>
+        </div>
+        <p class="mt-1 text-gray-500">
+          Reference: <%= @report.reference_number %>
+          <% if @report.generated_at %>
+            &middot; Generated <%= time_ago_in_words(@report.generated_at) %> ago
+          <% end %>
+          <% if @report.view_count > 0 %>
+            &middot; <%= pluralize(@report.view_count, 'view') %>
+          <% end %>
+        </p>
+      </div>
+
+      <div class="mt-4 lg:mt-0 flex flex-wrap gap-2">
+        <% if @report.pdf_ready? %>
+          <%= link_to download_site_admin_cma_report_path(@report), class: "inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors" do %>
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            Download PDF
+          <% end %>
+        <% end %>
+
+        <% if @report.completed? || @report.shared? %>
+          <%= button_to share_site_admin_cma_report_path(@report), method: :post, class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors" do %>
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+            </svg>
+            Share
+          <% end %>
+        <% end %>
+
+        <% if @report.subject_property %>
+          <%= button_to regenerate_site_admin_cma_report_path(@report), method: :post, class: "inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors", data: { turbo_confirm: "This will generate a new report. Continue?" } do %>
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            Regenerate
+          <% end %>
+        <% end %>
+
+        <%= button_to site_admin_cma_report_path(@report), method: :delete, class: "inline-flex items-center px-4 py-2 bg-red-100 text-red-700 font-medium rounded-lg hover:bg-red-200 transition-colors", data: { turbo_confirm: "Are you sure you want to delete this report?" } do %>
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
+          Delete
+        <% end %>
+      </div>
+    </div>
+
+    <% if @report.shared? && @report.share_token %>
+      <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+        <p class="text-sm text-blue-800">
+          <strong>Share URL:</strong>
+          <span class="font-mono ml-2"><%= public_cma_url(@report.share_token) %></span>
+          <button onclick="navigator.clipboard.writeText('<%= public_cma_url(@report.share_token) %>'); this.innerText = 'Copied!';" class="ml-2 text-blue-600 hover:text-blue-800 underline">
+            Copy
+          </button>
+        </p>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Suggested Price Range -->
+  <% if @report.suggested_price_range %>
+    <div class="mb-6 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow p-6 text-white">
+      <h2 class="text-sm font-medium text-blue-100">Suggested List Price Range</h2>
+      <p class="mt-2 text-3xl font-bold">
+        <%= @report.suggested_price_range[:formatted_low] %> - <%= @report.suggested_price_range[:formatted_high] %>
+      </p>
+      <% if @insights['confidence_level'] %>
+        <p class="mt-2 text-sm text-blue-100">
+          Confidence: <%= @insights['confidence_level'].titleize %>
+          <% if @insights['time_to_sell_estimate'] %>
+            &middot; Est. time to sell: <%= @insights['time_to_sell_estimate'] %>
+          <% end %>
+        </p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Left Column: Subject Property & Insights -->
+    <div class="lg:col-span-2 space-y-6">
+      <!-- Subject Property -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Subject Property</h2>
+
+        <% if @subject_property %>
+          <div class="flex items-start space-x-4">
+            <% if @subject_property.photos.attached? %>
+              <div class="flex-shrink-0 w-32 h-24 rounded-lg overflow-hidden bg-gray-100">
+                <%= image_tag @subject_property.photos.first.variant(resize_to_fill: [128, 96]), class: "w-full h-full object-cover" %>
+              </div>
+            <% end %>
+
+            <div class="flex-1">
+              <h3 class="font-medium text-gray-900"><%= @subject_property.street_address %></h3>
+              <p class="text-sm text-gray-500"><%= [@subject_property.city, @subject_property.region, @subject_property.postal_code].compact.join(', ') %></p>
+
+              <div class="mt-3 flex flex-wrap gap-4 text-sm text-gray-600">
+                <% if @subject_property.count_bedrooms %>
+                  <span><strong><%= @subject_property.count_bedrooms %></strong> beds</span>
+                <% end %>
+                <% if @subject_property.count_bathrooms %>
+                  <span><strong><%= @subject_property.count_bathrooms %></strong> baths</span>
+                <% end %>
+                <% if @subject_property.constructed_area %>
+                  <span><strong><%= number_with_delimiter(@subject_property.constructed_area.to_i) %></strong> sqft</span>
+                <% end %>
+                <% if @subject_property.year_construction %>
+                  <span>Built <strong><%= @subject_property.year_construction %></strong></span>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% else %>
+          <p class="text-gray-500">Subject property details not available.</p>
+        <% end %>
+      </div>
+
+      <!-- AI Insights -->
+      <% if @insights.present? %>
+        <div class="bg-white rounded-lg shadow p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">AI Analysis</h2>
+
+          <% if @insights['executive_summary'] %>
+            <div class="mb-6">
+              <h3 class="text-sm font-medium text-gray-500 mb-2">Executive Summary</h3>
+              <p class="text-gray-700"><%= @insights['executive_summary'] %></p>
+            </div>
+          <% end %>
+
+          <% if @insights['market_position'] %>
+            <div class="mb-6">
+              <h3 class="text-sm font-medium text-gray-500 mb-2">Market Position</h3>
+              <p class="text-gray-700"><%= @insights['market_position'] %></p>
+            </div>
+          <% end %>
+
+          <% if @insights['pricing_rationale'] %>
+            <div class="mb-6">
+              <h3 class="text-sm font-medium text-gray-500 mb-2">Pricing Rationale</h3>
+              <p class="text-gray-700"><%= @insights['pricing_rationale'] %></p>
+            </div>
+          <% end %>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <% if @insights['strengths'].present? %>
+              <div>
+                <h3 class="text-sm font-medium text-gray-500 mb-2">Strengths</h3>
+                <ul class="space-y-1">
+                  <% @insights['strengths'].each do |strength| %>
+                    <li class="flex items-start">
+                      <svg class="w-4 h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                      <span class="text-gray-700"><%= strength %></span>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <% if @insights['considerations'].present? %>
+              <div>
+                <h3 class="text-sm font-medium text-gray-500 mb-2">Considerations</h3>
+                <ul class="space-y-1">
+                  <% @insights['considerations'].each do |consideration| %>
+                    <li class="flex items-start">
+                      <svg class="w-4 h-4 text-yellow-500 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                      </svg>
+                      <span class="text-gray-700"><%= consideration %></span>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+
+          <% if @insights['recommendation'] %>
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+              <h3 class="text-sm font-medium text-blue-800 mb-2">Recommendation</h3>
+              <p class="text-blue-900"><%= @insights['recommendation'] %></p>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- Comparable Properties -->
+      <% if @comparables.present? %>
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+          <div class="p-6 border-b border-gray-200">
+            <h2 class="text-lg font-semibold text-gray-900">Comparable Properties (<%= @comparables.length %>)</h2>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Address</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Beds/Baths</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Size</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                  <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Price</th>
+                  <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Adjusted</th>
+                  <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Score</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                <% @comparables.each do |comp| %>
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3">
+                      <div class="text-sm font-medium text-gray-900"><%= comp['address'] || 'N/A' %></div>
+                      <% if comp['distance_km'] %>
+                        <div class="text-xs text-gray-500"><%= comp['distance_km'] %> km away</div>
+                      <% end %>
+                    </td>
+                    <td class="px-4 py-3 text-sm text-gray-600">
+                      <%= comp['bedrooms'] %> / <%= comp['bathrooms'] %>
+                    </td>
+                    <td class="px-4 py-3 text-sm text-gray-600">
+                      <% if comp['constructed_area'] %>
+                        <%= number_with_delimiter(comp['constructed_area'].to_i) %> sqft
+                      <% else %>
+                        -
+                      <% end %>
+                    </td>
+                    <td class="px-4 py-3">
+                      <%
+                        status_class = case comp['status']
+                                       when 'sold' then 'bg-green-100 text-green-800'
+                                       when 'pending' then 'bg-yellow-100 text-yellow-800'
+                                       else 'bg-blue-100 text-blue-800'
+                                       end
+                      %>
+                      <span class="inline-flex px-2 py-0.5 text-xs font-medium rounded <%= status_class %>">
+                        <%= (comp['status'] || 'active').titleize %>
+                      </span>
+                    </td>
+                    <td class="px-4 py-3 text-sm text-gray-900 text-right">
+                      <% if comp['price_cents'] %>
+                        $<%= number_with_delimiter((comp['price_cents'] / 100.0).round) %>
+                      <% else %>
+                        -
+                      <% end %>
+                    </td>
+                    <td class="px-4 py-3 text-sm font-medium text-gray-900 text-right">
+                      <% if comp['adjusted_price_cents'] %>
+                        $<%= number_with_delimiter((comp['adjusted_price_cents'] / 100.0).round) %>
+                      <% else %>
+                        -
+                      <% end %>
+                    </td>
+                    <td class="px-4 py-3 text-center">
+                      <% if comp['similarity_score'] %>
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full text-sm font-medium <%= comp['similarity_score'] >= 80 ? 'bg-green-100 text-green-800' : comp['similarity_score'] >= 60 ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800' %>">
+                          <%= comp['similarity_score'].round %>
+                        </span>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Right Column: Statistics & Branding -->
+    <div class="space-y-6">
+      <!-- Market Statistics -->
+      <% if @statistics.present? %>
+        <div class="bg-white rounded-lg shadow p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Market Statistics</h2>
+
+          <dl class="space-y-4">
+            <% if @statistics['average_price_cents'] %>
+              <div>
+                <dt class="text-sm text-gray-500">Average Price</dt>
+                <dd class="text-lg font-semibold text-gray-900">$<%= number_with_delimiter((@statistics['average_price_cents'] / 100.0).round) %></dd>
+              </div>
+            <% end %>
+
+            <% if @statistics['median_price_cents'] %>
+              <div>
+                <dt class="text-sm text-gray-500">Median Price</dt>
+                <dd class="text-lg font-semibold text-gray-900">$<%= number_with_delimiter((@statistics['median_price_cents'] / 100.0).round) %></dd>
+              </div>
+            <% end %>
+
+            <% if @statistics['price_per_sqft_cents'] %>
+              <div>
+                <dt class="text-sm text-gray-500">Price per Sqft</dt>
+                <dd class="text-lg font-semibold text-gray-900">$<%= number_with_delimiter((@statistics['price_per_sqft_cents'] / 100.0).round(2)) %></dd>
+              </div>
+            <% end %>
+
+            <% if @statistics['days_on_market'] %>
+              <div>
+                <dt class="text-sm text-gray-500">Avg Days on Market</dt>
+                <dd class="text-lg font-semibold text-gray-900"><%= @statistics['days_on_market'] %> days</dd>
+              </div>
+            <% end %>
+
+            <% if @statistics['comparable_count'] %>
+              <div>
+                <dt class="text-sm text-gray-500">Comparables Analyzed</dt>
+                <dd class="text-lg font-semibold text-gray-900"><%= @statistics['comparable_count'] %></dd>
+              </div>
+            <% end %>
+          </dl>
+        </div>
+      <% end %>
+
+      <!-- Report Details -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Report Details</h2>
+
+        <dl class="space-y-3 text-sm">
+          <div class="flex justify-between">
+            <dt class="text-gray-500">Search Radius</dt>
+            <dd class="text-gray-900"><%= @report.radius_km || 2 %> km</dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="text-gray-500">Location</dt>
+            <dd class="text-gray-900"><%= [@report.city, @report.region].compact.join(', ') %></dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="text-gray-500">Created</dt>
+            <dd class="text-gray-900"><%= @report.created_at.strftime('%b %d, %Y %H:%M') %></dd>
+          </div>
+          <% if @report.generated_at %>
+            <div class="flex justify-between">
+              <dt class="text-gray-500">Generated</dt>
+              <dd class="text-gray-900"><%= @report.generated_at.strftime('%b %d, %Y %H:%M') %></dd>
+            </div>
+          <% end %>
+          <% if @report.shared_at %>
+            <div class="flex justify-between">
+              <dt class="text-gray-500">Shared</dt>
+              <dd class="text-gray-900"><%= @report.shared_at.strftime('%b %d, %Y %H:%M') %></dd>
+            </div>
+          <% end %>
+        </dl>
+      </div>
+
+      <!-- Branding -->
+      <% if @report.branding.present? %>
+        <div class="bg-white rounded-lg shadow p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Branding</h2>
+
+          <% if @report.branding['company_logo_url'] %>
+            <div class="mb-4">
+              <img src="<%= @report.branding['company_logo_url'] %>" alt="Company Logo" class="h-12 object-contain">
+            </div>
+          <% end %>
+
+          <dl class="space-y-2 text-sm">
+            <% if @report.branding['company_name'] %>
+              <div>
+                <dt class="text-gray-500">Company</dt>
+                <dd class="text-gray-900 font-medium"><%= @report.branding['company_name'] %></dd>
+              </div>
+            <% end %>
+            <% if @report.branding['agent_name'] %>
+              <div>
+                <dt class="text-gray-500">Agent</dt>
+                <dd class="text-gray-900"><%= @report.branding['agent_name'] %></dd>
+              </div>
+            <% end %>
+            <% if @report.branding['agent_phone'] %>
+              <div>
+                <dt class="text-gray-500">Phone</dt>
+                <dd class="text-gray-900"><%= @report.branding['agent_phone'] %></dd>
+              </div>
+            <% end %>
+            <% if @report.branding['agent_email'] %>
+              <div>
+                <dt class="text-gray-500">Email</dt>
+                <dd class="text-gray-900"><%= @report.branding['agent_email'] %></dd>
+              </div>
+            <% end %>
+          </dl>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -325,6 +325,16 @@ Rails.application.routes.draw do
         end
       end
     end
+
+    # CMA (Comparative Market Analysis) Reports
+    resources :cma_reports, only: %i[index show new create destroy] do
+      member do
+        post :regenerate
+        post :share
+        get :download
+      end
+    end
+
     resources :pages, only: %i[index show update] do
       member do
         get :settings
