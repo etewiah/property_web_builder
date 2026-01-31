@@ -176,6 +176,7 @@ module Pwb
     has_many :social_media_posts, class_name: 'Pwb::SocialMediaPost', dependent: :destroy
     has_many :social_media_templates, class_name: 'Pwb::SocialMediaTemplate', dependent: :destroy
     has_many :market_reports, class_name: 'Pwb::MarketReport', dependent: :destroy
+    has_many :listing_videos, class_name: 'Pwb::ListingVideo', dependent: :destroy
 
     # External Service Integrations
     has_many :integrations, class_name: 'Pwb::WebsiteIntegration', dependent: :destroy

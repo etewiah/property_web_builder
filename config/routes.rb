@@ -335,6 +335,15 @@ Rails.application.routes.draw do
       end
     end
 
+    # Listing Videos (AI-generated property videos)
+    resources :listing_videos, only: %i[index show new create destroy] do
+      member do
+        post :regenerate
+        post :share
+        get :download
+      end
+    end
+
     resources :pages, only: %i[index show update] do
       member do
         get :settings

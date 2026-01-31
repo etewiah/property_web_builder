@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_30_152045) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_31_100000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -403,6 +403,43 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_30_152045) do
     t.index ["translations"], name: "index_pwb_links_on_translations", using: :gin
     t.index ["website_id", "slug"], name: "index_pwb_links_on_website_id_and_slug", unique: true
     t.index ["website_id"], name: "index_pwb_links_on_website_id"
+  end
+
+  create_table "pwb_listing_videos", force: :cascade do |t|
+    t.jsonb "branding", default: {}
+    t.integer "cost_cents", default: 0
+    t.datetime "created_at", null: false
+    t.integer "duration_seconds"
+    t.text "error_message"
+    t.datetime "failed_at"
+    t.integer "file_size_bytes"
+    t.string "format", default: "vertical_9_16"
+    t.datetime "generated_at"
+    t.uuid "realty_asset_id", null: false
+    t.string "reference_number"
+    t.string "render_id"
+    t.string "resolution"
+    t.jsonb "scenes", default: []
+    t.text "script"
+    t.string "share_token"
+    t.datetime "shared_at"
+    t.string "status", default: "pending"
+    t.string "style", default: "professional"
+    t.string "thumbnail_url"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.string "video_url"
+    t.integer "view_count", default: 0
+    t.string "voice", default: "nova"
+    t.string "voiceover_url"
+    t.bigint "website_id", null: false
+    t.index ["realty_asset_id"], name: "index_pwb_listing_videos_on_realty_asset_id"
+    t.index ["render_id"], name: "index_pwb_listing_videos_on_render_id"
+    t.index ["share_token"], name: "index_pwb_listing_videos_on_share_token", unique: true, where: "(share_token IS NOT NULL)"
+    t.index ["user_id"], name: "index_pwb_listing_videos_on_user_id"
+    t.index ["website_id", "status"], name: "index_pwb_listing_videos_on_website_id_and_status"
+    t.index ["website_id"], name: "index_pwb_listing_videos_on_website_id"
   end
 
   create_table "pwb_market_reports", force: :cascade do |t|
@@ -1524,6 +1561,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_30_152045) do
   add_foreign_key "pwb_email_templates", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_features", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_field_keys", "pwb_websites"
+  add_foreign_key "pwb_listing_videos", "pwb_realty_assets", column: "realty_asset_id"
+  add_foreign_key "pwb_listing_videos", "pwb_users", column: "user_id"
+  add_foreign_key "pwb_listing_videos", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_market_reports", "pwb_ai_generation_requests", column: "ai_generation_request_id"
   add_foreign_key "pwb_market_reports", "pwb_realty_assets", column: "subject_property_id"
   add_foreign_key "pwb_market_reports", "pwb_users", column: "user_id"

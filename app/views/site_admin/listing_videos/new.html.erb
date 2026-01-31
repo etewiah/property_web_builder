@@ -1,0 +1,218 @@
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Back link -->
+  <div class="mb-6">
+    <%= link_to site_admin_listing_videos_path, class: "inline-flex items-center text-sm text-gray-500 hover:text-gray-700" do %>
+      <svg class="mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      Back to Videos
+    <% end %>
+  </div>
+
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-2xl font-semibold text-gray-900">Generate Listing Video</h1>
+    <p class="mt-2 text-sm text-gray-500">
+      Create an AI-powered video for a property listing. The video will include photos, voiceover, and background music.
+    </p>
+  </div>
+
+  <%= form_with url: site_admin_listing_videos_path, method: :post, class: "space-y-8" do |f| %>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Main Form -->
+      <div class="lg:col-span-2 space-y-6">
+        <!-- Property Selection -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Select Property</h3>
+
+          <% if @properties.any? %>
+            <div class="space-y-3">
+              <% @properties.each do |property| %>
+                <label class="flex items-start p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-blue-300 hover:bg-blue-50 transition-colors has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50">
+                  <input type="radio" name="listing_video[property_id]" value="<%= property.id %>"
+                         class="mt-1 h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                  <div class="ml-4 flex-1">
+                    <div class="flex items-start justify-between">
+                      <div>
+                        <p class="font-medium text-gray-900"><%= property.street_address || 'No address' %></p>
+                        <p class="text-sm text-gray-500"><%= property.city %>, <%= property.region %></p>
+                      </div>
+                      <% if property.prop_photos.any? %>
+                        <img src="<%= url_for(property.prop_photos.first.image) %>" alt=""
+                             class="w-16 h-12 rounded object-cover ml-4">
+                      <% end %>
+                    </div>
+                    <div class="mt-2 flex items-center gap-4 text-xs text-gray-500">
+                      <span><%= property.prop_type_key&.titleize %></span>
+                      <% if property.count_bedrooms %>
+                        <span><%= property.count_bedrooms %> bed</span>
+                      <% end %>
+                      <% if property.count_bathrooms %>
+                        <span><%= property.count_bathrooms %> bath</span>
+                      <% end %>
+                      <span class="text-blue-600"><%= property.prop_photos.count %> photos</span>
+                    </div>
+                  </div>
+                </label>
+              <% end %>
+            </div>
+
+            <% if @properties.size >= 100 %>
+              <p class="mt-4 text-sm text-gray-500">
+                Showing first 100 properties with 3+ photos.
+              </p>
+            <% end %>
+          <% else %>
+            <div class="text-center py-8">
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+              </svg>
+              <h3 class="mt-4 text-sm font-medium text-gray-900">No eligible properties</h3>
+              <p class="mt-2 text-sm text-gray-500">
+                Properties need at least 3 photos to generate a video.
+              </p>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Video Options -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Video Options</h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Format -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Video Format</label>
+              <select name="listing_video[format]" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                <option value="vertical_9_16" selected>Vertical 9:16 (TikTok, Reels)</option>
+                <option value="horizontal_16_9">Horizontal 16:9 (YouTube)</option>
+                <option value="square_1_1">Square 1:1 (Instagram)</option>
+              </select>
+            </div>
+
+            <!-- Style -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Video Style</label>
+              <select name="listing_video[style]" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                <option value="professional" selected>Professional</option>
+                <option value="luxury">Luxury</option>
+                <option value="casual">Casual</option>
+                <option value="energetic">Energetic</option>
+                <option value="minimal">Minimal</option>
+              </select>
+            </div>
+
+            <!-- Voice -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Voiceover Voice</label>
+              <select name="listing_video[voice]" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                <option value="nova" selected>Nova (Professional)</option>
+                <option value="alloy">Alloy (Balanced)</option>
+                <option value="echo">Echo (Warm)</option>
+                <option value="fable">Fable (Expressive)</option>
+                <option value="onyx">Onyx (Authoritative)</option>
+                <option value="shimmer">Shimmer (Clear)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Options -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Content Options</h3>
+
+          <div class="space-y-4">
+            <label class="flex items-center">
+              <input type="checkbox" name="listing_video[include_price]" value="1" checked
+                     class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+              <span class="ml-3 text-sm text-gray-700">Include price in voiceover</span>
+            </label>
+
+            <label class="flex items-center">
+              <input type="checkbox" name="listing_video[include_address]" value="1" checked
+                     class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+              <span class="ml-3 text-sm text-gray-700">Include address in voiceover</span>
+            </label>
+
+            <label class="flex items-center">
+              <input type="checkbox" name="listing_video[music_enabled]" value="1" checked
+                     class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+              <span class="ml-3 text-sm text-gray-700">Include background music</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="space-y-6">
+        <!-- Info Card -->
+        <div class="bg-blue-50 rounded-lg border border-blue-200 p-6">
+          <h3 class="text-sm font-medium text-blue-800 mb-3">How it works</h3>
+          <ol class="space-y-2 text-sm text-blue-700">
+            <li class="flex items-start gap-2">
+              <span class="font-medium">1.</span>
+              <span>AI generates a voiceover script based on the property details</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="font-medium">2.</span>
+              <span>Text-to-speech converts the script to audio</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="font-medium">3.</span>
+              <span>Photos are assembled with Ken Burns effects</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="font-medium">4.</span>
+              <span>Background music is added and mixed</span>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Style Guide -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h3 class="text-sm font-medium text-gray-700 mb-3">Style Guide</h3>
+          <dl class="space-y-3 text-sm">
+            <div>
+              <dt class="font-medium text-gray-900">Professional</dt>
+              <dd class="text-gray-500">Confident, feature-focused, moderate pace</dd>
+            </div>
+            <div>
+              <dt class="font-medium text-gray-900">Luxury</dt>
+              <dd class="text-gray-500">Sophisticated, elegant, slower pace</dd>
+            </div>
+            <div>
+              <dt class="font-medium text-gray-900">Casual</dt>
+              <dd class="text-gray-500">Friendly, conversational, upbeat</dd>
+            </div>
+            <div>
+              <dt class="font-medium text-gray-900">Energetic</dt>
+              <dd class="text-gray-500">Exciting, dynamic, fast-paced</dd>
+            </div>
+            <div>
+              <dt class="font-medium text-gray-900">Minimal</dt>
+              <dd class="text-gray-500">Simple, direct, factual</dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- Cost Estimate -->
+        <div class="bg-gray-50 rounded-lg border border-gray-200 p-6">
+          <h3 class="text-sm font-medium text-gray-700 mb-2">Estimated Cost</h3>
+          <p class="text-2xl font-semibold text-gray-900">~$0.10</p>
+          <p class="text-xs text-gray-500 mt-1">per video (AI + TTS + rendering)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="flex justify-end gap-4 pt-6 border-t border-gray-200">
+      <%= link_to 'Cancel', site_admin_listing_videos_path, class: "px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900" %>
+      <button type="submit" class="inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+        </svg>
+        Generate Video
+      </button>
+    </div>
+  <% end %>
+</div>

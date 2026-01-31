@@ -105,6 +105,11 @@ module Pwb
         name: 'Communication',
         description: 'Messaging and notifications',
         icon: 'message-circle'
+      },
+      video: {
+        name: 'Video Generation',
+        description: 'Automated video creation and rendering',
+        icon: 'video'
       }
     }.freeze
 

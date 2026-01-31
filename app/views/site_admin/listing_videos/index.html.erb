@@ -1,0 +1,162 @@
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Header -->
+  <div class="sm:flex sm:items-center sm:justify-between mb-8">
+    <div>
+      <h1 class="text-2xl font-semibold text-gray-900">Listing Videos</h1>
+      <p class="mt-2 text-sm text-gray-700">
+        AI-generated property videos for social media and marketing
+      </p>
+    </div>
+    <div class="mt-4 sm:mt-0">
+      <%= link_to new_site_admin_listing_video_path, class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" do %>
+        <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        Generate Video
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+    <%= form_with url: site_admin_listing_videos_path, method: :get, class: "flex flex-wrap gap-4 items-end" do |f| %>
+      <div class="flex-1 min-w-[200px]">
+        <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+        <input type="text" name="search" id="search" value="<%= params[:search] %>"
+               placeholder="Reference, title, or address..."
+               class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+      </div>
+
+      <div class="w-40">
+        <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+        <select name="status" id="status" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+          <option value="">All Statuses</option>
+          <% Pwb::ListingVideo::STATUSES.each do |status| %>
+            <option value="<%= status %>" <%= 'selected' if params[:status] == status %>><%= status.titleize %></option>
+          <% end %>
+        </select>
+      </div>
+
+      <div class="w-40">
+        <label for="format" class="block text-sm font-medium text-gray-700 mb-1">Format</label>
+        <select name="format" id="format" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+          <option value="">All Formats</option>
+          <% Pwb::ListingVideo::FORMATS.each do |format| %>
+            <option value="<%= format %>" <%= 'selected' if params[:format] == format %>>
+              <%= format == 'vertical_9_16' ? 'Vertical 9:16' : (format == 'horizontal_16_9' ? 'Horizontal 16:9' : 'Square 1:1') %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+
+      <div>
+        <button type="submit" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+          <svg class="-ml-1 mr-2 h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          Filter
+        </button>
+      </div>
+
+      <% if params[:search].present? || params[:status].present? || params[:format].present? %>
+        <div>
+          <%= link_to site_admin_listing_videos_path, class: "text-sm text-gray-500 hover:text-gray-700" do %>
+            Clear filters
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <!-- Videos List -->
+  <% if @videos.any? %>
+    <div class="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Video</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Property</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Format</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+            <th scope="col" class="relative px-6 py-3">
+              <span class="sr-only">Actions</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% @videos.each do |video| %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-12 w-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <% if video.thumbnail_url.present? %>
+                      <img src="<%= video.thumbnail_url %>" alt="" class="h-12 w-12 rounded-lg object-cover">
+                    <% else %>
+                      <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                      </svg>
+                    <% end %>
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">
+                      <%= link_to video.title.truncate(30), site_admin_listing_video_path(video), class: "hover:text-blue-600" %>
+                    </div>
+                    <div class="text-sm text-gray-500"><%= video.reference_number %></div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900"><%= video.realty_asset&.street_address&.truncate(25) || 'N/A' %></div>
+                <div class="text-sm text-gray-500"><%= video.realty_asset&.city %></div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                  <%= video.format_label %>
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <%= render partial: 'status_badge', locals: { status: video.status } %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= video.created_at.strftime('%b %d, %Y') %>
+                <% if video.duration_seconds.present? %>
+                  <div class="text-xs text-gray-400"><%= video.duration_formatted %></div>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <%= link_to 'View', site_admin_listing_video_path(video), class: "text-blue-600 hover:text-blue-900" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <% if @pagy.pages > 1 %>
+        <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+          <%== pagy_nav(@pagy) %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <!-- Empty State -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+      </svg>
+      <h3 class="mt-4 text-lg font-medium text-gray-900">No videos yet</h3>
+      <p class="mt-2 text-sm text-gray-500">
+        Generate AI-powered videos for your property listings to share on social media.
+      </p>
+      <div class="mt-6">
+        <%= link_to new_site_admin_listing_video_path, class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          Generate Your First Video
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
