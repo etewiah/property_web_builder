@@ -33,7 +33,7 @@ RSpec.describe Integrations::Registry do
     it 'returns all providers for a category' do
       providers = described_class.providers_for(:ai)
       expect(providers).to be_a(Hash)
-      expect(providers).to include(:anthropic, :openai)
+      expect(providers).to include(:anthropic, :openai, :open_router)
     end
 
     it 'returns empty hash for unknown category' do
@@ -94,6 +94,60 @@ RSpec.describe Integrations::Registry do
 
     it 'defines default_model setting' do
       expect(provider.default_for(:default_model)).to eq('gpt-4o-mini')
+    end
+  end
+
+  describe 'OpenRouter provider' do
+    let(:provider) { described_class.provider(:ai, :open_router) }
+
+    it 'is registered' do
+      expect(provider).to eq(Integrations::Providers::OpenRouter)
+    end
+
+    it 'has correct display name' do
+      expect(provider.display_name).to eq('OpenRouter')
+    end
+
+    it 'has correct category' do
+      expect(provider.category).to eq(:ai)
+    end
+
+    it 'has a description mentioning multiple models' do
+      expect(provider.description).to include('100+')
+    end
+
+    it 'defines required api_key credential' do
+      expect(provider.credential_fields[:api_key]).to be_present
+      expect(provider.credential_fields[:api_key][:required]).to be true
+    end
+
+    it 'api_key help text mentions openrouter.ai' do
+      expect(provider.credential_fields[:api_key][:help]).to include('openrouter.ai')
+    end
+
+    it 'defines default_model setting' do
+      expect(provider.setting_fields[:default_model]).to be_present
+      expect(provider.setting_fields[:default_model][:type]).to eq(:select)
+    end
+
+    it 'has a sensible default model' do
+      default = provider.default_for(:default_model)
+      # Should be in provider/model format
+      expect(default).to include('/')
+    end
+
+    it 'defines max_tokens setting' do
+      expect(provider.setting_fields[:max_tokens]).to be_present
+      expect(provider.default_for(:max_tokens)).to eq(4096)
+    end
+
+    it 'includes models from multiple providers in options' do
+      options = provider.setting_fields[:default_model][:options]
+      model_strings = options.map(&:last)
+
+      # Should include models from different providers
+      expect(model_strings.any? { |m| m.start_with?('anthropic/') }).to be true
+      expect(model_strings.any? { |m| m.start_with?('openai/') }).to be true
     end
   end
 end

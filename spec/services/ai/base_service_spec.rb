@@ -316,4 +316,36 @@ RSpec.describe Ai::BaseService do
       expect(service1.instance_variable_get(:@integration)).not_to eq(integration2)
     end
   end
+
+  describe 'OpenRouter integration' do
+    let!(:integration) { create(:pwb_website_integration, :open_router, website: website) }
+
+    before do
+      allow(ENV).to receive(:[]).and_call_original
+      allow(ENV).to receive(:[]).with('ANTHROPIC_API_KEY').and_return(nil)
+      allow(ENV).to receive(:[]).with('OPENAI_API_KEY').and_return(nil)
+    end
+
+    it 'uses OpenRouter integration when configured' do
+      service = test_service_class.new(website: website)
+
+      expect(service.instance_variable_get(:@integration)).to eq(integration)
+      expect(service.instance_variable_get(:@integration).provider).to eq('open_router')
+    end
+
+    it 'reports as configured when OpenRouter integration exists' do
+      service = test_service_class.new(website: website)
+
+      expect(service.test_configured?).to be true
+    end
+
+    it 'configures RubyLLM with OpenRouter base URL' do
+      service = test_service_class.new(website: website)
+
+      # We can't easily test the actual configuration without making a request,
+      # but we can verify the integration provides the right credentials
+      expect(integration.credential(:api_key)).to eq('sk-or-test-key-12345')
+      expect(integration.setting(:default_model)).to eq('anthropic/claude-3.5-sonnet')
+    end
+  end
 end

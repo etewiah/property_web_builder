@@ -53,6 +53,13 @@ FactoryBot.define do
       settings { { 'default_model' => 'gpt-4o-mini', 'max_tokens' => 4096 } }
     end
 
+    trait :open_router do
+      category { 'ai' }
+      provider { 'open_router' }
+      credentials { { 'api_key' => 'sk-or-test-key-12345' } }
+      settings { { 'default_model' => 'anthropic/claude-3.5-sonnet', 'max_tokens' => 4096 } }
+    end
+
     trait :disabled do
       enabled { false }
     end
