@@ -54,9 +54,10 @@
                 <div class="flex items-center">
                   <%# Property Thumbnail %>
                   <% primary_photo = prop.ordered_photo(1) %>
-                  <% if primary_photo&.has_image? %>
+                  <% thumbnail_src = primary_photo&.has_image? ? primary_photo.thumbnail_url(size: [48, 48]) : nil %>
+                  <% if thumbnail_src.present? %>
                     <div class="flex-shrink-0 mr-3">
-                      <%= image_tag primary_photo.thumbnail_url(size: [48, 48]),
+                      <%= image_tag thumbnail_src,
                           class: 'w-12 h-12 rounded-lg object-cover',
                           alt: prop.reference,
                           loading: 'lazy' %>
