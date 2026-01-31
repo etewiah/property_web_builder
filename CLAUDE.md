@@ -44,6 +44,42 @@ Common mistakes to avoid:
 - If the only solution appears to be a direct database edit, you MUST explicitly ask for permission first and explain why a code-based solution isn't possible
 - Never claim an issue is "fixed" when only database records were changed - such changes are lost on reseed/reset
 
+### Bug Fixing and Test Coverage
+
+**After fixing any bug or error, ALWAYS analyze why it wasn't caught by tests and add appropriate test coverage.**
+
+When you fix a bug:
+
+1. **Analyze the gap**: Ask yourself "Why was this not caught in a test?" Common reasons include:
+   - No test exists for the affected code path
+   - Tests mock at too high a level and don't exercise the actual code
+   - Async jobs are enqueued but not executed in tests
+   - Autoloading behaves differently in test vs runtime
+   - Edge cases or error handling paths aren't covered
+
+2. **Add a test**: Create a test that would have caught this bug. The test should:
+   - Fail without your fix (verify by mentally reviewing)
+   - Pass with your fix
+   - Be specific enough to catch regressions
+
+3. **Check for similar issues**: Look for similar patterns in the codebase that might have the same problem:
+   - If you fixed a missing `super()` argument, check other subclasses
+   - If you fixed an autoloading issue, check similar module structures
+   - If you fixed a multi-tenant scope issue, check similar queries
+
+4. **Document the pattern**: If the bug reveals a common mistake pattern, consider:
+   - Adding a comment in the code to warn future developers
+   - Updating this file if it's a project-wide concern
+
+Example workflow:
+```
+1. User reports: "AI is not configured" error
+2. Fix: Pass `website` to parent class in ScriptGenerator
+3. Ask: "Why wasn't this caught?" → No tests for ScriptGenerator existed
+4. Add: spec/services/video/script_generator_spec.rb with 27 tests
+5. Check: Are there other services with the same issue? (VoiceoverGenerator, etc.)
+```
+
 ## Documentation Guidelines
 
 **IMPORTANT: Never create documentation files at the project root.**
