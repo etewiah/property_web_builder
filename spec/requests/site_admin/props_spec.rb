@@ -45,6 +45,28 @@ RSpec.describe 'SiteAdmin::PropsController', type: :request do
       end
     end
 
+    context 'with property having attached photo' do
+      let!(:property) { create(:pwb_realty_asset, website: website, reference: 'PHOTO-PROP') }
+
+      before do
+        # Set ActiveStorage URL options for test environment
+        ActiveStorage::Current.url_options = { host: 'example.com', protocol: 'https' }
+
+        photo = property.prop_photos.create!(sort_order: 1)
+        photo.image.attach(
+          io: File.open(Rails.root.join('spec/fixtures/files/test_image.jpg')),
+          filename: 'test.jpg',
+          content_type: 'image/jpeg'
+        )
+      end
+
+      it 'renders the list with photo thumbnail without error' do
+        get site_admin_props_path, headers: { 'HTTP_HOST' => 'props-test.test.localhost' }
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+
     context 'multi-tenancy isolation' do
       let!(:other_website) { create(:pwb_website, subdomain: 'other-props') }
       let!(:other_agency) { create(:pwb_agency, website: other_website) }
@@ -236,6 +258,27 @@ RSpec.describe 'SiteAdmin::PropsController', type: :request do
           headers: { 'HTTP_HOST' => 'props-test.test.localhost' }
 
       expect(response).to have_http_status(:success)
+    end
+
+    context 'with attached photo' do
+      before do
+        # Set ActiveStorage URL options for test environment
+        ActiveStorage::Current.url_options = { host: 'example.com', protocol: 'https' }
+
+        photo = property.prop_photos.create!(sort_order: 1)
+        photo.image.attach(
+          io: File.open(Rails.root.join('spec/fixtures/files/test_image.jpg')),
+          filename: 'test.jpg',
+          content_type: 'image/jpeg'
+        )
+      end
+
+      it 'renders the edit photos form with thumbnail without error' do
+        get edit_photos_site_admin_prop_path(property),
+            headers: { 'HTTP_HOST' => 'props-test.test.localhost' }
+
+        expect(response).to have_http_status(:success)
+      end
     end
   end
 
