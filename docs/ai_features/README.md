@@ -10,7 +10,7 @@ These features leverage AI (primarily Claude via Anthropic API) to automate time
 
 ### 1. [AI Listing Descriptions](./ai_listing_descriptions.md)
 
-**Status**: Planned
+**Status**: ✅ Implemented
 
 Auto-generate compelling property descriptions from property attributes.
 
@@ -30,7 +30,7 @@ Auto-generate compelling property descriptions from property attributes.
 
 ### 2. [Social Media Content Generator](./social_media_generator.md)
 
-**Status**: Planned
+**Status**: ✅ Implemented
 
 Create platform-optimized social posts from property listings.
 
@@ -51,7 +51,7 @@ Create platform-optimized social posts from property listings.
 
 ### 3. [Market Reports & CMA](./market_reports_cma.md)
 
-**Status**: Planned
+**Status**: ✅ Implemented
 
 Generate professional Comparative Market Analyses and market reports.
 
@@ -68,6 +68,30 @@ Generate professional Comparative Market Analyses and market reports.
 - Property detail pages (quick CMA)
 - Public shareable links
 - Email delivery
+
+---
+
+### 4. [Listing Video Generator](./listing_video_generator.md)
+
+**Status**: ✅ Implemented
+
+Automatically generate professional marketing videos from property listing photos.
+
+**Key Capabilities**:
+- AI-generated voiceover scripts
+- Text-to-speech with multiple voice options
+- Ken Burns effects on photos
+- Multiple video formats (vertical, horizontal, square)
+- Multiple styles (professional, luxury, casual, energetic, minimal)
+- Background music
+- Branding (logo, company name, colors)
+- Public sharing with shareable URLs
+
+**Integration Points**:
+- Site Admin listing videos section
+- Video generation from property photos
+- Public shareable video player
+- Download and sharing options
 
 ---
 

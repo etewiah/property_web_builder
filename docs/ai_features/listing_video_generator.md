@@ -23,19 +23,20 @@ Automatically generate professional marketing videos from property listing photo
 
 ---
 
-## Implementation Phases
+## Implementation Status
 
-### Phase 1: MVP (2 weeks)
+### Phase 1: MVP ✅ Complete
 
 **Goal**: Working end-to-end video generation with basic functionality
 
 | Component | Technology | Status |
 |-----------|------------|--------|
-| Script Generation | Claude via existing `Ai::BaseService` | To Build |
-| Text-to-Speech | OpenAI TTS API | To Build |
-| Video Assembly | Shotstack API | To Build |
-| Storage | ActiveStorage → Cloudflare R2 | Existing |
-| Site Admin UI | Rails views (similar to CMA Reports) | To Build |
+| Script Generation | Claude via existing `Ai::BaseService` | ✅ Complete |
+| Text-to-Speech | OpenAI TTS API | ✅ Complete |
+| Video Assembly | Shotstack API | ✅ Complete |
+| Storage | ActiveStorage → Cloudflare R2 | ✅ Complete |
+| Site Admin UI | Rails views (similar to CMA Reports) | ✅ Complete |
+| Public Sharing | Shareable video URLs | ✅ Complete |
 
 **Deliverables**:
 - Generate video from any listing with photos
@@ -690,13 +691,55 @@ resources :listing_videos, only: %i[index show new create destroy] do
   member do
     get :download
     post :regenerate
-  end
-  collection do
-    get :batch_new
-    post :batch_create
+    post :share
   end
 end
 ```
+
+---
+
+## Public Sharing
+
+### Share URL Format
+```
+https://{subdomain}.example.com/videos/shared/{share_token}
+```
+
+### Features
+- No authentication required
+- View count tracking (increments on each visit)
+- Responsive video player with format-aware aspect ratio
+- Property details display
+- Voiceover script display (if available)
+- Company branding display
+
+### Public Controller
+
+**File**: `app/controllers/pwb/videos/public_listing_video_controller.rb`
+
+```ruby
+# GET /videos/shared/:share_token
+def show
+  @video = Pwb::ListingVideo
+             .where(website_id: @current_website&.id)
+             .where.not(share_token: nil)
+             .find_by(share_token: params[:share_token])
+
+  @video.record_view! if @video
+end
+```
+
+### Public View
+
+**File**: `app/views/pwb/videos/public_listing_video/show.html.erb`
+
+Displays:
+- Video player (format-aware aspect ratio)
+- Video details (format, style, duration, resolution)
+- Voiceover script
+- Property information
+- Agent/company branding
+- View count
 
 ---
 
