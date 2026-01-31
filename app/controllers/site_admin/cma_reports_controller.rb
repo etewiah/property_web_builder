@@ -74,8 +74,9 @@ module SiteAdmin
       redirect_to site_admin_integrations_path,
                   alert: "AI is not configured. Please set up an AI integration first."
     rescue ::Ai::RateLimitError => e
+      provider_info = e.provider ? " (#{e.provider})" : ""
       redirect_to site_admin_cma_reports_path,
-                  alert: "Rate limit exceeded. Please try again in #{e.retry_after || 60} seconds."
+                  alert: "Rate limit exceeded#{provider_info}. Please try again in #{e.retry_after || 60} seconds."
     end
 
     def destroy
@@ -115,8 +116,9 @@ module SiteAdmin
                     alert: "Failed to regenerate: #{result.error}"
       end
     rescue ::Ai::ConfigurationError, ::Ai::RateLimitError => e
+      provider_info = e.provider ? " (provider: #{e.provider})" : ""
       redirect_to site_admin_cma_report_path(@report),
-                  alert: e.message
+                  alert: "#{e.message}#{provider_info}"
     end
 
     def share

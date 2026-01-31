@@ -74,9 +74,10 @@ module SiteAdmin
         redirect_to site_admin_listing_videos_path,
                     alert: "Failed to start video generation: #{result.error}"
       end
-    rescue Ai::ConfigurationError
+    rescue Ai::ConfigurationError => e
+      provider_info = e.provider ? " (#{e.provider})" : ""
       redirect_to site_admin_integrations_path,
-                  alert: "AI is not configured. Please set up an AI integration first."
+                  alert: "AI is not configured#{provider_info}. Please set up an AI integration first."
     rescue Video::Assembler::ConfigurationError
       redirect_to site_admin_integrations_path,
                   alert: "Video rendering is not configured. Please set up a Shotstack integration."
@@ -115,8 +116,9 @@ module SiteAdmin
                     alert: "Failed to regenerate: #{result.error}"
       end
     rescue Ai::ConfigurationError, Video::Assembler::ConfigurationError => e
+      provider_info = e.respond_to?(:provider) && e.provider ? " (provider: #{e.provider})" : ""
       redirect_to site_admin_listing_video_path(@video),
-                  alert: e.message
+                  alert: "#{e.message}#{provider_info}"
     end
 
     def share

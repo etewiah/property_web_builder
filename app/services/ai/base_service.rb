@@ -56,19 +56,28 @@ module Ai
       end
     rescue RubyLLM::RateLimitError => e
       @integration&.record_error!("Rate limit exceeded")
-      raise RateLimitError.new(e.message, retry_after: e.respond_to?(:retry_after) ? e.retry_after : 60)
+      raise RateLimitError.new(
+        e.message,
+        retry_after: e.respond_to?(:retry_after) ? e.retry_after : 60,
+        provider: current_provider,
+        model: default_model
+      )
     rescue RubyLLM::ForbiddenError => e
       @integration&.record_error!(e.message)
-      raise ContentPolicyError, e.message
+      raise ContentPolicyError.new(e.message, provider: current_provider, model: default_model)
     rescue RubyLLM::UnauthorizedError => e
       @integration&.record_error!("Invalid API key")
-      raise ConfigurationError, "Invalid API key. Please check your AI integration settings."
+      raise ConfigurationError.new(
+        "Invalid API key for #{current_provider}. Please check your AI integration settings.",
+        provider: current_provider,
+        model: default_model
+      )
     rescue RubyLLM::Error => e
       @integration&.record_error!(e.message)
-      raise ApiError, "AI API error: #{e.message}"
+      raise ApiError.new("AI API error: #{e.message}", provider: current_provider, model: default_model)
     rescue Timeout::Error, Net::ReadTimeout => e
       @integration&.record_error!(e.message)
-      raise TimeoutError, "AI request timed out: #{e.message}"
+      raise TimeoutError.new("AI request timed out: #{e.message}", provider: current_provider, model: default_model)
     end
 
     def configured?

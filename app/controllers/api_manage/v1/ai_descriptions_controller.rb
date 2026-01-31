@@ -46,14 +46,18 @@ module ApiManage
       rescue ::Ai::ConfigurationError => e
         render json: {
           success: false,
-          error: "AI is not configured: #{e.message}"
-        }, status: :service_unavailable
+          error: "AI is not configured: #{e.message}",
+          provider: e.provider,
+          model: e.model
+        }.compact, status: :service_unavailable
       rescue ::Ai::RateLimitError => e
         render json: {
           success: false,
-          error: "Rate limit exceeded. Please try again later.",
-          retry_after: e.retry_after
-        }, status: :too_many_requests
+          error: "Rate limit exceeded for #{e.provider || 'AI provider'}. Please try again later.",
+          retry_after: e.retry_after,
+          provider: e.provider,
+          model: e.model
+        }.compact, status: :too_many_requests
       end
 
       # GET /api_manage/v1/:locale/properties/:property_id/ai_description/history
