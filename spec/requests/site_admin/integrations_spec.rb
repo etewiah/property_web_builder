@@ -52,9 +52,11 @@ RSpec.describe 'SiteAdmin::Integrations', type: :request do
   end
 
   describe 'POST /site_admin/integrations' do
+    # Note: form_with model: @integration generates 'pwb_website_integration' key
+    # from the model class Pwb::WebsiteIntegration
     let(:valid_params) do
       {
-        integration: {
+        pwb_website_integration: {
           category: 'ai',
           provider: 'anthropic'
         },
@@ -111,7 +113,7 @@ RSpec.describe 'SiteAdmin::Integrations', type: :request do
 
     it 'updates settings' do
       patch site_admin_integration_path(integration), params: {
-        integration: { category: 'ai', provider: 'anthropic' },
+        pwb_website_integration: { category: 'ai', provider: 'anthropic' },
         settings: { default_model: 'claude-opus-4-20250514' }
       }
 
@@ -123,7 +125,7 @@ RSpec.describe 'SiteAdmin::Integrations', type: :request do
       original_key = integration.credential(:api_key)
 
       patch site_admin_integration_path(integration), params: {
-        integration: { category: 'ai', provider: 'anthropic' },
+        pwb_website_integration: { category: 'ai', provider: 'anthropic' },
         credentials: { api_key: '••••••••key' }
       }
 
@@ -133,7 +135,7 @@ RSpec.describe 'SiteAdmin::Integrations', type: :request do
 
     it 'updates credentials when new value provided' do
       patch site_admin_integration_path(integration), params: {
-        integration: { category: 'ai', provider: 'anthropic' },
+        pwb_website_integration: { category: 'ai', provider: 'anthropic' },
         credentials: { api_key: 'sk-new-key-67890' }
       }
 
@@ -143,7 +145,7 @@ RSpec.describe 'SiteAdmin::Integrations', type: :request do
 
     it 'redirects to index on success' do
       patch site_admin_integration_path(integration), params: {
-        integration: { category: 'ai', provider: 'anthropic' }
+        pwb_website_integration: { category: 'ai', provider: 'anthropic' }
       }
       expect(response).to redirect_to(site_admin_integrations_path)
     end

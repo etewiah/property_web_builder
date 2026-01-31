@@ -71,7 +71,8 @@ module SiteAdmin
       set_settings_from_params
 
       # Update basic attributes
-      @integration.enabled = params.dig(:integration, :enabled) != '0' if params.dig(:integration, :enabled)
+      integration_key = params.key?(:pwb_website_integration) ? :pwb_website_integration : :integration
+      @integration.enabled = params.dig(integration_key, :enabled) != '0' if params.dig(integration_key, :enabled)
 
       if @integration.save
         redirect_to site_admin_integrations_path,
@@ -138,7 +139,9 @@ module SiteAdmin
     end
 
     def integration_params
-      params.require(:integration).permit(:category, :provider, :enabled)
+      # Handle both param keys: form_with generates pwb_website_integration from model class
+      integration_key = params.key?(:pwb_website_integration) ? :pwb_website_integration : :integration
+      params.require(integration_key).permit(:category, :provider, :enabled)
     end
 
     def set_credentials_from_params
