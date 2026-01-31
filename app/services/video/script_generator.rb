@@ -75,7 +75,7 @@ module Video
         max_photos: 10
       }.merge(options)
 
-      super()
+      super(website: @options[:website], user: @options[:user])
     end
 
     def generate
