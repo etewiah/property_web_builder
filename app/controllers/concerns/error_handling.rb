@@ -23,25 +23,25 @@ module ErrorHandling
 
   included do
     # Rescue application errors with proper logging and response
-    rescue_from ApplicationError do |error|
+    rescue_from ::ApplicationError do |error|
       log_application_error(error)
       render_error_response(error)
     end
 
     # Rescue external service errors
-    rescue_from ExternalServiceError do |error|
+    rescue_from ::ExternalServiceError do |error|
       log_external_service_error(error)
       render_error_response(error)
     end
 
     # Rescue tenant errors
-    rescue_from TenantNotFoundError, TenantMismatchError, TenantContextRequiredError do |error|
+    rescue_from ::TenantNotFoundError, ::TenantMismatchError, ::TenantContextRequiredError do |error|
       log_application_error(error, level: :warn)
       render_error_response(error)
     end
 
     # Rescue subscription errors
-    rescue_from SubscriptionError, FeatureNotAvailableError do |error|
+    rescue_from ::SubscriptionError, ::FeatureNotAvailableError do |error|
       log_application_error(error, level: :info)
       render_error_response(error)
     end
