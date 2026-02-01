@@ -7,7 +7,7 @@ module SiteAdmin
   class DashboardController < SiteAdminController
     def index
       @website = current_website
-      website_id = current_website&.id
+      website_id = current_website.id
 
       # Statistics for current website - scoped by website_id for multi-tenant isolation
       # Use Pwb::ListedProperty (materialized view) for property counts

@@ -23,7 +23,7 @@
   <div data-skeleton-target="content" class="space-y-3">
     <% if @pages.any? %>
         <% @pages.each do |page| %>
-          <% page_parts_count = page.page_parts.where(website_id: current_website&.id, show_in_editor: true).count %>
+          <% page_parts_count = page.page_parts.where(website_id: current_website.id, show_in_editor: true).count %>
           <% page_path = page.slug == 'home' ? '/' : "/p/#{page.slug}" %>
           <% public_url = "#{request.protocol}#{request.host_with_port}#{page_path}" %>
 

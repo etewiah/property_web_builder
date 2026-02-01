@@ -47,7 +47,7 @@ module ApiManage
 
       def set_page
         @page = Pwb::Page.find_by!(
-          website_id: current_website&.id,
+          website_id: current_website.id,
           slug: params[:page_slug]
         )
       rescue ActiveRecord::RecordNotFound

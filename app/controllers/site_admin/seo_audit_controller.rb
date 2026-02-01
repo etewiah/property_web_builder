@@ -12,11 +12,11 @@ module SiteAdmin
     def index
       # Get all properties for this website
       @properties = Pwb::ListedProperty
-                      .where(website_id: current_website&.id)
+                      .where(website_id: current_website.id)
                       .order(created_at: :desc)
 
       # Get all pages for this website
-      @pages = Pwb::Page.where(website_id: current_website&.id).order(:slug)
+      @pages = Pwb::Page.where(website_id: current_website.id).order(:slug)
 
       # Calculate statistics
       calculate_property_stats
@@ -91,12 +91,12 @@ module SiteAdmin
       # Count photos via RealtyAsset association
       total_photos = Pwb::PropPhoto
                        .joins("INNER JOIN pwb_realty_assets ON pwb_prop_photos.realty_asset_id = pwb_realty_assets.id")
-                       .where(pwb_realty_assets: { website_id: current_website&.id })
+                       .where(pwb_realty_assets: { website_id: current_website.id })
                        .count
 
       photos_with_alt = Pwb::PropPhoto
                           .joins("INNER JOIN pwb_realty_assets ON pwb_prop_photos.realty_asset_id = pwb_realty_assets.id")
-                          .where(pwb_realty_assets: { website_id: current_website&.id })
+                          .where(pwb_realty_assets: { website_id: current_website.id })
                           .where.not(description: [nil, ''])
                           .count
 
@@ -109,7 +109,7 @@ module SiteAdmin
 
       # Properties with photos missing alt text (limited)
       @properties_with_missing_alt = Pwb::RealtyAsset
-                                       .where(website_id: current_website&.id)
+                                       .where(website_id: current_website.id)
                                        .joins(:prop_photos)
                                        .where(pwb_prop_photos: { description: [nil, ''] })
                                        .distinct

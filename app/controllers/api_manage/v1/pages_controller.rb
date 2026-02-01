@@ -16,7 +16,7 @@ module ApiManage
 
       # GET /api_manage/v1/pages
       def index
-        pages = Pwb::Page.where(website_id: current_website&.id)
+        pages = Pwb::Page.where(website_id: current_website.id)
                          .order(:sort_order_top_nav, :slug)
 
         render json: {
@@ -33,7 +33,7 @@ module ApiManage
 
       # GET /api_manage/v1/pages/by_slug/:slug
       def show_by_slug
-        @page = Pwb::Page.find_by!(website_id: current_website&.id, slug: params[:slug])
+        @page = Pwb::Page.find_by!(website_id: current_website.id, slug: params[:slug])
         render json: {
           page: page_details(@page)
         }
@@ -61,7 +61,7 @@ module ApiManage
         part_ids = params[:part_ids] || []
 
         part_ids.each_with_index do |part_id, index|
-          page_part = @page.page_parts.find_by(id: part_id, website_id: current_website&.id)
+          page_part = @page.page_parts.find_by(id: part_id, website_id: current_website.id)
           page_part&.update(order_in_editor: index)
         end
 
@@ -71,7 +71,7 @@ module ApiManage
       private
 
       def set_page
-        @page = Pwb::Page.where(website_id: current_website&.id).find(params[:id])
+        @page = Pwb::Page.where(website_id: current_website.id).find(params[:id])
       end
 
       def page_params
@@ -126,7 +126,7 @@ module ApiManage
       # Page parts for the page
       def page_parts_summary(page)
         page.page_parts
-            .where(website_id: current_website&.id, show_in_editor: true)
+            .where(website_id: current_website.id, show_in_editor: true)
             .order(:order_in_editor)
             .map do |part|
           {

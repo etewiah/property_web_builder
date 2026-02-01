@@ -8,7 +8,7 @@ module SiteAdmin
 
     def index
       # Scope to current website for multi-tenant isolation
-      pages = Pwb::Page.where(website_id: current_website&.id).order(created_at: :desc)
+      pages = Pwb::Page.where(website_id: current_website.id).order(created_at: :desc)
 
       # Search functionality
       if params[:search].present?
@@ -25,7 +25,7 @@ module SiteAdmin
     # New edit action - shows page parts with drag-drop, previews, visibility toggles
     def edit
       @page_parts = @page.page_parts
-                         .where(website_id: current_website&.id, show_in_editor: true)
+                         .where(website_id: current_website.id, show_in_editor: true)
                          .order(:order_in_editor)
     end
 
@@ -56,7 +56,7 @@ module SiteAdmin
       part_ids = params[:part_ids] || []
 
       part_ids.each_with_index do |part_id, index|
-        page_part = @page.page_parts.find_by(id: part_id, website_id: current_website&.id)
+        page_part = @page.page_parts.find_by(id: part_id, website_id: current_website.id)
         page_part&.update(order_in_editor: index)
       end
 
@@ -66,7 +66,7 @@ module SiteAdmin
     private
 
     def set_page
-      @page = Pwb::Page.where(website_id: current_website&.id).find(params[:id])
+      @page = Pwb::Page.where(website_id: current_website.id).find(params[:id])
     end
 
     def page_params

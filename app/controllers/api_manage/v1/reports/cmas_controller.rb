@@ -19,7 +19,7 @@ module ApiManage
         # GET /api_manage/v1/:locale/reports/cmas
         def index
           reports = Pwb::MarketReport
-                      .where(website_id: current_website&.id)
+                      .where(website_id: current_website.id)
                       .cmas
                       .recent
                       .limit(50)
@@ -135,7 +135,7 @@ module ApiManage
 
         def set_report
           @report = Pwb::MarketReport
-                      .where(website_id: current_website&.id)
+                      .where(website_id: current_website.id)
                       .find(params[:id])
         end
 
@@ -145,7 +145,7 @@ module ApiManage
           raise ActionController::ParameterMissing, :property_id unless property_id
 
           Pwb::RealtyAsset
-            .where(website_id: current_website&.id)
+            .where(website_id: current_website.id)
             .find(property_id)
         end
 
@@ -169,10 +169,7 @@ module ApiManage
           options
         end
 
-        def current_user
-          # TODO: Get current user from authentication
-          nil
-        end
+        # current_user is now provided by BaseController with proper authentication
 
         def build_share_url(report)
           # Build a public share URL

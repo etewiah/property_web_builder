@@ -65,7 +65,7 @@ module ApiManage
         # Query by property_id stored in input_data since properties can be
         # RealtyAsset, ListedProperty, or Prop models
         requests = Pwb::AiGenerationRequest
-                     .where(website_id: current_website&.id)
+                     .where(website_id: current_website.id)
                      .where(request_type: 'listing_description')
                      .where("input_data->>'property_id' = ?", @property.id.to_s)
                      .order(created_at: :desc)
@@ -81,17 +81,14 @@ module ApiManage
       def set_property
         # Use RealtyAsset (same as site_admin) - this is the main property model
         # that stores bedrooms, bathrooms, location, etc.
-        @property = Pwb::RealtyAsset.where(website_id: current_website&.id).find(params[:property_id])
+        @property = Pwb::RealtyAsset.where(website_id: current_website.id).find(params[:property_id])
       end
 
       def generation_params
         params.permit(:locale, :tone)
       end
 
-      def current_user
-        # TODO: Get current user from authentication
-        nil
-      end
+      # current_user is now provided by BaseController with proper authentication
 
       def serialize_request(request)
         {

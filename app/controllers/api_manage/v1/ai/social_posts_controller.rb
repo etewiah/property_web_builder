@@ -204,7 +204,7 @@ module ApiManage
         private
 
         def find_property
-          @property = Pwb::RealtyAsset.where(website_id: current_website&.id).find(params[:property_id])
+          @property = Pwb::RealtyAsset.where(website_id: current_website.id).find(params[:property_id])
         end
 
         def find_post
@@ -224,10 +224,7 @@ module ApiManage
           params.require(:post).permit(:caption, :hashtags, :status, :call_to_action, :link_url)
         end
 
-        def current_user
-          # TODO: Get current user from authentication
-          nil
-        end
+        # current_user is now provided by BaseController with proper authentication
 
         def serialize_post(post, include_images: false)
           data = {

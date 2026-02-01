@@ -2,7 +2,7 @@
   # Determine the public page URL
   page_path = @page.slug == 'home' ? '/' : "/p/#{@page.slug}"
   public_page_url = "#{request.protocol}#{request.host_with_port}#{page_path}"
-  page_parts = @page.page_parts.where(website_id: current_website&.id, show_in_editor: true).order(:order_in_editor)
+  page_parts = @page.page_parts.where(website_id: current_website.id, show_in_editor: true).order(:order_in_editor)
 %>
 
 <div class="max-w-5xl mx-auto">

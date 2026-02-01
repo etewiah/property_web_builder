@@ -25,7 +25,7 @@ module ApiManage
       # GET /api_manage/v1/:locale/page_parts
       # List all page parts for the current website
       def index
-        page_parts = Pwb::PagePart.where(website_id: current_website&.id)
+        page_parts = Pwb::PagePart.where(website_id: current_website.id)
                                    .where(show_in_editor: true)
                                    .order(:page_slug, :page_part_key)
 
@@ -126,7 +126,7 @@ module ApiManage
       private
 
       def set_page_part
-        @page_part = Pwb::PagePart.where(website_id: current_website&.id).find(params[:id])
+        @page_part = Pwb::PagePart.where(website_id: current_website.id).find(params[:id])
       end
 
       def set_page_part_by_key
@@ -148,7 +148,7 @@ module ApiManage
 
       def find_or_create_page_part(page_slug, page_part_key)
         # Try to find existing
-        scope = Pwb::PagePart.where(website_id: current_website&.id, page_part_key: page_part_key)
+        scope = Pwb::PagePart.where(website_id: current_website.id, page_part_key: page_part_key)
 
         if page_slug.present?
           page_part = scope.find_by(page_slug: page_slug)
@@ -218,7 +218,7 @@ module ApiManage
 
         # Find associated PageContent records and regenerate their Content
         page_contents = Pwb::PageContent.where(
-          website_id: current_website&.id,
+          website_id: current_website.id,
           page_part_key: page_part.page_part_key
         )
 

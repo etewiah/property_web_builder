@@ -64,11 +64,11 @@ module SiteAdmin
       private
 
       def set_page
-        @page = Pwb::Page.where(website_id: current_website&.id).find(params[:page_id])
+        @page = Pwb::Page.where(website_id: current_website.id).find(params[:page_id])
       end
 
       def set_page_part
-        @page_part = @page.page_parts.where(website_id: current_website&.id).find(params[:id])
+        @page_part = @page.page_parts.where(website_id: current_website.id).find(params[:id])
       end
 
       # Sets up locale-related instance variables for views and actions.

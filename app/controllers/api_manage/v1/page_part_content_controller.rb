@@ -81,7 +81,7 @@ module ApiManage
 
       def set_page
         @page = Pwb::Page.find_by!(
-          website_id: current_website&.id,
+          website_id: current_website.id,
           slug: params[:page_slug]
         )
       rescue ActiveRecord::RecordNotFound
@@ -99,13 +99,13 @@ module ApiManage
 
         # Find existing or create new PagePart
         @page_part = Pwb::PagePart.find_by(
-          website_id: current_website&.id,
+          website_id: current_website.id,
           page_part_key: page_part_key,
           page_slug: @page.slug
         )
 
         # Fall back to website-wide PagePart
-        @page_part ||= Pwb::PagePart.where(website_id: current_website&.id, page_part_key: page_part_key)
+        @page_part ||= Pwb::PagePart.where(website_id: current_website.id, page_part_key: page_part_key)
                                      .where(page_slug: [nil, ''])
                                      .first
 
@@ -166,7 +166,7 @@ module ApiManage
       def save_rendered_html(page_part, locale, rendered_html)
         # Find associated PageContent records and update their Content
         page_contents = Pwb::PageContent.where(
-          website_id: current_website&.id,
+          website_id: current_website.id,
           page_part_key: page_part.page_part_key,
           page_id: @page.id
         )
@@ -192,7 +192,7 @@ module ApiManage
         return if Pwb::PagePartLibrary.container?(page_part.page_part_key)
 
         page_contents = Pwb::PageContent.where(
-          website_id: current_website&.id,
+          website_id: current_website.id,
           page_part_key: page_part.page_part_key,
           page_id: @page.id
         )

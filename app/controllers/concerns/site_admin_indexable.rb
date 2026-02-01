@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Error raised when tenant context (current_website) is missing
+class TenantContextError < StandardError; end
+
 # SiteAdminIndexable
 #
 # Provides common index/show functionality for site admin controllers
@@ -63,9 +66,18 @@ module SiteAdminIndexable
 
   private
 
+  # Ensures website context exists before executing tenant-scoped queries.
+  # Raises an error if current_website is nil to prevent silent failures.
+  def require_website_context!
+    return if current_website.present?
+
+    raise TenantContextError, 'Website context required for this operation'
+  end
+
   # Build the base query scope for index
   def base_index_scope
-    scope = indexable_model_class.where(website_id: current_website&.id)
+    require_website_context!
+    scope = indexable_model_class.where(website_id: current_website.id)
     scope = scope.includes(*indexable_includes) if indexable_includes.any?
     scope = scope.order(indexable_order)
     scope = scope.limit(indexable_limit) if indexable_limit
@@ -83,7 +95,8 @@ module SiteAdminIndexable
 
   # Find a single resource scoped to current website
   def find_scoped_resource
-    indexable_model_class.where(website_id: current_website&.id).find(params[:id])
+    require_website_context!
+    indexable_model_class.where(website_id: current_website.id).find(params[:id])
   end
 
   # Set the collection instance variable (e.g., @contacts for Pwb::Contact)

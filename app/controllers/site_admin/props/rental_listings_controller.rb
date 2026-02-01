@@ -102,7 +102,7 @@ module SiteAdmin
       private
 
       def set_realty_asset
-        @realty_asset = Pwb::RealtyAsset.where(website_id: current_website&.id).find(params[:prop_id])
+        @realty_asset = Pwb::RealtyAsset.where(website_id: current_website.id).find(params[:prop_id])
       end
 
       def set_rental_listing

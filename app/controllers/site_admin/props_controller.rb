@@ -17,7 +17,7 @@ module SiteAdmin
       # Scope to current website and eager load prop_photos to avoid N+1 queries
       props = Pwb::ListedProperty
               .with_eager_loading
-              .where(website_id: current_website&.id)
+              .where(website_id: current_website.id)
               .order(created_at: :desc)
 
       if params[:search].present?
@@ -211,13 +211,13 @@ module SiteAdmin
     def set_property
       # Use Property view for read-only show action
       # Scope to current website for security
-      @prop = Pwb::ListedProperty.where(website_id: current_website&.id).find(params[:id])
+      @prop = Pwb::ListedProperty.where(website_id: current_website.id).find(params[:id])
     end
 
     def set_realty_asset
       # Use RealtyAsset for write operations
       # Scope to current website for security
-      @prop = Pwb::RealtyAsset.where(website_id: current_website&.id).find(params[:id])
+      @prop = Pwb::RealtyAsset.where(website_id: current_website.id).find(params[:id])
     end
 
     def new_prop_params
