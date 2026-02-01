@@ -15,6 +15,7 @@ module ApiManage
     class BaseController < ActionController::Base
       include SubdomainTenant
       include ActiveStorage::SetCurrent
+      include ErrorHandling
 
       skip_before_action :verify_authenticity_token
 
@@ -23,15 +24,18 @@ module ApiManage
 
       # JSON API responses
       rescue_from ActiveRecord::RecordNotFound do |e|
-        render json: { error: 'Not found', message: e.message }, status: :not_found
+        StructuredLogger.warn("[API] Record not found", path: request.path, error: e.message)
+        render json: { success: false, error: 'Not found', message: e.message }, status: :not_found
       end
 
       rescue_from ActiveRecord::RecordInvalid do |e|
-        render json: { error: 'Validation failed', errors: e.record.errors.full_messages }, status: :unprocessable_entity
+        StructuredLogger.info("[API] Validation failed", path: request.path, errors: e.record.errors.to_hash)
+        render json: { success: false, error: 'Validation failed', errors: e.record.errors.full_messages }, status: :unprocessable_entity
       end
 
       rescue_from ActionController::ParameterMissing do |e|
-        render json: { error: 'Bad request', message: e.message }, status: :bad_request
+        StructuredLogger.warn("[API] Parameter missing", path: request.path, param: e.param.to_s)
+        render json: { success: false, error: 'Bad request', message: e.message }, status: :bad_request
       end
 
       private
