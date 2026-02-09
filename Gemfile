@@ -166,7 +166,7 @@ gem "liquid", "~> 5.3"
 gem "graphql", "~> 2.0"
 gem "graphiql-rails", group: :development
 
-gem "faraday", "~> 2.3"
+gem "faraday", "~> 2.14"
 
 # HTTP client for reverse proxy (client-rendered websites)
 gem "http", "~> 5.0"
