@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
-    "@playwright/test": "^1.58.0",
+    "@playwright/test": "^1.58.2",
     "critical": "^7.2.1",
     "fontawesome-subset": "^4.6.0",
     "lucide-static": "^0.563.0"
@@ -13,11 +13,11 @@
     "@fontsource/cormorant-garamond": "^5.2.11",
     "@fontsource/open-sans": "^5.2.7",
     "@fontsource/vollkorn": "^5.2.10",
-    "@tailwindcss/cli": "^4.1.17",
+    "@tailwindcss/cli": "^4.1.18",
     "flowbite": "^4.0.1",
     "lodash": "^4.17.23",
     "sharp": "^0.34.5",
-    "tailwindcss": "^4.1.17"
+    "tailwindcss": "^4.1.18"
   },
   "scripts": {
     "tailwind:default": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-input.css -o ./app/assets/builds/tailwind-default.css",
