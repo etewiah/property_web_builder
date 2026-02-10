@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Output
+out/
+dist/
+
+# Remotion cache
+.remotion/
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+
+# IDE
+.idea/
+*.swp
+*.swo

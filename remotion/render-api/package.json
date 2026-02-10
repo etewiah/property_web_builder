@@ -1,0 +1,20 @@
+{
+  "name": "pwb-render-api",
+  "version": "1.0.0",
+  "description": "Render API server for PWB listing videos",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "dev": "ts-node-dev --respawn index.ts"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.242",
+    "@remotion/renderer": "4.0.242",
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0"
+  }
+}
