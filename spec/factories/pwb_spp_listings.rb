@@ -1,5 +1,43 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_spp_listings
+# Database name: primary
+#
+#  id                   :uuid             not null, primary key
+#  active               :boolean          default(FALSE), not null
+#  archived             :boolean          default(FALSE)
+#  extra_data           :jsonb
+#  highlighted_features :jsonb
+#  listing_type         :string           default("sale"), not null
+#  live_url             :string
+#  noindex              :boolean          default(FALSE), not null
+#  photo_ids_ordered    :jsonb
+#  price_cents          :bigint           default(0), not null
+#  price_currency       :string           default("EUR"), not null
+#  published_at         :datetime
+#  spp_settings         :jsonb
+#  spp_slug             :string
+#  template             :string
+#  translations         :jsonb            not null
+#  visible              :boolean          default(FALSE)
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  realty_asset_id      :uuid             not null
+#
+# Indexes
+#
+#  index_pwb_spp_listings_on_noindex          (noindex)
+#  index_pwb_spp_listings_on_realty_asset_id  (realty_asset_id)
+#  index_pwb_spp_listings_on_spp_slug         (spp_slug)
+#  index_pwb_spp_listings_on_translations     (translations) USING gin
+#  index_pwb_spp_listings_unique_active       (realty_asset_id,listing_type,active) UNIQUE WHERE (active = true)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (realty_asset_id => pwb_realty_assets.id)
+#
 FactoryBot.define do
   factory :pwb_spp_listing, class: 'Pwb::SppListing' do
     association :realty_asset, factory: :pwb_realty_asset

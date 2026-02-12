@@ -31,11 +31,13 @@ module Pwb
 #  updated_at       :datetime         not null
 #  client_id        :integer
 #  contact_id       :integer
+#  realty_asset_id  :uuid
 #  website_id       :bigint
 #
 # Indexes
 #
-#  index_pwb_messages_on_website_id  (website_id)
+#  index_pwb_messages_on_realty_asset_id  (realty_asset_id)
+#  index_pwb_messages_on_website_id       (website_id)
 #
 # Foreign Keys
 #
