@@ -19,7 +19,7 @@ module ApiPublic
       private
 
       def set_api_public_cache_headers
-        expires_in 5.hours, public: true
+        expires_in 1.hour, public: true
 
         # Add Vary header for proper edge caching by tenant
         # This ensures CDN caches different responses per tenant/locale
