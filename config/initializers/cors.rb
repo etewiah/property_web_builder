@@ -20,6 +20,16 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
       max_age: 3600
   end
 
+  # HPG (HousePriceGuess) frontend
+  allow do
+    origins 'https://housepriceguess.com',
+            /.*\.housepriceguess\.com/
+    resource '*',
+      headers: :any,
+      methods: [:get, :post, :put, :patch, :delete, :options, :head],
+      max_age: 3600
+  end
+
   # Widget API - allow any origin for embeddable widgets
   # Security is handled at the application level via allowed_domains on each widget
   allow do

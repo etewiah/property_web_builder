@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_12_163000) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_13_000040) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -81,6 +81,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_163000) do
     t.index ["visitor_token"], name: "index_ahoy_visits_on_visitor_token"
     t.index ["website_id", "started_at"], name: "index_ahoy_visits_on_website_id_and_started_at"
     t.index ["website_id"], name: "index_ahoy_visits_on_website_id"
+  end
+
+  create_table "pwb_access_codes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.string "code", null: false
+    t.datetime "created_at", null: false
+    t.datetime "expires_at"
+    t.integer "max_uses"
+    t.datetime "updated_at", null: false
+    t.integer "uses_count", default: 0, null: false
+    t.bigint "website_id", null: false
+    t.index ["website_id", "code"], name: "index_pwb_access_codes_on_website_id_and_code", unique: true
+    t.index ["website_id"], name: "index_pwb_access_codes_on_website_id"
   end
 
   create_table "pwb_addresses", id: :serial, force: :cascade do |t|
@@ -365,6 +378,55 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_163000) do
     t.index ["pwb_website_id", "global_key"], name: "index_field_keys_unique_per_website", unique: true
     t.index ["pwb_website_id", "tag"], name: "index_field_keys_on_website_and_tag"
     t.index ["pwb_website_id"], name: "index_pwb_field_keys_on_pwb_website_id"
+  end
+
+  create_table "pwb_game_estimates", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "actual_price_cents", null: false
+    t.datetime "created_at", null: false
+    t.string "currency", default: "EUR", null: false
+    t.jsonb "estimate_details", default: {}, null: false
+    t.bigint "estimated_price_cents", null: false
+    t.uuid "game_listing_id", null: false
+    t.uuid "game_session_id", null: false
+    t.decimal "percentage_diff", precision: 8, scale: 2
+    t.integer "property_index"
+    t.integer "score", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "website_id", null: false
+    t.index ["game_listing_id"], name: "index_pwb_game_estimates_on_game_listing_id"
+    t.index ["game_session_id", "game_listing_id"], name: "index_pwb_game_estimates_unique_session_listing", unique: true
+    t.index ["game_session_id"], name: "index_pwb_game_estimates_on_game_session_id"
+    t.index ["website_id"], name: "index_pwb_game_estimates_on_website_id"
+  end
+
+  create_table "pwb_game_listings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "display_title"
+    t.jsonb "extra_data", default: {}, null: false
+    t.uuid "realty_asset_id", null: false
+    t.uuid "realty_game_id", null: false
+    t.integer "sort_order", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.boolean "visible", default: true, null: false
+    t.index ["realty_asset_id"], name: "index_pwb_game_listings_on_realty_asset_id"
+    t.index ["realty_game_id", "realty_asset_id"], name: "index_pwb_game_listings_unique_game_asset", unique: true
+    t.index ["realty_game_id"], name: "index_pwb_game_listings_on_realty_game_id"
+  end
+
+  create_table "pwb_game_sessions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "guest_name"
+    t.string "performance_rating"
+    t.uuid "realty_game_id", null: false
+    t.integer "total_score", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.string "user_uuid"
+    t.string "visitor_token", null: false
+    t.bigint "website_id", null: false
+    t.index ["realty_game_id", "visitor_token"], name: "index_pwb_game_sessions_on_game_and_visitor"
+    t.index ["realty_game_id"], name: "index_pwb_game_sessions_on_realty_game_id"
+    t.index ["website_id", "total_score"], name: "index_pwb_game_sessions_on_website_and_score"
+    t.index ["website_id"], name: "index_pwb_game_sessions_on_website_id"
   end
 
   create_table "pwb_link_translations", force: :cascade do |t|
@@ -820,6 +882,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_163000) do
     t.index ["translations"], name: "index_pwb_realty_assets_on_translations", using: :gin
     t.index ["website_id", "prop_type_key"], name: "index_pwb_realty_assets_on_website_id_and_prop_type_key"
     t.index ["website_id"], name: "index_pwb_realty_assets_on_website_id"
+  end
+
+  create_table "pwb_realty_games", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.string "bg_image_url"
+    t.datetime "created_at", null: false
+    t.string "default_country"
+    t.string "default_currency", default: "EUR", null: false
+    t.text "description"
+    t.datetime "end_at"
+    t.integer "estimates_count", default: 0, null: false
+    t.boolean "hidden_from_landing_page", default: false, null: false
+    t.integer "sessions_count", default: 0, null: false
+    t.string "slug", null: false
+    t.datetime "start_at"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "validation_rules", default: {}, null: false
+    t.bigint "website_id", null: false
+    t.index ["website_id", "active"], name: "index_pwb_realty_games_on_website_id_and_active"
+    t.index ["website_id", "slug"], name: "index_pwb_realty_games_on_website_id_and_slug", unique: true
+    t.index ["website_id"], name: "index_pwb_realty_games_on_website_id"
   end
 
   create_table "pwb_rental_listings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -1580,6 +1664,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_163000) do
   add_foreign_key "ahoy_events", "pwb_websites", column: "website_id"
   add_foreign_key "ahoy_visits", "pwb_users", column: "user_id"
   add_foreign_key "ahoy_visits", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_access_codes", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_ai_generation_requests", "pwb_props", column: "prop_id"
   add_foreign_key "pwb_ai_generation_requests", "pwb_users", column: "user_id"
   add_foreign_key "pwb_ai_generation_requests", "pwb_websites", column: "website_id"
@@ -1590,6 +1675,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_163000) do
   add_foreign_key "pwb_email_templates", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_features", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_field_keys", "pwb_websites"
+  add_foreign_key "pwb_game_estimates", "pwb_game_listings", column: "game_listing_id"
+  add_foreign_key "pwb_game_estimates", "pwb_game_sessions", column: "game_session_id"
+  add_foreign_key "pwb_game_estimates", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_game_listings", "pwb_realty_assets", column: "realty_asset_id"
+  add_foreign_key "pwb_game_listings", "pwb_realty_games", column: "realty_game_id"
+  add_foreign_key "pwb_game_sessions", "pwb_realty_games", column: "realty_game_id"
+  add_foreign_key "pwb_game_sessions", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_listing_videos", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_listing_videos", "pwb_users", column: "user_id"
   add_foreign_key "pwb_listing_videos", "pwb_websites", column: "website_id"
@@ -1606,6 +1698,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_163000) do
   add_foreign_key "pwb_price_guesses", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_prop_photos", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_prop_translations", "pwb_realty_assets", column: "realty_asset_id"
+  add_foreign_key "pwb_realty_games", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_rental_listings", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_sale_listings", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_saved_properties", "pwb_websites", column: "website_id"

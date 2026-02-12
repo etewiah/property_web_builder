@@ -181,6 +181,11 @@ module Pwb
     # External Service Integrations
     has_many :integrations, class_name: 'Pwb::WebsiteIntegration', dependent: :destroy
 
+    # HPG Game Engine
+    has_many :realty_games, class_name: 'Pwb::RealtyGame', dependent: :destroy
+    has_many :game_sessions, class_name: 'Pwb::GameSession', dependent: :destroy
+    has_many :access_codes, class_name: 'Pwb::AccessCode', dependent: :destroy
+
     # Multi-website support via memberships
     has_many :user_memberships, dependent: :destroy
     has_many :members, through: :user_memberships, source: :user

@@ -115,6 +115,11 @@ module Pwb
         name: 'Single Property Pages',
         description: 'Standalone property page hosting via SPP',
         icon: 'home'
+      },
+      hpg: {
+        name: 'House Price Guess',
+        description: 'Price guessing game integration via HPG',
+        icon: 'game-controller'
       }
     }.freeze
 

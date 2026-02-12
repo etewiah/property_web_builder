@@ -989,6 +989,17 @@ Rails.application.routes.draw do
       get "/widgets/:widget_key/properties" => "widgets#properties"
       post "/widgets/:widget_key/impression" => "widgets#impression"
       post "/widgets/:widget_key/click" => "widgets#click"
+
+      # HPG (HousePriceGuess) Game Engine API
+      scope :hpg do
+        get  '/games',                           to: 'hpg/games#index'
+        get  '/games/:slug',                     to: 'hpg/games#show'
+        post '/games/:slug/estimates',           to: 'hpg/estimates#create'
+        get  '/games/:slug/results/:session_id', to: 'hpg/results#show'
+        get  '/leaderboards',                    to: 'hpg/leaderboards#index'
+        post '/access_codes/check',              to: 'hpg/access_codes#check'
+        get  '/listings/:uuid',                  to: 'hpg/listings#show'
+      end
     end
   end
 
