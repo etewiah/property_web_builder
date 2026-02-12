@@ -1,6 +1,6 @@
 # SPP Data Freshness Strategy
 
-**Status:** Proposed
+**Status:** Phase 1 Implemented (cache headers), Phase 2 planned (webhooks)
 **Related:** [SPP–PWB Integration](./README.md) | [SppListing Model](./spp-listing-model.md)
 
 ---
@@ -35,7 +35,7 @@ These callbacks are the natural hook points for notifying SPP.
 
 ### Current API Caching
 
-`ApiPublic::V1::BaseController` sets `expires_in 5.hours, public: true` on all responses. SPP can use these cache headers if 5-hour staleness is acceptable.
+`ApiPublic::V1::BaseController` sets `expires_in 1.hour, public: true` on all responses (reduced from 5 hours as part of Phase 1).
 
 ## Strategy Evaluation
 
@@ -43,7 +43,7 @@ These callbacks are the natural hook points for notifying SPP.
 
 **How:** SPP respects the `Cache-Control` and `Last-Modified` headers from PWB's API. Astro's server-side data fetching can cache responses and re-validate with conditional GET (`If-Modified-Since`).
 
-**Staleness:** Up to 5 hours (current `expires_in` value). Could be reduced to 1 hour for property detail endpoints.
+**Staleness:** Up to 1 hour (current `expires_in` value after Phase 1 reduction).
 
 **Pros:**
 - Zero implementation on PWB — already works
@@ -183,16 +183,16 @@ These callbacks are the natural hook points for notifying SPP.
 
 ## Recommended Approach: Phase 1 Now, Phase 2 Later
 
-### Phase 1: Reduce Cache TTL (Immediate)
+### Phase 1: Reduce Cache TTL (Done)
 
-Reduce the `api_public` cache TTL for property detail endpoints from 5 hours to 1 hour:
+The `api_public` base controller cache TTL was reduced from 5 hours to 1 hour:
 
 ```ruby
-# In the properties show endpoint:
+# app/controllers/api_public/v1/base_controller.rb
 expires_in 1.hour, public: true
 ```
 
-This is a one-line change. SPP will see updates within an hour with no new infrastructure.
+SPP sees updates within an hour with no new infrastructure. Covered by 3 specs in `spec/requests/api_public/v1/cache_headers_spec.rb`.
 
 ### Phase 2: Add Webhooks (When Real-Time Matters)
 
@@ -212,10 +212,11 @@ SPP can choose which events to act on. For most cases, `property.updated` as a c
 
 ## Implementation Checklist
 
-### Phase 1 (Now)
-1. Reduce cache TTL on property detail API endpoint to 1 hour
-2. Ensure `Last-Modified` headers are set correctly on property responses
-3. SPP: Use conditional GET (`If-Modified-Since`) to avoid re-downloading unchanged data
+### Phase 1 (Done)
+- [x] Reduced cache TTL on all `api_public` endpoints to 1 hour
+- [x] `Vary` header set for `Accept-Language, X-Website-Slug` for proper edge caching
+- [x] Conditional GET (`If-Modified-Since`) supported via `fresh_when` in base controller
+- [ ] SPP: Use conditional GET headers to avoid re-downloading unchanged data
 
 ### Phase 2 (Later)
 1. Add `spp_webhook_url` and `spp_webhook_secret` to `client_theme_config` schema

@@ -1,6 +1,6 @@
 # SPP CORS Configuration (Option B)
 
-**Status:** Proposed
+**Status:** Implemented (Approach A — regex patterns)
 **Related:** [SPP–PWB Integration](./README.md) | [Authentication](./authentication.md)
 
 ---
@@ -21,9 +21,9 @@ All blocks use `headers: :any`, which already permits custom headers like `X-Web
 
 ## What Needs to Change
 
-### Development: Already Covered
+### Development: Covered
 
-`localhost:4322` is already in the development origins block. If SPP runs on a different port locally, add it to the same block.
+`localhost:4321`, `localhost:4322`, and `localhost:4323` are in the development origins block. Port 4323 was added for SPP local development.
 
 ### Production: Add Per-Tenant SPP Origins
 
@@ -83,7 +83,7 @@ end
 | Performance | No DB lookup | Cached DB lookup (5-min TTL) |
 | Security | Allows all matching domains | Only allows configured domains |
 
-**Recommendation:** Start with Approach A. Move to Approach B only if tenants need fully custom SPP domains.
+**Decision:** Approach A was implemented. Move to Approach B only if tenants need fully custom SPP domains.
 
 ### Scoping: Which Resources?
 
@@ -124,11 +124,12 @@ SPP uses API key authentication (not cookies), so `credentials: true` is **not n
 
 ## Implementation Checklist
 
-1. Decide on Approach A or B based on whether tenants will have custom SPP domains
-2. Update `config/initializers/cors.rb` with the chosen approach
-3. Add `max_age: 3600` to the production origins block
-4. Test preflight (`OPTIONS`) requests from an SPP origin to both `/api_public/v1/*` and `/api_manage/v1/*`
-5. Verify `X-Website-Slug` and `X-API-Key` headers pass through
+- [x] Approach A (regex patterns) implemented in `config/initializers/cors.rb`
+- [x] Added `/.*\.spp\.propertywebbuilder\.com/` origin pattern
+- [x] Added `max_age: 3600` to the production origins block
+- [x] Added `localhost:4323` for SPP local dev
+- [ ] Test preflight (`OPTIONS`) from an SPP origin (manual/E2E)
+- [ ] Verify `X-Website-Slug` and `X-API-Key` headers pass through (manual/E2E)
 
 ## Reference Files
 

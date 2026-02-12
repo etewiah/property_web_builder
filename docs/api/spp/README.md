@@ -1,5 +1,7 @@
 # SPP–PWB Integration
 
+**Status:** Implemented (Phases 1–6 complete)
+
 SinglePropertyPages (SPP) is an Astro.js application that generates standalone marketing microsites for individual property listings. It integrates with PropertyWebBuilder (PWB) as a data backend.
 
 **Deployment model:** Option B — SPP serves pages independently on its own domain. PWB is a data API. See [Architecture](#architecture) below.
@@ -10,14 +12,14 @@ SinglePropertyPages (SPP) is an Astro.js application that generates standalone m
 
 ## Documents
 
-| Document | What It Covers |
-|----------|---------------|
-| [SppListing Model](./spp-listing-model.md) | Data model, migration, model definition, relationship to existing listings |
-| [Endpoints](./endpoints.md) | Publish, unpublish, leads API specs + enquiry linking + response conventions |
-| [Authentication](./authentication.md) | API key auth via `X-API-Key` header and `WebsiteIntegration` |
-| [CORS](./cors.md) | `rack-cors` configuration for SPP origins |
-| [SEO](./seo.md) | Canonical URLs, sitemaps, JSON-LD coordination between PWB and SPP |
-| [Data Freshness](./data-freshness.md) | Cache headers (phase 1) and webhooks (phase 2) |
+| Document | What It Covers | Status |
+|----------|---------------|--------|
+| [SppListing Model](./spp-listing-model.md) | Data model, migration, model definition, relationship to existing listings | Implemented |
+| [Endpoints](./endpoints.md) | Publish, unpublish, leads, content management API specs + enquiry linking | Implemented |
+| [Authentication](./authentication.md) | API key auth via `X-API-Key` header and `WebsiteIntegration` | Implemented |
+| [CORS](./cors.md) | `rack-cors` configuration for SPP origins | Implemented |
+| [SEO](./seo.md) | Canonical URLs, sitemaps, JSON-LD coordination between PWB and SPP | Implemented |
+| [Data Freshness](./data-freshness.md) | Cache headers (phase 1) and webhooks (phase 2, future) | Phase 1 done |
 
 ---
 
@@ -113,16 +115,29 @@ CORS is required for this cross-origin POST. See [CORS](./cors.md).
 
 ---
 
-## Key Reference Files
+## Provisioning
+
+Use the rake task to create an SPP integration for a tenant:
+
+```bash
+rails spp:provision[my-subdomain]
+```
+
+This creates a `WebsiteIntegration` (category: `spp`) with an encrypted API key and outputs the environment variables SPP needs.
+
+## Key Implementation Files
 
 | File | Relevance |
 |------|-----------|
-| `app/models/pwb/sale_listing.rb` | Listing model pattern that SppListing mirrors |
-| `app/models/concerns/listing_stateable.rb` | Shared state management |
-| `app/controllers/api_manage/v1/base_controller.rb` | API key authentication |
-| `app/controllers/api_public/v1/enquiries_controller.rb` | Enquiry endpoint |
+| `app/models/pwb/spp_listing.rb` | SppListing model with Mobility translations, monetize, curated photos |
+| `app/controllers/api_manage/v1/spp_listings_controller.rb` | Publish, unpublish, leads, and content management endpoints |
+| `app/controllers/api_manage/v1/base_controller.rb` | API key authentication (iterates encrypted credentials) |
+| `app/controllers/api_public/v1/enquiries_controller.rb` | Enquiry endpoint (links messages to properties) |
+| `app/controllers/api_public/v1/base_controller.rb` | Cache headers (`expires_in 1.hour`) |
 | `app/controllers/concerns/subdomain_tenant.rb` | Tenant resolution via `X-Website-Slug` |
-| `config/initializers/cors.rb` | CORS configuration |
-| `app/helpers/seo_helper.rb` | SEO meta tags, JSON-LD, canonical URLs |
-| `app/controllers/sitemaps_controller.rb` | Sitemap generation |
+| `app/helpers/seo_helper.rb` | `spp_live_url_for` helper, SEO meta tags, JSON-LD, canonical URLs |
+| `app/controllers/sitemaps_controller.rb` | Sitemap generation (uses SPP URLs when available) |
+| `app/views/sitemaps/index.xml.erb` | Sitemap template with SPP URL support |
+| `config/initializers/cors.rb` | CORS configuration with SPP origin patterns |
+| `lib/tasks/spp.rake` | SPP provisioning rake task |
 | `docs/architecture/per_tenant_astro_url_routing.md` | Per-tenant URL config pattern |

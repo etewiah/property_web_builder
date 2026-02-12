@@ -1,6 +1,6 @@
 # SPP Authentication for api_manage Endpoints
 
-**Status:** Proposed
+**Status:** Implemented
 **Related:** [SPP–PWB Integration](./README.md) | [CORS](./cors.md)
 
 ---
@@ -43,9 +43,10 @@ Request with X-API-Key header
   ▼
 api_manage BaseController#authenticate_from_api_key
   │
-  ├── Look up: current_website.integrations.find_by(api_key: key, active: true)
+  ├── Iterate: current_website.integrations.enabled.find { |i| i.credential('api_key') == key }
+  │   (API keys are stored in encrypted credentials, so each must be decrypted and compared)
   │
-  ├── If found: Return website's owner or first admin as acting user
+  ├── If found: Call integration.record_usage!, return website's owner or first admin
   │
   └── If not found: Return nil (authentication fails)
 ```
@@ -62,8 +63,20 @@ In `app/models/pwb/website_integration.rb`, add `:spp` to the categories enum if
 
 ### Provisioning the API Key
 
+Use the provisioning rake task:
+
+```bash
+rails spp:provision[my-subdomain]
+```
+
+This is idempotent — running it again for the same subdomain outputs the existing key. The task:
+1. Finds the website by subdomain
+2. Creates a `WebsiteIntegration` (category: `spp`, provider: `single_property_pages`) with an encrypted API key
+3. Outputs the API key and environment variables for SPP
+
+Alternatively, via Rails console:
+
 ```ruby
-# Via Rails console or admin interface:
 website = Pwb::Website.find_by(subdomain: 'my-tenant')
 
 integration = website.integrations.create!(
@@ -74,8 +87,7 @@ integration = website.integrations.create!(
   enabled: true
 )
 
-# Retrieve the key to configure in SPP:
-integration.credential(:api_key)
+integration.credential('api_key')
 # => "a1b2c3d4e5f6..."
 ```
 
@@ -166,22 +178,7 @@ The API key grants the permissions of the website's owner/admin. This is appropr
 
 ### Audit Trail
 
-PWB should log API key usage for auditing. The `api_manage` base controller could log:
-
-```ruby
-def authenticate_from_api_key
-  api_key = request.headers['X-API-Key']
-  return nil if api_key.blank?
-
-  integration = current_website&.integrations&.find_by(api_key: api_key, active: true)
-  if integration
-    integration.touch(:last_used_at)  # Already supported by the model
-    # ... return acting user
-  end
-end
-```
-
-The `last_used_at` field already exists on `WebsiteIntegration`.
+The `api_manage` base controller calls `integration.record_usage!` on successful API key authentication, which updates `last_used_at` on the `WebsiteIntegration` record. This is already implemented.
 
 ## Enquiry Submissions: No Auth Needed
 
@@ -189,11 +186,12 @@ The enquiry endpoint (`POST /api_public/v1/enquiries`) is under `api_public`, wh
 
 ## Implementation Checklist
 
-1. Ensure the `api_manage` base controller's `authenticate_from_api_key` method works with `WebsiteIntegration` records
-2. Create an SPP integration for each tenant that uses SPP
-3. Provide the API key and website slug to SPP's deployment configuration
-4. Verify that `api_manage` endpoints return 401 without a valid key and 200 with one
-5. Confirm `last_used_at` is updated on successful authentication
+- [x] `authenticate_from_api_key` iterates encrypted `WebsiteIntegration` credentials
+- [x] `:spp` category added to `WebsiteIntegration::CATEGORIES`
+- [x] Provisioning rake task: `rails spp:provision[subdomain]`
+- [x] API key auth returns 401 without valid key, 200 with one (6 specs)
+- [x] `record_usage!` updates `last_used_at` on authentication
+- [x] Cross-website key isolation tested
 
 ## Reference Files
 

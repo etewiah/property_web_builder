@@ -1,6 +1,6 @@
 # SPP SEO Coordination (Option B)
 
-**Status:** Proposed
+**Status:** Implemented
 **Related:** [SPP–PWB Integration](./README.md) | [SppListing Model](./spp-listing-model.md)
 
 ---
@@ -174,33 +174,30 @@ When the publish endpoint is called, store the computed `liveUrl` on the listing
 **Pros:** Simple reads, no template parsing. SPP could also send a custom URL in the publish request.
 **Cons:** Requires a migration. Could become stale if SPP's URL structure changes.
 
-**Recommendation:** Use Option 1 (template) for now. It requires no migration and keeps the URL logic centralized in `client_theme_config`. Add Option 2 later if needed for custom per-property URLs.
+**Decision:** Both options are used. The publish endpoint computes the URL from `spp_url_template` (Option 1) and stores it on `SppListing#live_url` (Option 2). The `spp_live_url_for` helper reads from the stored `live_url` column — no template re-computation needed at render time.
 
-## Shared Helper: `spp_live_url_for`
+## Shared Helper: `spp_live_url_for` (Implemented)
 
-Extract a shared method usable by `PropsController`, `SitemapsController`, and `SeoHelper`. Since `SppListing` stores `live_url` directly, this reads from the model:
+Implemented in `app/helpers/seo_helper.rb`, usable by `PropsController`, `SitemapsController`, and views:
 
 ```ruby
-# In a concern or helper module:
 def spp_live_url_for(property, listing_type = nil)
-  scope = property.spp_listings.active_listing
+  scope = Pwb::SppListing.where(realty_asset_id: property.id, active: true, visible: true)
   scope = scope.where(listing_type: listing_type) if listing_type
   scope.first&.live_url
 end
 ```
 
-This returns `nil` when no active SPP listing exists, allowing callers to fall back to PWB's URL. Pass `listing_type` to get the URL for a specific variant (e.g., PWB's sale page canonicals to the sale SPP listing, PWB's rental page canonicals to the rental SPP listing).
+Returns `nil` when no active+visible SPP listing exists, allowing callers to fall back to PWB's URL. Pass `listing_type` to scope by variant (e.g., PWB's sale page canonicals to the sale SPP listing). Covered by 8 specs in `spec/helpers/seo_helper_spp_spec.rb`.
 
 ## Implementation Checklist
 
-1. Add `spp_live_url_for` helper method (shared concern or helper module)
-2. Update `PropsController#set_property_seo` to use SPP URL as canonical when available
-3. Update `SitemapsController` view to use SPP URL in `<loc>` when available
-4. Update `SeoHelper#property_json_ld` to use SPP URL in the `url` field when available
-5. SPP: Set self-referencing canonical on its own pages
-6. SPP: Generate its own JSON-LD from property API data
-7. Test: Verify PWB's property page has canonical pointing to SPP
-8. Test: Verify sitemap contains SPP URLs for SPP-enabled properties
+- [x] `spp_live_url_for` helper in `SeoHelper` (8 specs)
+- [x] `PropsController#set_property_seo` uses SPP URL as canonical when available
+- [x] `SitemapsController` uses SPP URL in `<loc>` for sale and rental properties
+- [x] JSON-LD reads from `seo_canonical_url` which already uses SPP URL (no change needed)
+- [ ] SPP: Set self-referencing canonical on its own pages
+- [ ] SPP: Generate its own JSON-LD from property API data
 
 ## Reference Files
 
