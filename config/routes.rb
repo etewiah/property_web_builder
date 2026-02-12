@@ -834,6 +834,13 @@ Rails.application.routes.draw do
           resource :ai_description, only: [:create], controller: 'ai_descriptions' do
             get :history
           end
+
+          # SPP (Single Property Page) management
+          member do
+            post :spp_publish, controller: 'spp_listings', action: 'publish'
+            post :spp_unpublish, controller: 'spp_listings', action: 'unpublish'
+            get :spp_leads, controller: 'spp_listings', action: 'leads'
+          end
         end
 
         # AI-powered social media content generation

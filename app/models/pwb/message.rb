@@ -46,6 +46,7 @@ module Pwb
 
     belongs_to :website, class_name: 'Pwb::Website', optional: true
     belongs_to :contact, optional: true, class_name: 'Pwb::Contact', inverse_of: :messages
+    belongs_to :realty_asset, optional: true, class_name: 'Pwb::RealtyAsset'
 
     # Scopes
     scope :unread, -> { where(read: false) }

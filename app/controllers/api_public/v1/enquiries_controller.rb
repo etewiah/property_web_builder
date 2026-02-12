@@ -43,11 +43,12 @@ module ApiPublic
         message.contact = contact
         message.save!
 
-        # Find property if provided (for email context)
+        # Find property if provided (for email context and enquiry linking)
         property = nil
         if enquiry_params[:property_id].present?
           property = website.listed_properties.find_by(id: enquiry_params[:property_id]) ||
                      website.listed_properties.find_by(slug: enquiry_params[:property_id])
+          message.update(realty_asset_id: property.id) if property
         end
 
         # Send email notification asynchronously
