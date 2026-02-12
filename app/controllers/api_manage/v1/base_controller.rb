@@ -81,9 +81,13 @@ module ApiManage
         api_key = request.headers['X-API-Key']
         return nil if api_key.blank?
 
-        # Find integration with this API key for current website
-        integration = current_website&.integrations&.find_by(api_key: api_key, active: true)
+        # Find integration with matching API key (stored in encrypted credentials)
+        integration = current_website&.integrations&.enabled&.find do |i|
+          i.credential('api_key') == api_key
+        end
         return nil unless integration
+
+        integration.record_usage!
 
         # Return the website owner or first admin as the acting user
         current_website.users.joins(:user_memberships)

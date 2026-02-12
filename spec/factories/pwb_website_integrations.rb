@@ -60,6 +60,13 @@ FactoryBot.define do
       settings { { 'default_model' => 'anthropic/claude-3.5-sonnet', 'max_tokens' => 4096 } }
     end
 
+    trait :spp do
+      category { 'spp' }
+      provider { 'single_property_pages' }
+      credentials { { 'api_key' => SecureRandom.hex(32) } }
+      settings { {} }
+    end
+
     trait :disabled do
       enabled { false }
     end

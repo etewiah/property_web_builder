@@ -110,6 +110,11 @@ module Pwb
         name: 'Video Generation',
         description: 'Automated video creation and rendering',
         icon: 'video'
+      },
+      spp: {
+        name: 'Single Property Pages',
+        description: 'Standalone property page hosting via SPP',
+        icon: 'home'
       }
     }.freeze
 

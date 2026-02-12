@@ -1,7 +1,7 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   # Development origin (Angular/Vue apps during development)
   allow do
-    origins 'http://localhost:4200', 'http://localhost:4321', 'http://localhost:4322'
+    origins 'http://localhost:4200', 'http://localhost:4321', 'http://localhost:4322', 'http://localhost:4323'
 
     resource '*',
       headers: :any,
@@ -12,8 +12,12 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     origins 'pwb-astrojs-client.etewiah.workers.dev',
             'demo.propertywebbuilder.com',
             /.*\.workers\.dev/,
-            /.*\.propertywebbuilder\.com/
-    resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options, :head]
+            /.*\.propertywebbuilder\.com/,
+            /.*\.spp\.propertywebbuilder\.com/
+    resource '*',
+      headers: :any,
+      methods: [:get, :post, :put, :patch, :delete, :options, :head],
+      max_age: 3600
   end
 
   # Widget API - allow any origin for embeddable widgets
