@@ -1,0 +1,128 @@
+# SPP–PWB Integration
+
+SinglePropertyPages (SPP) is an Astro.js application that generates standalone marketing microsites for individual property listings. It integrates with PropertyWebBuilder (PWB) as a data backend.
+
+**Deployment model:** Option B — SPP serves pages independently on its own domain. PWB is a data API. See [Architecture](#architecture) below.
+
+**Data model:** SPP pages are modeled as `SppListing` records — the same pattern as `SaleListing` and `RentalListing`, with independent texts, publication state, and a `listing_type` field for sale vs rental variants.
+
+---
+
+## Documents
+
+| Document | What It Covers |
+|----------|---------------|
+| [SppListing Model](./spp-listing-model.md) | Data model, migration, model definition, relationship to existing listings |
+| [Endpoints](./endpoints.md) | Publish, unpublish, leads API specs + enquiry linking + response conventions |
+| [Authentication](./authentication.md) | API key auth via `X-API-Key` header and `WebsiteIntegration` |
+| [CORS](./cors.md) | `rack-cors` configuration for SPP origins |
+| [SEO](./seo.md) | Canonical URLs, sitemaps, JSON-LD coordination between PWB and SPP |
+| [Data Freshness](./data-freshness.md) | Cache headers (phase 1) and webhooks (phase 2) |
+
+---
+
+## Architecture
+
+### Request Flow
+
+```
+┌──────────┐                               ┌──────────────┐
+│ Browser  │ ─────────────────────────────▶ │   SPP (Astro)│
+│          │                               │              │
+└──────────┘                               └──────┬───────┘
+                                                  │
+                              ┌────────────────────┼────────────────────┐
+                              │ Server-side        │ Browser-side       │
+                              │ (X-API-Key)        │ (X-Website-Slug)   │
+                              ▼                    ▼                    │
+                       ┌─────────────┐      ┌─────────────┐            │
+                       │ api_manage  │      │ api_public   │◀───────────┘
+                       │ (auth'd)   │      │ (public)    │  enquiry POST
+                       └─────────────┘      └─────────────┘
+                              └──────────┬──────────┘
+                                         │
+                                    PWB (Rails)
+```
+
+- **SPP Astro server** calls `api_manage` (publish, unpublish, leads) with `X-API-Key` + `X-Website-Slug` headers. Server-to-server, no CORS needed.
+- **Browser** calls `api_public` (enquiry submissions) directly to PWB with `X-Website-Slug`. Cross-origin, CORS needed.
+- **Tenant resolution:** `X-Website-Slug` header, handled by `SubdomainTenant` concern (`app/controllers/concerns/subdomain_tenant.rb`).
+
+### Data Model
+
+```
+                        RealtyAsset
+                       (the property)
+                  /         |          \
+          SaleListing  RentalListing  SppListing(s)
+          (PWB sale)   (PWB rental)   (SPP pages)
+                                      /          \
+                              listing_type:    listing_type:
+                              "sale"           "rental"
+```
+
+- All listing types share the property's physical data (location, bedrooms, photos) from `RealtyAsset`
+- Each has independent marketing texts, SEO fields, and publication state
+- SPP listings reference the corresponding PWB listing for price data
+- Full spec: [SppListing Model](./spp-listing-model.md)
+
+### URL Ownership
+
+SPP controls the property page URL. PWB generates the URL from `client_theme_config['spp_url_template']` and stores it on `SppListing#live_url` at publish time.
+
+Template example:
+```json
+{ "spp_url_template": "https://{slug}-{listing_type}.spp.example.com/" }
+```
+
+Produces: `https://123-main-st-sale.spp.example.com/`
+
+### Configuration
+
+Per-tenant SPP configuration is stored in the `client_theme_config` JSONB column on `pwb_websites`, following the existing `astro_client_url` pattern:
+
+```json
+{
+  "spp_url": "https://spp.example.com",
+  "spp_url_template": "https://{slug}-{listing_type}.spp.example.com/"
+}
+```
+
+### Publishing Lifecycle
+
+Publishing on SPP and PWB are independent:
+
+```
+SPP                              PWB
+ │  POST /publish                 │
+ │  { listing_type: "sale" }      │
+ │ ──────────────────────────────▶│  Create/activate SppListing
+ │                                │  (SaleListing untouched)
+ │  { status, liveUrl }           │
+ │ ◀──────────────────────────────│
+ │  SPP enables its page          │
+```
+
+A property can be published on PWB but not SPP, or vice versa, or both. Each listing type (sale/rental) is also independent.
+
+### Enquiry Flow
+
+Visitor submits enquiry on SPP page → browser POSTs to PWB's `api_public/v1/enquiries` with `X-Website-Slug` → PWB creates contact + message → sends email notification.
+
+CORS is required for this cross-origin POST. See [CORS](./cors.md).
+
+---
+
+## Key Reference Files
+
+| File | Relevance |
+|------|-----------|
+| `app/models/pwb/sale_listing.rb` | Listing model pattern that SppListing mirrors |
+| `app/models/concerns/listing_stateable.rb` | Shared state management |
+| `app/controllers/api_manage/v1/base_controller.rb` | API key authentication |
+| `app/controllers/api_public/v1/enquiries_controller.rb` | Enquiry endpoint |
+| `app/controllers/concerns/subdomain_tenant.rb` | Tenant resolution via `X-Website-Slug` |
+| `config/initializers/cors.rb` | CORS configuration |
+| `app/helpers/seo_helper.rb` | SEO meta tags, JSON-LD, canonical URLs |
+| `app/controllers/sitemaps_controller.rb` | Sitemap generation |
+| `docs/architecture/per_tenant_astro_url_routing.md` | Per-tenant URL config pattern |
