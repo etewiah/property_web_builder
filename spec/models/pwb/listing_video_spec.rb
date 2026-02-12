@@ -1,5 +1,55 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_listing_videos
+# Database name: primary
+#
+#  id               :bigint           not null, primary key
+#  branding         :jsonb
+#  cost_cents       :integer          default(0)
+#  duration_seconds :integer
+#  error_message    :text
+#  failed_at        :datetime
+#  file_size_bytes  :integer
+#  format           :string           default("vertical_9_16")
+#  generated_at     :datetime
+#  reference_number :string
+#  resolution       :string
+#  scenes           :jsonb
+#  script           :text
+#  share_token      :string
+#  shared_at        :datetime
+#  status           :string           default("pending")
+#  style            :string           default("professional")
+#  thumbnail_url    :string
+#  title            :string           not null
+#  video_url        :string
+#  view_count       :integer          default(0)
+#  voice            :string           default("nova")
+#  voiceover_url    :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  realty_asset_id  :uuid             not null
+#  render_id        :string
+#  user_id          :bigint
+#  website_id       :bigint           not null
+#
+# Indexes
+#
+#  index_pwb_listing_videos_on_realty_asset_id        (realty_asset_id)
+#  index_pwb_listing_videos_on_render_id              (render_id)
+#  index_pwb_listing_videos_on_share_token            (share_token) UNIQUE WHERE (share_token IS NOT NULL)
+#  index_pwb_listing_videos_on_user_id                (user_id)
+#  index_pwb_listing_videos_on_website_id             (website_id)
+#  index_pwb_listing_videos_on_website_id_and_status  (website_id,status)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (realty_asset_id => pwb_realty_assets.id)
+#  fk_rails_...  (user_id => pwb_users.id)
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 require 'rails_helper'
 
 RSpec.describe Pwb::ListingVideo, type: :model do

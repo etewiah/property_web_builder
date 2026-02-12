@@ -163,8 +163,7 @@ module Pwb
     # Falls back to all property features if no highlights are set.
     def display_features
       if highlighted_features.present?
-        all_features = realty_asset.features
-        highlighted_features.filter_map { |key| all_features.find { |f| f['key'] == key } }
+        realty_asset.features.where(feature_key: highlighted_features)
       else
         realty_asset.features
       end

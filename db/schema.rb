@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_31_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_12_153030) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -1052,6 +1052,33 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_31_100000) do
     t.index ["website_id"], name: "index_pwb_social_media_templates_on_website_id"
   end
 
+  create_table "pwb_spp_listings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.boolean "active", default: false, null: false
+    t.boolean "archived", default: false
+    t.datetime "created_at", null: false
+    t.jsonb "extra_data", default: {}
+    t.jsonb "highlighted_features", default: []
+    t.string "listing_type", default: "sale", null: false
+    t.string "live_url"
+    t.boolean "noindex", default: false, null: false
+    t.jsonb "photo_ids_ordered", default: []
+    t.bigint "price_cents", default: 0, null: false
+    t.string "price_currency", default: "EUR", null: false
+    t.datetime "published_at"
+    t.uuid "realty_asset_id", null: false
+    t.jsonb "spp_settings", default: {}
+    t.string "spp_slug"
+    t.string "template"
+    t.jsonb "translations", default: {}, null: false
+    t.datetime "updated_at", null: false
+    t.boolean "visible", default: false
+    t.index ["noindex"], name: "index_pwb_spp_listings_on_noindex"
+    t.index ["realty_asset_id", "listing_type", "active"], name: "index_pwb_spp_listings_unique_active", unique: true, where: "(active = true)"
+    t.index ["realty_asset_id"], name: "index_pwb_spp_listings_on_realty_asset_id"
+    t.index ["spp_slug"], name: "index_pwb_spp_listings_on_spp_slug"
+    t.index ["translations"], name: "index_pwb_spp_listings_on_translations", using: :gin
+  end
+
   create_table "pwb_subdomains", force: :cascade do |t|
     t.string "aasm_state", default: "available", null: false
     t.datetime "created_at", null: false
@@ -1590,6 +1617,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_31_100000) do
   add_foreign_key "pwb_social_media_posts", "pwb_ai_generation_requests", column: "ai_generation_request_id"
   add_foreign_key "pwb_social_media_posts", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_social_media_templates", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_spp_listings", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_subdomains", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_subscription_events", "pwb_subscriptions", column: "subscription_id"
   add_foreign_key "pwb_subscriptions", "pwb_plans", column: "plan_id"

@@ -77,6 +77,7 @@ module Pwb
     # Associations
     has_many :sale_listings, class_name: 'Pwb::SaleListing', foreign_key: 'realty_asset_id', dependent: :destroy
     has_many :rental_listings, class_name: 'Pwb::RentalListing', foreign_key: 'realty_asset_id', dependent: :destroy
+    has_many :spp_listings, class_name: 'Pwb::SppListing', foreign_key: 'realty_asset_id', dependent: :destroy
     has_many :prop_photos, -> { order "sort_order asc" }, class_name: 'Pwb::PropPhoto', foreign_key: 'realty_asset_id', dependent: :destroy
     has_many :features, class_name: 'PwbTenant::Feature', foreign_key: 'realty_asset_id', dependent: :destroy
     # Note: Translations are now stored in pwb_props.translations JSONB column via Mobility
