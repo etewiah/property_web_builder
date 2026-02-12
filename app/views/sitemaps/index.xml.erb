@@ -13,7 +13,8 @@
   <%# Properties for sale %>
   <% @properties_for_sale.each do |property| %>
   <url>
-    <loc><%= @protocol %><%= @host %>/properties/for-sale/<%= property.slug.presence || property.id %>/<%= property.title.to_s.parameterize %></loc>
+    <% spp_url = spp_live_url_for(property, 'sale') %>
+    <loc><%= spp_url.presence || "#{@protocol}#{@host}/properties/for-sale/#{property.slug.presence || property.id}/#{property.title.to_s.parameterize}" %></loc>
     <lastmod><%= property.updated_at.strftime('%Y-%m-%d') %></lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -34,7 +35,8 @@
   <%# Properties for rent %>
   <% @properties_for_rent.each do |property| %>
   <url>
-    <loc><%= @protocol %><%= @host %>/properties/for-rent/<%= property.slug.presence || property.id %>/<%= property.title.to_s.parameterize %></loc>
+    <% spp_url = spp_live_url_for(property, 'rental') %>
+    <loc><%= spp_url.presence || "#{@protocol}#{@host}/properties/for-rent/#{property.slug.presence || property.id}/#{property.title.to_s.parameterize}" %></loc>
     <lastmod><%= property.updated_at.strftime('%Y-%m-%d') %></lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

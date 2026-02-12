@@ -150,13 +150,18 @@ module Pwb
 
     # Set SEO metadata for property pages
     def set_property_seo(property, operation_type)
-      # Build canonical URL using slug if available
-      canonical_path = if property.slug.present?
-                         property.contextual_show_path(operation_type)
-                       else
-                         request.path
-                       end
-      canonical_url = "#{request.protocol}#{request.host_with_port}#{canonical_path}"
+      # Check if this property has an SPP page — if so, defer to SPP as canonical
+      spp_listing_type = operation_type == 'for_rent' ? 'rental' : 'sale'
+      spp_url = spp_live_url_for(property, spp_listing_type)
+
+      # Build canonical URL: prefer SPP URL, fall back to PWB URL
+      canonical_url = if spp_url.present?
+                        spp_url
+                      elsif property.slug.present?
+                        "#{request.protocol}#{request.host_with_port}#{property.contextual_show_path(operation_type)}"
+                      else
+                        "#{request.protocol}#{request.host_with_port}#{request.path}"
+                      end
 
       # Get first image for social sharing
       image_url = property.primary_image_url

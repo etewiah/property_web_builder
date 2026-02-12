@@ -4,6 +4,8 @@
 # Includes properties, pages, and main site URLs
 class SitemapsController < ActionController::Base
   include SubdomainTenant
+  include SeoHelper
+  helper_method :spp_live_url_for
 
   # Tenant is set automatically via SubdomainTenant concern
 

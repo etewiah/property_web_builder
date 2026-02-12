@@ -346,6 +346,16 @@ module SeoHelper
     )
   end
 
+  # Returns the SPP live URL for a property if an active, visible SppListing exists.
+  # Returns nil otherwise, allowing callers to fall back to PWB's URL.
+  # @param property [Pwb::RealtyAsset, Pwb::ListedProperty] the property record
+  # @param listing_type [String, nil] optional "sale" or "rental" filter
+  def spp_live_url_for(property, listing_type = nil)
+    scope = Pwb::SppListing.where(realty_asset_id: property.id, active: true, visible: true)
+    scope = scope.where(listing_type: listing_type) if listing_type
+    scope.first&.live_url
+  end
+
   private
 
   def current_website
