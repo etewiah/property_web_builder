@@ -29,11 +29,12 @@ A property that is both for sale and for rent can have two SPP listings — one 
 
 All listing types:
 - Belong to the same `RealtyAsset`
-- Share the property's physical data (location, bedrooms, photos) via delegation
 - Have independent publication states (`active`, `visible`, `archived`)
 - Have their own translated marketing texts (`title`, `description`)
 - Have their own SEO fields (`seo_title`, `meta_description`)
 - Include `ListingStateable`, `NtfyListingNotifications`, `RefreshesPropertiesView`
+
+SppListing goes further than SaleListing/RentalListing in independence — it controls its own price, curated photo selection and order, and highlighted features, rather than delegating everything from `RealtyAsset`.
 
 For `SppListing`, the uniqueness constraint is scoped by `(realty_asset_id, listing_type)` — only one active SPP listing per property per listing type.
 
@@ -44,21 +45,24 @@ A property for sale and a property for rent serve different audiences with diffe
 | Aspect | SPP Sale Page | SPP Rental Page |
 |--------|--------------|-----------------|
 | Headline | "Your Dream Mediterranean Retreat" | "Luxury Biarritz Summer Rental" |
-| Price featured | Sale price from `SaleListing` | Monthly rent from `RentalListing` |
+| Price featured | Sale price | Monthly rent |
 | Target audience | Buyers, investors | Holidaymakers, relocators |
 | URL | `123-main-st-for-sale.spp.example.com` | `123-main-st-rental.spp.example.com` |
 | SEO | Targets "buy apartment Biarritz" | Targets "rent apartment Biarritz" |
 
 These are genuinely different pages, not just the same page with a different price.
 
-### What SppListing Adds Over Sale/RentalListing
+### What SppListing Controls Independently
 
-SPP listings differ from sale/rental listings in a few ways:
+SaleListing and RentalListing delegate most data (photos, features, location) to `RealtyAsset`. An SppListing is designed to be as self-contained as possible — a purpose-built marketing page that curates its own presentation:
 
-- **`listing_type` field.** Indicates whether this SPP page is for the sale or rental angle of the property. References the corresponding `SaleListing` or `RentalListing` for price data.
-- **No price fields.** The SPP page displays the price from the corresponding sale or rental listing. It doesn't duplicate it.
-- **SPP-specific fields.** Template/theme selection, custom URL slug for the SPP domain, external live URL.
-- **Published URL tracking.** Stores the computed `live_url` so it doesn't need to be recomputed from a template each time.
+- **Own price.** `price_cents` / `price_currency`, set independently. Can be pre-populated from a PWB listing when first created, but the SppListing owns it.
+- **Curated photos.** `photo_ids_ordered` — a JSONB array of `PropPhoto` IDs in the display order the SPP page wants. The property might have 20 photos; the SPP sale page might show 8 in a specific order with a different hero image than the rental page. Photos not in the array aren't shown. An empty/null array falls back to the property's default photo order.
+- **Highlighted features.** `highlighted_features` — a JSONB array of feature keys to spotlight on the SPP page. The property's full feature list lives on `RealtyAsset`, but the SPP page picks which to emphasize (e.g., `["sea_views", "private_pool", "parking"]`).
+- **Listing type.** `listing_type` — `"sale"` or `"rental"`, determining the marketing angle.
+- **Template/theme.** `template` — which SPP template to render (e.g., `"luxury"`, `"modern"`).
+- **URL tracking.** `spp_slug` (URL slug on the SPP domain) and `live_url` (full computed URL when published).
+- **Expansion field.** `extra_data` — a general-purpose JSONB column for future needs without requiring migrations. Examples: custom color schemes, agent override info, video tour URLs, testimonial quotes, or any feature not yet anticipated.
 
 ### Table Schema: `pwb_spp_listings`
 
@@ -76,6 +80,14 @@ create_table "pwb_spp_listings", id: :uuid, default: -> { "gen_random_uuid()" } 
   # Listing type — "sale" or "rental"
   t.string   "listing_type", null: false, default: "sale"
 
+  # Price
+  t.bigint   "price_cents",    default: 0, null: false
+  t.string   "price_currency", default: "EUR", null: false
+
+  # Curated content
+  t.jsonb    "photo_ids_ordered",     default: []     # Ordered array of PropPhoto IDs for this page
+  t.jsonb    "highlighted_features",  default: []     # Feature keys to spotlight (e.g., ["sea_views", "pool"])
+
   # Translations (title, description, seo_title, meta_description)
   t.jsonb    "translations", default: {}, null: false
 
@@ -83,7 +95,8 @@ create_table "pwb_spp_listings", id: :uuid, default: -> { "gen_random_uuid()" } 
   t.string   "spp_slug"        # URL slug on the SPP domain (e.g., "123-main-street")
   t.string   "live_url"        # Computed full URL when published
   t.string   "template"        # SPP template/theme name (e.g., "luxury", "modern")
-  t.jsonb    "spp_settings",   default: {}  # Additional SPP-specific config (colors, layout options)
+  t.jsonb    "spp_settings",   default: {}  # SPP-specific config (colors, layout options, template settings)
+  t.jsonb    "extra_data",     default: {}  # General-purpose expansion field for future needs
   t.datetime "published_at"    # When the listing was last published
 
   t.datetime "created_at", null: false
@@ -121,11 +134,13 @@ module Pwb
     # Same translated fields as SaleListing
     translates :title, :description, :seo_title, :meta_description
 
-    # Delegate shared property attributes from realty_asset
+    # Delegate physical property attributes from realty_asset
     delegate :reference, :website, :website_id,
              :count_bedrooms, :count_bathrooms, :street_address, :city,
-             :prop_photos, :features, :latitude, :longitude, :slug,
+             :latitude, :longitude, :slug,
              to: :realty_asset, allow_nil: true
+
+    monetize :price_cents, with_model_currency: :price_currency
 
     validates :realty_asset_id, presence: true
     validates :listing_type, presence: true, inclusion: { in: LISTING_TYPES }
@@ -133,13 +148,25 @@ module Pwb
     scope :sale, -> { where(listing_type: 'sale') }
     scope :rental, -> { where(listing_type: 'rental') }
 
-    # Get the corresponding PWB listing for price data
-    def pwb_listing
-      case listing_type
-      when 'sale'
-        realty_asset&.sale_listings&.active_listing&.first
-      when 'rental'
-        realty_asset&.rental_listings&.active_listing&.first
+    # Curated photo list — returns PropPhotos in the order specified by this listing.
+    # Falls back to the property's default photo order if no curation is set.
+    def ordered_photos
+      if photo_ids_ordered.present?
+        photos_by_id = realty_asset.prop_photos.index_by(&:id)
+        photo_ids_ordered.filter_map { |id| photos_by_id[id] }
+      else
+        realty_asset.prop_photos
+      end
+    end
+
+    # Curated feature list — returns only the highlighted features for this listing.
+    # Falls back to all property features if no highlights are set.
+    def display_features
+      if highlighted_features.present?
+        all_features = realty_asset.features
+        highlighted_features.filter_map { |key| all_features.find { |f| f['key'] == key } }
+      else
+        realty_asset.features
       end
     end
 
@@ -280,7 +307,7 @@ PWB's sale property page should canonical to the sale SPP listing. PWB's rental 
 
 ### Data Freshness
 
-The [data freshness doc](./data-freshness.md) analysis still applies. Each SppListing has its own texts. Property attributes (photos, location) come from `RealtyAsset`. Price comes from the corresponding `SaleListing` or `RentalListing` via the `pwb_listing` helper.
+The [data freshness doc](./data-freshness.md) analysis still applies. Each SppListing has its own texts, price, curated photos, and highlighted features. Physical property attributes (location, bedrooms) come from `RealtyAsset`. Note that if new photos are added to the property on PWB, they won't automatically appear on an SPP page unless added to its `photo_ids_ordered` array.
 
 ### URL Generation
 
@@ -298,18 +325,21 @@ This produces:
 
 Or without the placeholder, both types share a domain and use path segments — SPP decides its URL structure.
 
-## SPP-Specific Texts vs Property Texts
+## What Each Listing Controls
 
-Each SppListing has its own `title` and `description` per locale, independent of the PWB listings and independent of each other:
+Each SppListing is independent — its own texts, price, photos, and features, all separate from the PWB listings and from each other:
 
-**Example for a property that is both for sale and for rent:**
+**Example for a property with 20 photos and 12 features, both for sale and for rent:**
 
 | Field | SaleListing (PWB) | RentalListing (PWB) | SppListing sale | SppListing rental |
 |-------|-------------------|---------------------|-----------------|-------------------|
 | title | "3-bed apartment in Biarritz" | "3-bed apartment - monthly rental" | "Your Dream Mediterranean Retreat" | "Luxury Biarritz Summer Rental" |
-| description | "Spacious apartment with sea views..." | "Available for long-term rental..." | "Imagine waking up to waves..." | "The perfect summer getaway..." |
+| description | "Spacious apartment..." | "Available for rental..." | "Imagine waking up to waves..." | "The perfect summer getaway..." |
+| price | 450,000 EUR | 2,500 EUR/month | 450,000 EUR | 2,800 EUR/month |
+| photos | All 20 (property order) | All 20 (property order) | 8 photos, pool hero shot first | 6 photos, terrace hero shot first |
+| features | All 12 (property order) | All 12 (property order) | 4 highlighted: sea views, pool, parking, garden | 3 highlighted: terrace, beach access, AC |
 
-The property data (3 bedrooms, 120m², Biarritz, photos) comes from the shared `RealtyAsset`. Prices come from the corresponding PWB listing.
+The property's physical data (3 bedrooms, 120m², Biarritz) comes from the shared `RealtyAsset`. Each SppListing stores its own price, curated photo order, and highlighted features.
 
 ### How SPP Manages These Texts
 
@@ -321,7 +351,17 @@ PUT /api_manage/v1/:locale/spp_listings/:id
   "title": "Your Dream Mediterranean Retreat",
   "description": "Imagine waking up to the sound of waves...",
   "seo_title": "Luxury Biarritz Apartment",
-  "meta_description": "Stunning 3-bed apartment in Biarritz..."
+  "meta_description": "Stunning 3-bed apartment in Biarritz...",
+  "price_cents": 450000_00,
+  "price_currency": "EUR",
+  "photo_ids_ordered": [42, 17, 3, 28, 11],
+  "highlighted_features": ["sea_views", "private_pool", "parking"],
+  "template": "luxury",
+  "extra_data": {
+    "agent_name": "Marie Dupont",
+    "agent_phone": "+33 6 12 34 56 78",
+    "video_tour_url": "https://youtube.com/watch?v=..."
+  }
 }
 ```
 
@@ -341,12 +381,19 @@ class CreatePwbSppListings < ActiveRecord::Migration[8.0]
       t.uuid     :realty_asset_id, null: false
       t.string   :listing_type, null: false, default: "sale"
 
+      t.bigint   :price_cents,    default: 0, null: false
+      t.string   :price_currency, default: "EUR", null: false
+
+      t.jsonb    :photo_ids_ordered,     default: []
+      t.jsonb    :highlighted_features,  default: []
+
       t.jsonb    :translations, default: {}, null: false
 
       t.string   :spp_slug
       t.string   :live_url
       t.string   :template
       t.jsonb    :spp_settings, default: {}
+      t.jsonb    :extra_data, default: {}
       t.datetime :published_at
 
       t.timestamps
