@@ -12,8 +12,13 @@ SinglePropertyPages (SPP) is an Astro.js application that generates standalone m
 
 ## Documents
 
+**Start here if you're building an SPP client:** [Client Integration Guide](./client-integration-guide.md) — complete guide with every endpoint, request/response shapes, TypeScript types, and setup instructions.
+
+### Architecture & Implementation Docs
+
 | Document | What It Covers | Status |
 |----------|---------------|--------|
+| [Client Integration Guide](./client-integration-guide.md) | Complete guide for SPP client developers | Current |
 | [SppListing Model](./spp-listing-model.md) | Data model, migration, model definition, relationship to existing listings | Implemented |
 | [Endpoints](./endpoints.md) | Publish, unpublish, leads, content management API specs + enquiry linking | Implemented |
 | [Authentication](./authentication.md) | API key auth via `X-API-Key` header and `WebsiteIntegration` | Implemented |
