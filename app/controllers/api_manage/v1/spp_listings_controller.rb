@@ -8,10 +8,13 @@ module ApiManage
     #   POST /api_manage/v1/:locale/properties/:id/spp_publish   — Publish an SPP listing
     #   POST /api_manage/v1/:locale/properties/:id/spp_unpublish — Unpublish an SPP listing
     #   GET  /api_manage/v1/:locale/properties/:id/spp_leads     — Retrieve property enquiries
+    #   PUT  /api_manage/v1/:locale/spp_listings/:id             — Update SPP listing content
     #
     class SppListingsController < BaseController
       before_action :require_user!
-      before_action :set_property
+      before_action :set_property, only: %i[publish unpublish leads]
+      before_action :set_spp_listing, only: %i[update]
+      before_action :setup_locale, only: %i[update]
 
       # POST /api_manage/v1/:locale/properties/:id/spp_publish
       def publish
@@ -78,6 +81,24 @@ module ApiManage
         render json: messages.map { |msg| lead_json(msg) }
       end
 
+      # PUT /api_manage/v1/:locale/spp_listings/:id
+      def update
+        if spp_listing_params.key?(:photo_ids_ordered)
+          return unless valid_photo_ids?
+        end
+
+        attrs = spp_listing_params.to_h
+        # Ensure photo IDs are stored as integers in JSONB
+        if attrs.key?('photo_ids_ordered')
+          attrs['photo_ids_ordered'] = attrs['photo_ids_ordered'].map(&:to_s).reject(&:blank?).map(&:to_i)
+        end
+
+        @spp_listing.assign_attributes(attrs)
+        @spp_listing.save!
+
+        render json: spp_listing_json(@spp_listing)
+      end
+
       private
 
       def set_property
@@ -102,6 +123,73 @@ module ApiManage
           message: message.content,
           createdAt: message.created_at.iso8601,
           isNew: !message.read? || message.created_at > 48.hours.ago
+        }
+      end
+
+      def set_spp_listing
+        @spp_listing = Pwb::SppListing
+          .joins(:realty_asset)
+          .where(pwb_realty_assets: { website_id: current_website.id })
+          .find(params[:id])
+      end
+
+      def setup_locale
+        locale = params[:locale] || I18n.default_locale
+        I18n.locale = locale.to_sym
+      end
+
+      def spp_listing_params
+        params.permit(
+          :title, :description, :seo_title, :meta_description,
+          :price_cents, :price_currency,
+          :template,
+          photo_ids_ordered: [],
+          highlighted_features: [],
+          spp_settings: {},
+          extra_data: {}
+        )
+      end
+
+      def valid_photo_ids?
+        ids = spp_listing_params[:photo_ids_ordered]
+        return true if ids.blank?
+
+        # Filter out blanks that can come from empty array serialization
+        int_ids = ids.map(&:to_s).reject(&:blank?).map(&:to_i)
+        return true if int_ids.empty?
+
+        valid_ids = @spp_listing.realty_asset.prop_photos.pluck(:id)
+        invalid = int_ids - valid_ids
+        return true if invalid.empty?
+
+        render json: {
+          success: false,
+          error: 'Invalid photo IDs',
+          message: "Photo IDs #{invalid.join(', ')} do not belong to this property"
+        }, status: :unprocessable_entity
+        false
+      end
+
+      def spp_listing_json(listing)
+        {
+          id: listing.id,
+          listingType: listing.listing_type,
+          title: listing.title,
+          description: listing.description,
+          seoTitle: listing.seo_title,
+          metaDescription: listing.meta_description,
+          priceCents: listing.price_cents,
+          priceCurrency: listing.price_currency,
+          photoIdsOrdered: listing.photo_ids_ordered,
+          highlightedFeatures: listing.highlighted_features,
+          template: listing.template,
+          sppSettings: listing.spp_settings,
+          extraData: listing.extra_data,
+          active: listing.active,
+          visible: listing.visible,
+          liveUrl: listing.live_url,
+          publishedAt: listing.published_at&.iso8601,
+          updatedAt: listing.updated_at.iso8601
         }
       end
     end

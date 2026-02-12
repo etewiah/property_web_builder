@@ -843,6 +843,9 @@ Rails.application.routes.draw do
           end
         end
 
+        # SPP listing content management (standalone resource)
+        resources :spp_listings, only: [:update], controller: 'spp_listings'
+
         # AI-powered social media content generation
         namespace :ai do
           resources :social_posts, only: [:index, :show, :create, :update, :destroy] do
