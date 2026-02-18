@@ -9,6 +9,7 @@
 #  connector_used        :string
 #  extracted_data        :jsonb
 #  extracted_images      :jsonb
+#  extraction_source     :string
 #  import_status         :string           default("pending")
 #  imported_at           :datetime
 #  raw_html              :text
@@ -60,6 +61,7 @@ module Pwb
     IMPORT_STATUSES = %w[pending previewing imported failed].freeze
     SCRAPE_METHODS = %w[auto manual_html].freeze
     CONNECTORS = %w[http playwright].freeze
+    EXTRACTION_SOURCES = %w[external local manual].freeze
 
     # Known property portals with specific parsing requirements
     KNOWN_PORTALS = {

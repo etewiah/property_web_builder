@@ -9,6 +9,7 @@
 #  connector_used        :string
 #  extracted_data        :jsonb
 #  extracted_images      :jsonb
+#  extraction_source     :string
 #  import_status         :string           default("pending")
 #  imported_at           :datetime
 #  raw_html              :text
@@ -50,6 +51,7 @@ FactoryBot.define do
       scrape_method { "auto" }
       connector_used { "http" }
       import_status { "previewing" }
+      extraction_source { "local" }
       raw_html { "<html><head><title>Test Property</title></head><body>Content</body></html>" }
       extracted_data do
         {
@@ -78,7 +80,37 @@ FactoryBot.define do
       scrape_method { "manual_html" }
       connector_used { nil }
       import_status { "previewing" }
+      extraction_source { "manual" }
       raw_html { "<html><head><title>Test Property</title></head><body>Content</body></html>" }
+    end
+
+    trait :with_external_scrape do
+      scrape_successful { true }
+      scrape_method { "auto" }
+      connector_used { "http" }
+      import_status { "previewing" }
+      extraction_source { "external" }
+      raw_html { "<html><head><title>Test Property</title></head><body>Content</body></html>" }
+      extracted_data do
+        {
+          "asset_data" => {
+            "count_bedrooms" => 3,
+            "count_bathrooms" => 2,
+            "city" => "London",
+            "postal_code" => "SW1A 1AA",
+            "country" => "UK",
+            "prop_type_key" => "apartment",
+            "constructed_area" => 120
+          },
+          "listing_data" => {
+            "title" => "Beautiful 3 Bedroom Apartment",
+            "description" => "A stunning property in the heart of London.",
+            "price_sale_current" => 450_000,
+            "currency" => "GBP"
+          }
+        }
+      end
+      extracted_images { ["https://example.com/image1.jpg", "https://example.com/image2.jpg"] }
     end
 
     trait :with_failed_scrape do

@@ -42,11 +42,10 @@ module Pwb
           scrape_error_message: nil
         )
 
-        # Parse and extract data using appropriate pasarela
-        pasarela = select_pasarela
-        pasarela.call
+        # Extract data: try external PWS first, fall back to local pasarela
+        extract_data
 
-        # Reload to get the extracted_data saved by pasarela
+        # Reload to get the extracted_data saved by extraction
         scraped_property.reload
         scraped_property.update!(import_status: "previewing")
       else
@@ -75,17 +74,51 @@ module Pwb
         scrape_error_message: nil
       )
 
-      # Parse and extract data
-      pasarela = select_pasarela
-      pasarela.call
+      # Manual HTML always uses local pasarela (skip PWS)
+      extract_with_local_pasarela
 
       # Reload to get the extracted_data saved by pasarela
       scraped_property.reload
-      scraped_property.update!(import_status: "previewing")
+      scraped_property.update!(import_status: "previewing", extraction_source: "manual")
       scraped_property
     end
 
     private
+
+    # Try external PWS extraction first, fall back to local pasarela
+    def extract_data
+      if ExternalScraperClient.enabled?
+        begin
+          result = ExternalScraperClient.new(
+            url: scraped_property.source_url,
+            html: scraped_property.raw_html
+          ).call
+
+          scraped_property.update!(
+            extracted_data: result.extracted_data,
+            extracted_images: result.extracted_images,
+            extraction_source: "external"
+          )
+          return
+        rescue ExternalScraperClient::UnsupportedPortalError => e
+          Rails.logger.info "[PWS] Unsupported portal, falling back to local: #{e.message}"
+        rescue ExternalScraperClient::ConnectionError => e
+          Rails.logger.warn "[PWS] Connection error, falling back to local: #{e.message}"
+        rescue ExternalScraperClient::Error => e
+          Rails.logger.warn "[PWS] Extraction error, falling back to local: #{e.message}"
+        end
+      end
+
+      extract_with_local_pasarela
+    end
+
+    # Parse with local pasarela and set extraction_source
+    def extract_with_local_pasarela
+      pasarela = select_pasarela
+      pasarela.call
+      scraped_property.reload
+      scraped_property.update!(extraction_source: "local") unless scraped_property.extraction_source.present?
+    end
 
     def normalize_url(url_string)
       uri = URI.parse(url_string.strip)

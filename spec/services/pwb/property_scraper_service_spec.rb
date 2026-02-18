@@ -154,6 +154,142 @@ module Pwb
         end
       end
 
+      context "when external scraper is enabled and succeeds" do
+        let(:html_content) { "<html><body>Test</body></html>" }
+        let(:pws_result) do
+          ExternalScraperClient::Result.new(
+            success: true,
+            extracted_data: {
+              "asset_data" => { "count_bedrooms" => 4, "city" => "Manchester" },
+              "listing_data" => { "title" => "PWS Extracted Property", "price_sale_current" => 350_000 }
+            },
+            extracted_images: ["https://pws.example.com/img1.jpg"],
+            portal: "uk_rightmove",
+            extraction_rate: 0.9
+          )
+        end
+
+        before do
+          connector_double = instance_double(ScraperConnectors::Http)
+          allow(ScraperConnectors::Http).to receive(:new).and_return(connector_double)
+          allow(connector_double).to receive(:fetch).and_return({
+                                                                  success: true,
+                                                                  html: html_content,
+                                                                  final_url: url
+                                                                })
+          allow(ExternalScraperClient).to receive(:enabled?).and_return(true)
+
+          client_double = instance_double(ExternalScraperClient)
+          allow(ExternalScraperClient).to receive(:new).and_return(client_double)
+          allow(client_double).to receive(:call).and_return(pws_result)
+        end
+
+        it "sets extraction_source to external" do
+          service = described_class.new(url, website: website)
+          result = service.call
+          expect(result.extraction_source).to eq("external")
+        end
+
+        it "uses extracted_data from PWS" do
+          service = described_class.new(url, website: website)
+          result = service.call
+          expect(result.extracted_data["asset_data"]["city"]).to eq("Manchester")
+        end
+
+        it "uses extracted_images from PWS" do
+          service = described_class.new(url, website: website)
+          result = service.call
+          expect(result.extracted_images).to eq(["https://pws.example.com/img1.jpg"])
+        end
+      end
+
+      context "when external scraper is enabled but returns UnsupportedPortalError" do
+        let(:html_content) { "<html><body>Test</body></html>" }
+
+        before do
+          connector_double = instance_double(ScraperConnectors::Http)
+          allow(ScraperConnectors::Http).to receive(:new).and_return(connector_double)
+          allow(connector_double).to receive(:fetch).and_return({
+                                                                  success: true,
+                                                                  html: html_content,
+                                                                  final_url: url
+                                                                })
+          allow(ExternalScraperClient).to receive(:enabled?).and_return(true)
+
+          client_double = instance_double(ExternalScraperClient)
+          allow(ExternalScraperClient).to receive(:new).and_return(client_double)
+          allow(client_double).to receive(:call).and_raise(
+            ExternalScraperClient::UnsupportedPortalError, "Host not supported"
+          )
+        end
+
+        it "falls back to local pasarela" do
+          service = described_class.new(url, website: website)
+          result = service.call
+          expect(result.extraction_source).to eq("local")
+        end
+
+        it "still extracts data via pasarela" do
+          service = described_class.new(url, website: website)
+          result = service.call
+          expect(result.extracted_data).to be_present
+        end
+      end
+
+      context "when external scraper is enabled but has a connection error" do
+        let(:html_content) { "<html><body>Test</body></html>" }
+
+        before do
+          connector_double = instance_double(ScraperConnectors::Http)
+          allow(ScraperConnectors::Http).to receive(:new).and_return(connector_double)
+          allow(connector_double).to receive(:fetch).and_return({
+                                                                  success: true,
+                                                                  html: html_content,
+                                                                  final_url: url
+                                                                })
+          allow(ExternalScraperClient).to receive(:enabled?).and_return(true)
+
+          client_double = instance_double(ExternalScraperClient)
+          allow(ExternalScraperClient).to receive(:new).and_return(client_double)
+          allow(client_double).to receive(:call).and_raise(
+            ExternalScraperClient::ConnectionError, "Connection refused"
+          )
+        end
+
+        it "falls back to local pasarela" do
+          service = described_class.new(url, website: website)
+          result = service.call
+          expect(result.extraction_source).to eq("local")
+        end
+      end
+
+      context "when external scraper is disabled" do
+        let(:html_content) { "<html><body>Test</body></html>" }
+
+        before do
+          connector_double = instance_double(ScraperConnectors::Http)
+          allow(ScraperConnectors::Http).to receive(:new).and_return(connector_double)
+          allow(connector_double).to receive(:fetch).and_return({
+                                                                  success: true,
+                                                                  html: html_content,
+                                                                  final_url: url
+                                                                })
+          allow(ExternalScraperClient).to receive(:enabled?).and_return(false)
+        end
+
+        it "sets extraction_source to local" do
+          service = described_class.new(url, website: website)
+          result = service.call
+          expect(result.extraction_source).to eq("local")
+        end
+
+        it "does not call ExternalScraperClient" do
+          expect(ExternalScraperClient).not_to receive(:new)
+          service = described_class.new(url, website: website)
+          service.call
+        end
+      end
+
       context "with different portal URLs" do
         before do
           connector_double = instance_double(ScraperConnectors::Http)
@@ -240,6 +376,19 @@ module Pwb
         service = described_class.new(url, website: website)
         result = service.import_from_manual_html(manual_html)
         expect(result.extracted_data).to be_present
+      end
+
+      it "sets extraction_source to manual" do
+        service = described_class.new(url, website: website)
+        result = service.import_from_manual_html(manual_html)
+        expect(result.extraction_source).to eq("manual")
+      end
+
+      it "does not call ExternalScraperClient even when enabled" do
+        allow(ExternalScraperClient).to receive(:enabled?).and_return(true)
+        expect(ExternalScraperClient).not_to receive(:new)
+        service = described_class.new(url, website: website)
+        service.import_from_manual_html(manual_html)
       end
 
       context "when scraped property already exists for URL" do
