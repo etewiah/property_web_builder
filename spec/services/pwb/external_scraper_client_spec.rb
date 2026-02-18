@@ -10,6 +10,7 @@ module Pwb
     let(:html) { "<html><body>Property content</body></html>" }
 
     before do
+      described_class.reset_config!
       allow(ENV).to receive(:[]).and_call_original
       allow(ENV).to receive(:[]).with("PWS_API_URL").and_return(pws_url)
       allow(ENV).to receive(:[]).with("PWS_API_KEY").and_return(pws_api_key)
@@ -17,23 +18,71 @@ module Pwb
       allow(ENV).to receive(:[]).with("PWS_ENABLED").and_return(nil)
     end
 
+    after do
+      described_class.reset_config!
+    end
+
+    describe ".config" do
+      it "reads from ENV vars" do
+        config = described_class.config
+        expect(config[:api_url]).to eq(pws_url)
+        expect(config[:api_key]).to eq(pws_api_key)
+      end
+
+      it "prefers Rails credentials over ENV" do
+        allow(Rails.application.credentials).to receive(:pws).and_return({
+          api_url: "https://creds-pws.example.com",
+          api_key: "creds-key-456"
+        })
+        described_class.reset_config!
+
+        config = described_class.config
+        expect(config[:api_url]).to eq("https://creds-pws.example.com")
+        expect(config[:api_key]).to eq("creds-key-456")
+      end
+
+      it "falls back to ENV when credentials are not set" do
+        allow(Rails.application.credentials).to receive(:pws).and_return(nil)
+        described_class.reset_config!
+
+        config = described_class.config
+        expect(config[:api_url]).to eq(pws_url)
+        expect(config[:api_key]).to eq(pws_api_key)
+      end
+
+      it "falls back to ENV for individual missing credential keys" do
+        allow(Rails.application.credentials).to receive(:pws).and_return({
+          api_url: "https://creds-pws.example.com"
+          # api_key intentionally omitted
+        })
+        described_class.reset_config!
+
+        config = described_class.config
+        expect(config[:api_url]).to eq("https://creds-pws.example.com")
+        expect(config[:api_key]).to eq(pws_api_key)
+      end
+    end
+
     describe ".enabled?" do
-      it "returns true when PWS_API_URL is set" do
+      it "returns true when api_url is set" do
         expect(described_class.enabled?).to be true
       end
 
-      it "returns false when PWS_API_URL is not set" do
+      it "returns false when api_url is not set" do
         allow(ENV).to receive(:[]).with("PWS_API_URL").and_return(nil)
+        described_class.reset_config!
         expect(described_class.enabled?).to be false
       end
 
-      it "returns false when PWS_ENABLED is 'false'" do
+      it "returns false when enabled is 'false'" do
         allow(ENV).to receive(:[]).with("PWS_ENABLED").and_return("false")
+        described_class.reset_config!
         expect(described_class.enabled?).to be false
       end
 
-      it "returns true when PWS_ENABLED is 'true'" do
+      it "returns true when enabled is 'true'" do
         allow(ENV).to receive(:[]).with("PWS_ENABLED").and_return("true")
+        described_class.reset_config!
         expect(described_class.enabled?).to be true
       end
     end
@@ -62,6 +111,7 @@ module Pwb
 
       it "returns false when PWS is not enabled" do
         allow(ENV).to receive(:[]).with("PWS_API_URL").and_return(nil)
+        described_class.reset_config!
         expect(described_class.healthy?).to be false
       end
     end
@@ -87,6 +137,7 @@ module Pwb
 
       it "returns empty array when PWS is not enabled" do
         allow(ENV).to receive(:[]).with("PWS_API_URL").and_return(nil)
+        described_class.reset_config!
         expect(described_class.supported_portals).to eq([])
       end
     end

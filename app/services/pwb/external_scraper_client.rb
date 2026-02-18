@@ -50,9 +50,10 @@ module Pwb
       raise ConnectionError, "PWS connection failed: #{e.message}"
     end
 
-    # Check if the external scraper is enabled via ENV
+    # Check if the external scraper is enabled
+    # Reads from Rails credentials first, falls back to ENV
     def self.enabled?
-      ENV["PWS_API_URL"].present? && ENV["PWS_ENABLED"] != "false"
+      config[:api_url].present? && config[:enabled] != "false"
     end
 
     # Check if the PWS service is healthy
@@ -72,7 +73,7 @@ module Pwb
       return [] unless enabled?
 
       response = build_connection.get("/public_api/v1/supported_sites") do |req|
-        req.headers["X-Api-Key"] = ENV["PWS_API_KEY"]
+        req.headers["X-Api-Key"] = config[:api_key]
       end
 
       body = response.body
@@ -113,11 +114,40 @@ module Pwb
     end
 
     def api_key
-      ENV["PWS_API_KEY"]
+      self.class.config[:api_key]
+    end
+
+    # Loads configuration from Rails credentials, falling back to ENV vars.
+    # Rails credentials take precedence when present.
+    #
+    # config/credentials.yml.enc:
+    #   pws:
+    #     api_url: https://scraper.yourdomain.com
+    #     api_key: your-secure-api-key
+    #     timeout: 15
+    #     enabled: "true"
+    #
+    # Or via ENV:
+    #   PWS_API_URL, PWS_API_KEY, PWS_TIMEOUT, PWS_ENABLED
+    def self.config
+      @config ||= begin
+        creds = Rails.application.credentials.pws || {}
+        {
+          api_url: creds[:api_url] || ENV["PWS_API_URL"],
+          api_key: creds[:api_key] || ENV["PWS_API_KEY"],
+          timeout: creds[:timeout] || ENV["PWS_TIMEOUT"],
+          enabled: creds[:enabled] || ENV["PWS_ENABLED"]
+        }
+      end
+    end
+
+    # Reset cached config (useful for testing)
+    def self.reset_config!
+      @config = nil
     end
 
     def self.build_connection
-      Faraday.new(url: ENV["PWS_API_URL"]) do |f|
+      Faraday.new(url: config[:api_url]) do |f|
         f.request :json
         f.response :json
         f.adapter Faraday.default_adapter
@@ -127,7 +157,7 @@ module Pwb
     end
 
     def self.timeout_seconds
-      (ENV["PWS_TIMEOUT"] || DEFAULT_TIMEOUT).to_i
+      (config[:timeout] || DEFAULT_TIMEOUT).to_i
     end
   end
 end
