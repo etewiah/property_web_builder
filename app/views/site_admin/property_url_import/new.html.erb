@@ -41,6 +41,14 @@
       The system will attempt to extract property data from any website. Best results are achieved with these popular property portals:
     </p>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+      <% if @pws_enabled && @supported_portals.present? %>
+        <% @supported_portals.each do |portal| %>
+          <div class="bg-white rounded px-3 py-2 text-center text-gray-700">
+            <%= portal.to_s.titleize %>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 ml-1">Enhanced extraction</span>
+          </div>
+        <% end %>
+      <% end %>
       <div class="bg-white rounded px-3 py-2 text-center text-gray-700">Rightmove</div>
       <div class="bg-white rounded px-3 py-2 text-center text-gray-700">Zoopla</div>
       <div class="bg-white rounded px-3 py-2 text-center text-gray-700">Idealista</div>

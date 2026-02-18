@@ -181,6 +181,21 @@
               <dd class="text-gray-900"><%= @scraped_property.scrape_method == "auto" ? "Automatic" : "Manual HTML" %></dd>
             </div>
             <div class="flex justify-between">
+              <dt class="text-gray-500">Extraction:</dt>
+              <dd>
+                <% case @scraped_property.extraction_source %>
+                <% when "external" %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">PropertyWebScraper</span>
+                <% when "local" %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">Local parser</span>
+                <% when "manual" %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Manual HTML</span>
+                <% else %>
+                  <span class="text-gray-900">&mdash;</span>
+                <% end %>
+              </dd>
+            </div>
+            <div class="flex justify-between">
               <dt class="text-gray-500">Scraped:</dt>
               <dd class="text-gray-900"><%= time_ago_in_words(@scraped_property.created_at) %> ago</dd>
             </div>

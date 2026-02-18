@@ -11,6 +11,8 @@ module SiteAdmin
     # Show the URL input form
     def new
       @scraped_property = nil
+      @pws_enabled = Pwb::ExternalScraperClient.enabled?
+      @supported_portals = Pwb::ExternalScraperClient.supported_portals if @pws_enabled
     end
 
     # POST /site_admin/property_url_import
@@ -130,6 +132,9 @@ module SiteAdmin
     # Show batch import form (CSV or URL list)
     def batch
       @batch_result = nil
+      if Pwb::ExternalScraperClient.enabled?
+        @pws_status = Pwb::ExternalScraperClient.healthy? ? :healthy : :unhealthy
+      end
     end
 
     # POST /site_admin/property_url_import/batch_process
