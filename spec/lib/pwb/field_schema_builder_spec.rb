@@ -331,7 +331,7 @@ RSpec.describe Pwb::FieldSchemaBuilder do
         result = described_class.build_field_definition(:background_image, {})
 
         expect(result[:type]).to eq("image")
-        expect(result[:component]).to eq("ImagePicker")
+        expect(result[:component]).to eq("ImageInlinePicker")
       end
     end
 
