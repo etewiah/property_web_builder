@@ -90,13 +90,13 @@
                 <span class="w-8 h-8 flex items-center justify-center bg-warm-gray-100 rounded-full mr-2">
                   <%= icon(:bed, size: :sm, class: "text-terra-500", aria_hidden: true) %>
                 </span>
-                <span><%= format_bedroom_count(property.count_bedrooms) %> <%= t('pwb.properties.beds', default: 'Beds') %></span>
+                <span><%= format_bedroom_count(property.count_bedrooms) %> <%= property.count_bedrooms == 1 ? t('pwb.properties.bed', default: 'Bed') : t('pwb.properties.beds', default: 'Beds') %></span>
               </li>
               <li class="flex items-center text-warm-gray-600" aria-label="<%= t('pwb.accessibility.bathrooms_count', count: property.count_bathrooms, default: '%{count} bathrooms') %>">
                 <span class="w-8 h-8 flex items-center justify-center bg-warm-gray-100 rounded-full mr-2">
                   <%= icon(:shower, size: :sm, class: "text-terra-500", aria_hidden: true) %>
                 </span>
-                <span><%= format_bathroom_count(property.count_bathrooms) %> <%= t('pwb.properties.baths', default: 'Baths') %></span>
+                <span><%= format_bathroom_count(property.count_bathrooms) %> <%= property.count_bathrooms == 1 ? t('pwb.properties.bath', default: 'Bath') : t('pwb.properties.baths', default: 'Baths') %></span>
               </li>
               <li class="flex items-center text-warm-gray-600" aria-label="<%= t('pwb.accessibility.area_size', area: property.constructed_area, unit: area_unit(property), default: '%{area} %{unit}') %>">
                 <span class="w-8 h-8 flex items-center justify-center bg-warm-gray-100 rounded-full mr-2">

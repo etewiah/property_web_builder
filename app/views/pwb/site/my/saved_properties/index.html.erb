@@ -72,10 +72,10 @@
 
           <div class="flex items-center gap-3 text-sm text-gray-500 mt-2">
             <% if saved.bedrooms.present? %>
-              <span><%= saved.bedrooms %> beds</span>
+              <span><%= saved.bedrooms %> <%= saved.bedrooms == 1 ? 'bed' : 'beds' %></span>
             <% end %>
             <% if saved.bathrooms.present? %>
-              <span><%= saved.bathrooms %> baths</span>
+              <span><%= saved.bathrooms %> <%= saved.bathrooms == 1 ? 'bath' : 'baths' %></span>
             <% end %>
           </div>
 
