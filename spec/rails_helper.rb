@@ -90,4 +90,11 @@ RSpec.configure do |config|
   config.include ControllerHelpers, type: :controller
   # https://github.com/plataformatec/devise/wiki/How-To:-sign-in-and-out-a-user-in-Request-type-specs-(specs-tagged-with-type:-:request)
   config.include RequestSpecHelpers, type: :request
+
+  # Reset I18n locale between tests to prevent locale leaking.
+  # Controllers set I18n.locale based on URL params (e.g., /api_manage/v1/es/...)
+  # and without this reset, subsequent tests may see non-English error messages.
+  config.around(:each) do |example|
+    I18n.with_locale(I18n.default_locale) { example.run }
+  end
 end
