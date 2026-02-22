@@ -4,40 +4,36 @@ require 'rails_helper'
 
 module Pwb
   RSpec.describe EditorController, type: :controller do
-    # routes { Pwb::Engine.routes }
-
-    let(:admin_user) { FactoryBot.create(:pwb_user, :admin) }
-    let(:regular_user) { FactoryBot.create(:pwb_user) }
     let!(:website) { FactoryBot.create(:pwb_website) }
+    let(:admin_user) { FactoryBot.create(:pwb_user, :admin, website: website) }
+    let(:regular_user) { FactoryBot.create(:pwb_user, website: website) }
 
     before do
       @request.env["devise.mapping"] = ::Devise.mappings[:user]
     end
 
     describe "GET #show" do
-      # NOTE: Authentication is currently disabled for easier testing
-      # These tests are skipped until authentication is re-enabled
       context "when user is not logged in" do
-        it "allows access (auth temporarily disabled)" do
+        it "redirects to root" do
           get :show
-          expect(response).to have_http_status(:success)
+          expect(response).to redirect_to(root_path)
         end
       end
 
       context "when user is logged in but not admin" do
         before do
-          allow(controller).to receive(:current_user).and_return(regular_user)
+          sign_in regular_user, scope: :user
         end
 
-        it "allows access (auth temporarily disabled)" do
+        it "redirects to root" do
           get :show
-          expect(response).to have_http_status(:success)
+          expect(response).to redirect_to(root_path)
         end
       end
 
       context "when user is admin" do
         before do
-          allow(controller).to receive(:current_user).and_return(admin_user)
+          sign_in admin_user, scope: :user
         end
 
         it "renders the show template" do

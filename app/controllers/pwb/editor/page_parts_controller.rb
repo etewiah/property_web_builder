@@ -7,8 +7,7 @@ module Pwb
     skip_before_action :footer_content
     # Skip CSRF for API calls (forms include their own token)
     skip_before_action :verify_authenticity_token, only: [:update]
-    # TODO: Re-enable authentication before production
-    # before_action :authenticate_admin_user!
+    before_action :authenticate_admin_user!
     before_action :set_page_part, only: [:show, :update]
     
     # Handle record not found gracefully
