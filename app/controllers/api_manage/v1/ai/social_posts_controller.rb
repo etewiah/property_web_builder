@@ -147,6 +147,7 @@ module ApiManage
           new_post.platform = params[:target_platform] || @post.platform
           new_post.status = 'draft'
           new_post.ai_generation_request = nil
+          new_post.postable = @post.postable
           new_post.save!
 
           render json: {

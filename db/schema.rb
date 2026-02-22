@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_18_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_22_113311) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -1104,7 +1104,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_000000) do
     t.string "link_url"
     t.string "platform", null: false
     t.string "post_type", null: false
-    t.bigint "postable_id"
+    t.string "postable_id"
     t.string "postable_type"
     t.integer "reach_count", default: 0
     t.datetime "scheduled_at"

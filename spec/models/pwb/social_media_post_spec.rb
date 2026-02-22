@@ -23,7 +23,7 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  ai_generation_request_id :bigint
-#  postable_id              :bigint
+#  postable_id              :string
 #  website_id               :bigint           not null
 #
 # Indexes
@@ -232,6 +232,25 @@ RSpec.describe Pwb::SocialMediaPost, type: :model do
     it 'returns correct boolean for published?' do
       post = build(:pwb_social_media_post, status: 'published')
       expect(post.published?).to be true
+    end
+  end
+
+  describe 'polymorphic postable association with UUID models' do
+    it 'stores and retrieves UUID postable_id correctly' do
+      post = create(:pwb_social_media_post, website: website, postable: property)
+      reloaded = Pwb::SocialMediaPost.find(post.id)
+
+      expect(reloaded.postable_id).to eq(property.id)
+      expect(reloaded.postable).to eq(property)
+    end
+
+    it 'dup preserves postable association' do
+      post = create(:pwb_social_media_post, website: website, postable: property)
+      duped = post.dup
+      duped.save!
+
+      expect(duped.postable_id).to eq(property.id)
+      expect(duped.postable).to eq(property)
     end
   end
 end

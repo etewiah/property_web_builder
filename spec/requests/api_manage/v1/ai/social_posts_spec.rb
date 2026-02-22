@@ -180,7 +180,7 @@ RSpec.describe 'ApiManage::V1::Ai::SocialPosts', type: :request do
   describe 'POST /api_manage/v1/:locale/ai/social_posts/:id/duplicate' do
     let!(:social_post) { create(:pwb_social_media_post, :instagram, website: website, postable: property) }
 
-    it 'duplicates the post' do
+    it 'duplicates the post for a different platform' do
       expect {
         post "/api_manage/v1/en/ai/social_posts/#{social_post.id}/duplicate", params: {
           target_platform: 'facebook'
@@ -191,7 +191,7 @@ RSpec.describe 'ApiManage::V1::Ai::SocialPosts', type: :request do
       json = JSON.parse(response.body)
       expect(json['success']).to be true
       expect(json['post']['platform']).to eq('facebook')
-      expect(json['post']['caption']).to eq(social_post.caption)
+      expect(json['post']['status']).to eq('draft')
     end
   end
 

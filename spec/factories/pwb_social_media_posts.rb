@@ -23,7 +23,7 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  ai_generation_request_id :bigint
-#  postable_id              :bigint
+#  postable_id              :string
 #  website_id               :bigint           not null
 #
 # Indexes
