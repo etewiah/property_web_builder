@@ -913,8 +913,8 @@ Rails.application.routes.draw do
         # Returns full page data including OG tags, JSON-LD, translations, etc.
         get "/localized_page/by_slug/:page_slug" => "localized_pages#show"
 
-        # Liquid page moved to api_manage namespace (requires authentication)
-        # get "/liquid_page/by_slug/:page_slug" => "liquid_pages#show"
+        # Liquid page - also available publicly for Astro client page rendering
+        get "/liquid_page/by_slug/:page_slug" => "liquid_pages#show"
 
         # Translations
         get "/translations" => "translations#index"
