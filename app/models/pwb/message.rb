@@ -55,6 +55,12 @@ module Pwb
     scope :read, -> { where(read: true) }
     scope :recent, -> { order(created_at: :desc) }
 
+    # Maintain cached unread count on contact after_commit to avoid
+    # double-counting under transaction rollback.
+    after_commit :increment_contact_unread_count, on: :create
+    after_commit :sync_contact_unread_count_on_update, on: :update
+    after_commit :decrement_contact_unread_count, on: :destroy
+
     # Get sender email - prefer contact email, fall back to origin_email
     def sender_email
       contact&.primary_email || origin_email
@@ -63,6 +69,26 @@ module Pwb
     # Get sender name - from contact or extract from email
     def sender_name
       contact&.display_name || origin_email&.split('@')&.first || 'Unknown'
+    end
+
+    private
+
+    def increment_contact_unread_count
+      contact&.increment!(:unread_messages_count) unless read?
+    end
+
+    def sync_contact_unread_count_on_update
+      return unless contact && saved_change_to_read?
+
+      if read?
+        contact.decrement!(:unread_messages_count)
+      else
+        contact.increment!(:unread_messages_count)
+      end
+    end
+
+    def decrement_contact_unread_count
+      contact&.decrement!(:unread_messages_count) unless read?
     end
   end
 end

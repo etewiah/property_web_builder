@@ -76,15 +76,17 @@ module ApiManage
         nil
       end
 
-      # Authenticate via X-API-Key header
+      # Authenticate via X-API-Key header.
+      #
+      # Credentials are encrypted at rest so SQL-level lookup is not possible.
+      # We cache the integration_id keyed on a SHA-256 digest of the API key
+      # (never storing the key itself in cache) to avoid loading and decrypting
+      # all integrations on every request.
       def authenticate_from_api_key
         api_key = request.headers['X-API-Key']
         return nil if api_key.blank?
 
-        # Find integration with matching API key (stored in encrypted credentials)
-        integration = current_website&.integrations&.enabled&.find do |i|
-          i.credential('api_key') == api_key
-        end
+        integration = find_integration_by_api_key(api_key)
         return nil unless integration
 
         integration.record_usage!
@@ -93,6 +95,24 @@ module ApiManage
         current_website.users.joins(:user_memberships)
                        .where(pwb_user_memberships: { role: %w[owner admin], active: true })
                        .first
+      end
+
+      # Look up integration by API key using a short-lived cache.
+      # Cache key uses a SHA-256 digest so the raw key is never persisted.
+      def find_integration_by_api_key(api_key)
+        return nil unless current_website
+
+        key_digest = Digest::SHA256.hexdigest(api_key)
+        cache_key = "api_key_lookup/#{current_website.id}/#{key_digest}"
+
+        integration_id = Rails.cache.fetch(cache_key, expires_in: 5.minutes) do
+          match = current_website.integrations.enabled.find { |i| i.credential('api_key') == api_key }
+          match&.id || :none
+        end
+
+        return nil if integration_id == :none
+
+        current_website.integrations.find_by(id: integration_id)
       end
 
       # Authenticate via X-User-Email header (development/testing only)
