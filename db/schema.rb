@@ -279,6 +279,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_22_113311) do
     t.string "skype_id"
     t.integer "title", default: 0
     t.string "twitter_id"
+    t.integer "unread_messages_count", default: 0, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "user_id"
     t.bigint "website_id"
@@ -1104,7 +1105,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_22_113311) do
     t.string "link_url"
     t.string "platform", null: false
     t.string "post_type", null: false
-    t.string "postable_id"
+    t.uuid "postable_id"
     t.string "postable_type"
     t.integer "reach_count", default: 0
     t.datetime "scheduled_at"
@@ -1114,7 +1115,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_22_113311) do
     t.datetime "updated_at", null: false
     t.bigint "website_id", null: false
     t.index ["ai_generation_request_id"], name: "index_pwb_social_media_posts_on_ai_generation_request_id"
-    t.index ["postable_type", "postable_id"], name: "index_pwb_social_media_posts_on_postable"
     t.index ["postable_type", "postable_id"], name: "index_pwb_social_media_posts_on_postable_type_and_postable_id"
     t.index ["scheduled_at"], name: "index_pwb_social_media_posts_on_scheduled_at"
     t.index ["status"], name: "index_pwb_social_media_posts_on_status"
@@ -1494,7 +1494,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_22_113311) do
     t.index ["site_type"], name: "index_pwb_websites_on_site_type"
     t.index ["slug"], name: "index_pwb_websites_on_slug"
     t.index ["subdomain"], name: "index_pwb_websites_on_subdomain", unique: true
-    t.check_constraint "rendering_mode::text = ANY (ARRAY['rails'::character varying::text, 'client'::character varying::text])", name: "rendering_mode_valid"
+    t.check_constraint "rendering_mode::text = ANY (ARRAY['rails'::character varying, 'client'::character varying]::text[])", name: "rendering_mode_valid"
   end
 
   create_table "pwb_widget_configs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
