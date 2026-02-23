@@ -69,6 +69,25 @@ class Rack::Attack
     end
   end
 
+  # Throttle website creation (setup) by IP
+  # Limit: 3 new websites per hour per IP
+  # Prevents subdomain namespace exhaustion and spam tenant creation
+  throttle('setup/ip', limit: 3, period: 1.hour) do |req|
+    if req.path == '/setup' && req.post?
+      req.ip
+    end
+  end
+
+  # Throttle website creation by email address
+  # Limit: 5 attempts per day per email
+  # Prevents a single email from creating many tenants
+  throttle('setup/email', limit: 5, period: 1.day) do |req|
+    if req.path == '/setup' && req.post?
+      req.params.dig('website', 'owner_email')&.to_s&.downcase&.gsub(/\s+/, '') ||
+        req.params.dig('user', 'email')&.to_s&.downcase&.gsub(/\s+/, '')
+    end
+  end
+
   # Throttle unlock account requests
   # Limit: 3 requests per 60 seconds per IP
   throttle('unlock/ip', limit: 3, period: 60.seconds) do |req|
