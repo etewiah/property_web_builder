@@ -23,13 +23,12 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  ai_generation_request_id :bigint
-#  postable_id              :string
+#  postable_id              :uuid
 #  website_id               :bigint           not null
 #
 # Indexes
 #
 #  index_pwb_social_media_posts_on_ai_generation_request_id       (ai_generation_request_id)
-#  index_pwb_social_media_posts_on_postable                       (postable_type,postable_id)
 #  index_pwb_social_media_posts_on_postable_type_and_postable_id  (postable_type,postable_id)
 #  index_pwb_social_media_posts_on_scheduled_at                   (scheduled_at)
 #  index_pwb_social_media_posts_on_status                         (status)
