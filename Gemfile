@@ -25,7 +25,6 @@ ruby "~> 3.4.0"
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 group :development, :test do
-  gem "selenium-webdriver"
   gem "vcr"
   gem "webmock"
   # gem 'jasmine-rails',        github: 'searls/jasmine-rails'
@@ -61,8 +60,6 @@ group :development, :test do
   # , '~> 1.3'
   gem "rails-controller-testing"
   gem "factory_bot_rails"
-  gem "poltergeist"
-  # , '~> 1.10'
   # gem 'rspec-activemodel-mocks', '~> 1.0'
   gem "rspec-rails"
   gem "shoulda-matchers"
@@ -73,7 +70,6 @@ group :development, :test do
   gem "rails-perftest"
   gem "ruby-prof"
 
-  gem "apparition"
   gem "rswag-specs"
 end
 

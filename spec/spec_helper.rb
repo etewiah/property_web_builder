@@ -15,7 +15,6 @@ require File.expand_path("../../config/environment", __FILE__)
 require "rspec/rails"
 # require 'rspec/autorun'
 require "factory_bot_rails"
-require "capybara/poltergeist"
 # require 'capybara/rails'
 require "pwb/seeder"
 # http://www.thegreatcodeadventure.com/stubbing-with-vcr/
@@ -52,13 +51,6 @@ WebMock.disable_net_connect!(allow_localhost: true)
 # end
 # Capybara.javascript_driver = :poltergeist
 # # Capybara.ignore_hidden_elements = false
-
-require "capybara/apparition"
-
-Capybara.register_driver :apparition do |app|
-  options = {}
-  Capybara::Apparition::Driver.new(app, options)
-end
 
 # http://stackoverflow.com/questions/24078768/argumenterror-factory-not-registered
 # as per above, need to explicitly set below
