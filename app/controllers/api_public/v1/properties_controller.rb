@@ -118,14 +118,16 @@ module ApiPublic
         return scope if sort_param.blank?
 
         case sort_param
-        when 'price-asc', 'price_asc'
+        when 'price-asc', 'price_asc', 'price_low_high'
           scope.order(price_sale_current_cents: :asc, price_rental_monthly_current_cents: :asc)
-        when 'price-desc', 'price_desc'
+        when 'price-desc', 'price_desc', 'price_high_low'
           scope.order(price_sale_current_cents: :desc, price_rental_monthly_current_cents: :desc)
         when 'newest', 'date-desc', 'date_desc'
           scope.order(created_at: :desc)
         when 'oldest', 'date-asc', 'date_asc'
           scope.order(created_at: :asc)
+        when 'beds_high_low'
+          scope.order(count_bedrooms: :desc)
         else
           scope
         end
@@ -348,6 +350,8 @@ module ApiPublic
           count_bedrooms: property.count_bedrooms,
           count_bathrooms: property.count_bathrooms,
           count_garages: property.count_garages,
+          constructed_area: property.respond_to?(:constructed_area) ? property.constructed_area : nil,
+          area_unit: property.respond_to?(:area_unit) ? property.area_unit : nil,
           highlighted: property.highlighted,
           for_sale: property.for_sale?,
           for_rent: property.for_rent?,

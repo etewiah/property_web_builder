@@ -124,6 +124,56 @@ RSpec.describe "ApiPublic::V1::Properties", type: :request do
       expect(ordered_ids.first).to eq(priciest_asset.id)
     end
 
+    it "supports sort_by price_low_high (alias for price_asc)" do
+      host! 'properties-test.example.com'
+      get "/api_public/v1/properties", params: { sale_or_rental: "sale", sort_by: "price_low_high" }
+      json = response.parsed_body
+      prices = json["data"].map { |property| property["price_sale_current_cents"] }
+      expect(prices).to eq(prices.sort)
+    end
+
+    it "supports sort_by price_high_low (alias for price_desc)" do
+      host! 'properties-test.example.com'
+      get "/api_public/v1/properties", params: { sale_or_rental: "sale", sort_by: "price_high_low" }
+      json = response.parsed_body
+      prices = json["data"].map { |property| property["price_sale_current_cents"] }
+      expect(prices).to eq(prices.sort.reverse)
+    end
+
+    context "with varying bedroom counts" do
+      let!(:few_bed_asset) { FactoryBot.create(:pwb_realty_asset, website: website, count_bedrooms: 1) }
+      let!(:few_bed_listing) { FactoryBot.create(:pwb_sale_listing, :visible, realty_asset: few_bed_asset) }
+      let!(:many_bed_asset) { FactoryBot.create(:pwb_realty_asset, website: website, count_bedrooms: 5) }
+      let!(:many_bed_listing) { FactoryBot.create(:pwb_sale_listing, :visible, realty_asset: many_bed_asset) }
+
+      before { Pwb::ListedProperty.refresh(concurrently: false) }
+
+      it "supports sort_by beds_high_low" do
+        host! 'properties-test.example.com'
+        get "/api_public/v1/properties", params: { sale_or_rental: "sale", sort_by: "beds_high_low" }
+        json = response.parsed_body
+        bedrooms = json["data"].map { |property| property["count_bedrooms"] }
+        expect(bedrooms).to eq(bedrooms.sort.reverse)
+      end
+    end
+
+    it "includes constructed_area in property response" do
+      host! 'properties-test.example.com'
+      get "/api_public/v1/properties", params: { sale_or_rental: "sale" }
+      json = response.parsed_body
+      property = json["data"].first
+      expect(property).to have_key("constructed_area")
+    end
+
+    it "includes area_unit in property response" do
+      host! 'properties-test.example.com'
+      get "/api_public/v1/properties", params: { sale_or_rental: "sale" }
+      json = response.parsed_body
+      property = json["data"].first
+      expect(property).to have_key("area_unit")
+      expect(property["area_unit"]).to be_in(%w[sqmt sqft])
+    end
+
     context "with group_by=sale_or_rental" do
       let!(:rental_asset) { FactoryBot.create(:pwb_realty_asset, website: website) }
       let!(:rental_listing) { FactoryBot.create(:pwb_rental_listing, :visible, realty_asset: rental_asset) }
