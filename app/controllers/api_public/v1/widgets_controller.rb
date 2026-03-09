@@ -10,6 +10,7 @@ module ApiPublic
     # - Impression/click tracking
     #
     # All responses include CORS headers for cross-origin embedding.
+    # When allowed_domains are configured, requests from other origins are rejected.
     class WidgetsController < BaseController
       before_action :set_widget_config
       before_action :validate_origin
@@ -71,6 +72,10 @@ module ApiPublic
 
       private
 
+      def require_current_website?
+        false
+      end
+
       def set_widget_config
         @widget_config = Pwb::WidgetConfig.active.find_by!(widget_key: params[:widget_key])
       rescue ActiveRecord::RecordNotFound
@@ -90,9 +95,7 @@ module ApiPublic
 
         # Log unauthorized access attempt
         Rails.logger.warn "Widget #{@widget_config.widget_key} accessed from unauthorized domain: #{domain}"
-
-        # Still allow for now but could block in future
-        # render json: { error: 'Origin not allowed' }, status: :forbidden
+        render json: { error: 'Origin not allowed' }, status: :forbidden
       end
 
       def extract_domain(url)

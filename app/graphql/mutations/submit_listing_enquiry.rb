@@ -9,7 +9,9 @@ module Mutations
     type GraphQL::Types::JSON # Types::LinkType
 
     def resolve(propertyId: nil, contact: nil)
-      current_website = Pwb::Current.website || Pwb::Website.first
+      current_website = Pwb::Current.website
+      return missing_website_result if current_website.blank?
+
       current_agency = current_website&.agency
       success_result = {
         message: "Enquiry submitted successfully",
@@ -70,6 +72,15 @@ module Mutations
                result: error_message,
                client_mutation_id: "0",
              }
+    end
+
+    private
+
+    def missing_website_result
+      {
+        result: 'Website context required',
+        client_mutation_id: '0'
+      }
     end
   end
 end

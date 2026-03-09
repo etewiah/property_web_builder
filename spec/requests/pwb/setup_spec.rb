@@ -54,6 +54,26 @@ RSpec.describe 'Pwb::SetupController', type: :request do
         expect(response).to redirect_to(root_path)
       end
     end
+
+    context 'for localhost root requests' do
+      it 'redirects only when the explicit default website exists' do
+        create(:pwb_website, subdomain: 'default')
+        create(:pwb_website, subdomain: 'other-site')
+
+        get '/setup', headers: { 'HTTP_HOST' => 'localhost:3000' }
+
+        expect(response).to redirect_to(root_path)
+      end
+
+      it 'does not treat a non-default website as the localhost tenant' do
+        create(:pwb_website, subdomain: 'other-site')
+
+        get '/setup', headers: { 'HTTP_HOST' => 'localhost:3000' }
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('Choose a Template')
+      end
+    end
   end
 
   describe 'POST /setup (create)' do

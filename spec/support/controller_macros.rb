@@ -15,6 +15,7 @@ module ControllerMacros
       user = FactoryBot.create(:pwb_user, email: 'non_admin@pwb.com', password: '123456', admin: false, website: @test_website)
       # user.confirm! # or set a confirmed_at inside the factory. Only necessary if you are using the "confirmable" module
       # Set tenant for tenant-scoped queries
+      allow(Pwb::Current).to receive(:website).and_return(@test_website)
       ActsAsTenant.current_tenant = @test_website
       sign_in user, scope: :user
     end

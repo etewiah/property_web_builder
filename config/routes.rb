@@ -55,7 +55,7 @@ Rails.application.routes.draw do
   post "/graphql", to: "graphql#execute"
 
   # Tenant Admin - Cross-tenant management dashboard
-  # Note: Authentication only for now, authorization will be added in Phase 2
+  # Requires an authenticated user whose email is listed in TENANT_ADMIN_EMAILS
   namespace :tenant_admin do
     root to: 'dashboard#index'
 
@@ -206,8 +206,7 @@ Rails.application.routes.draw do
   end
 
   # Site Admin - Single website/tenant management dashboard
-  # Scoped to current website via SubdomainTenant concern
-  # Note: Available to any logged in user for now, authorization will be added later
+  # Scoped to current website via SubdomainTenant and restricted to website admins/owners
   namespace :site_admin do
     root to: 'dashboard#index'
 
@@ -784,8 +783,7 @@ Rails.application.routes.draw do
   end
 
   # API Manage - Authenticated API for managing website content
-  # Used by external admin UIs (Astro.js, etc.)
-  # TODO: Add authentication (Firebase token / API key)
+  # Used by external admin UIs (Astro.js, etc.) via session auth, X-API-Key, or X-User-Email in dev/test
   namespace :api_manage do
     namespace :v1 do
       # Locale-prefixed routes for consistency with api_public
@@ -952,6 +950,7 @@ Rails.application.routes.draw do
       get "/theme" => "theme#index"
       get "/themes/:theme_name/palettes" => "theme_palettes#index"
       get "/themes/:theme_name/palettes/:palette_id" => "theme_palettes#show"
+      # Theme palette updates require a site admin session for the current website or a valid X-API-Key
       patch "/theme_settings/palette" => "theme_settings#update_palette"
       get "/search/config" => "search_config#index"
       get "/search/facets" => "search_facets#index"
@@ -984,7 +983,7 @@ Rails.application.routes.draw do
         end
       end
 
-      # Embeddable Widget API
+      # Embeddable Widget API (enforces allowed_domains when configured)
       get "/widgets/:widget_key" => "widgets#show"
       get "/widgets/:widget_key/properties" => "widgets#properties"
       post "/widgets/:widget_key/impression" => "widgets#impression"

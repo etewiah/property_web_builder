@@ -19,6 +19,30 @@ module Pwb
         get :index
         expect(response).to render_template("pwb/firebase_login/index")
       end
+
+      it "does not fall back to an arbitrary website on localhost without a default site" do
+        allow(controller).to receive(:current_website_from_subdomain).and_return(nil)
+        allow(controller).to receive(:localhost_default_website).and_return(nil)
+        allow(Pwb::Current).to receive(:website).and_return(nil)
+
+        request.host = 'localhost'
+        get :index
+
+        expect(controller.send(:current_website)).to be_nil
+      end
+
+      it "uses the explicit default website on localhost when available" do
+        default_website = create(:pwb_website, subdomain: 'default')
+
+        allow(controller).to receive(:current_website_from_subdomain).and_return(nil)
+        allow(controller).to receive(:localhost_default_website).and_return(default_website)
+        allow(Pwb::Current).to receive(:website).and_return(nil)
+
+        request.host = 'localhost'
+        get :index
+
+        expect(controller.send(:current_website)).to eq(default_website)
+      end
     end
 
     describe "GET #forgot_password" do

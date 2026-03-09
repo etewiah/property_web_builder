@@ -3,6 +3,7 @@
 module Pwb
   class FirebaseLoginController < ActionController::Base
     include ::Devise::Controllers::Helpers
+    include LocalhostDefaultWebsite
     helper_method :current_user, :current_website
 
     layout 'devise_tailwind'
@@ -66,7 +67,7 @@ module Pwb
     private
 
     def set_current_website
-      @current_website = current_website_from_subdomain
+      @current_website = current_website_from_subdomain || localhost_default_website
       Pwb::Current.website = @current_website
     end
 
@@ -81,7 +82,7 @@ module Pwb
     end
 
     def current_website
-      @current_website ||= current_website_from_subdomain || Pwb::Current.website || Pwb::Website.first
+      @current_website ||= current_website_from_subdomain || Pwb::Current.website || localhost_default_website
     end
 
     def redirect_if_signed_in

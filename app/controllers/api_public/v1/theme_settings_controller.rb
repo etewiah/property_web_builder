@@ -4,11 +4,14 @@ module ApiPublic
   module V1
     # Public API endpoint for updating theme settings
     # Allows clients to change palette selection for the current website
+    # Requires either a site admin session for the current website or a valid X-API-Key
     # Supports cross-theme palettes (any palette can be used with any theme)
     # Supports custom palettes (provide full palette definition if palette_id doesn't exist)
     class ThemeSettingsController < BaseController
-      # TODO: Consider adding authentication for production use
-      # before_action :authenticate_request!, only: [:update_palette]
+      include ::Devise::Controllers::Helpers
+
+      before_action :require_website!
+      before_action :require_theme_settings_access!, only: [:update_palette]
 
       # PATCH /api_public/v1/theme_settings/palette
       #
@@ -84,6 +87,59 @@ module ApiPublic
       end
 
       private
+
+      def require_website!
+        return if current_website.present?
+
+        render json: {
+          success: false,
+          error: 'Website context required'
+        }, status: :bad_request
+      end
+
+      def require_theme_settings_access!
+        return if authorized_admin_session?
+        return if authorized_api_key?
+
+        render json: {
+          success: false,
+          error: authentication_error_message
+        }, status: authentication_error_status
+      end
+
+      def current_website
+        Pwb::Current.website
+      end
+
+      def authorized_admin_session?
+        return false unless respond_to?(:warden, true) && warden&.user
+
+        @session_user = warden.user
+        @session_user.admin_for?(current_website)
+      end
+
+      def authorized_api_key?
+        api_key = request.headers['X-API-Key']
+        return false if api_key.blank? || current_website.blank?
+
+        integration = current_website.integrations.enabled.find { |candidate| candidate.credential('api_key') == api_key }
+        return false unless integration
+
+        integration.record_usage!
+        true
+      end
+
+      def authentication_error_status
+        @session_user.present? ? :forbidden : :unauthorized
+      end
+
+      def authentication_error_message
+        if @session_user.present?
+          'Admin access required'
+        else
+          'Authentication required'
+        end
+      end
 
       def apply_existing_palette(website, palette_id, palette_info)
         source_theme = palette_info[:theme_name]

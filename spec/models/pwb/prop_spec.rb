@@ -147,6 +147,36 @@ module Pwb
       end
     end
 
+    describe 'defaulting behavior' do
+      let(:website) { create(:pwb_website, subdomain: 'prop-test', default_currency: 'USD', default_area_unit: 'sqft') }
+
+      it 'uses the associated website defaults when present' do
+        prop = described_class.create!(website: website, currency: nil, area_unit: nil, title_en: 'Associated website prop')
+
+        expect(prop.reload.currency).to eq('USD')
+        expect(prop.reload.area_unit).to eq('sqft')
+      end
+
+      it 'uses Pwb::Current.website defaults when no website is associated' do
+        Pwb::Current.website = website
+
+        prop = described_class.create!(website: nil, currency: nil, area_unit: nil, title_en: 'Current website prop')
+
+        expect(prop.reload.currency).to eq('USD')
+        expect(prop.reload.area_unit).to eq('sqft')
+      end
+
+      it 'does not fall back to the first website when no website context exists' do
+        fallback_website = create(:pwb_website, default_currency: 'GBP', default_area_unit: 'sqft')
+        Pwb::Current.reset
+
+        prop = described_class.create!(website: nil, currency: nil, area_unit: nil, title_en: 'No website prop')
+
+        expect(prop.reload.currency).not_to eq(fallback_website.default_currency)
+        expect(prop.reload.area_unit).not_to eq(fallback_website.default_area_unit)
+      end
+    end
+
     describe 'scopes' do
       let!(:sale_prop) do
         ActsAsTenant.with_tenant(website) do

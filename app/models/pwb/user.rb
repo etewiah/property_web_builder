@@ -282,7 +282,7 @@ module Pwb
         # need to prefix Devise with :: to avoid confusion with Pwb::Devise
         password = ::Devise.friendly_token[0, 20]
         # Get current website from parameter or Pwb::Current
-        current_website = website || Pwb::Current.website || Pwb::Website.first
+        current_website = website || Pwb::Current.website
         user = User.create!(
           email: email, 
           password: password, 

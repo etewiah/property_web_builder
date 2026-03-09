@@ -9,8 +9,7 @@ module Api
   #   1. X-Website-Slug header (preferred for API clients)
   #   2. Subdomain (for browser-based requests)
   #
-  #   In production, a tenant MUST be specified. In development/test,
-  #   Website.first is used as a fallback.
+  #   A tenant must be resolved explicitly when an endpoint requires one.
   #
   class BaseController < ActionController::API
     include ActionController::Cookies
@@ -55,7 +54,7 @@ module Api
     end
 
     def resolve_website
-      website_from_header || website_from_subdomain || fallback_website
+      website_from_header || website_from_subdomain
     end
 
     def website_from_header
@@ -70,12 +69,6 @@ module Api
       return nil if subdomain.blank? || subdomain == 'www'
 
       Pwb::Website.find_by(subdomain: subdomain)
-    end
-
-    def fallback_website
-      return nil if Rails.env.production?
-
-      Pwb::Website.first
     end
 
     def handle_standard_error(exception)

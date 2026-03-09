@@ -382,6 +382,22 @@ module Pwb
             expect(authorization.provider).to eq auth.provider
             expect(authorization.uid).to eq auth.uid
           end
+
+          it 'uses Pwb::Current.website when website argument is not provided' do
+            Pwb::Current.website = website
+
+            created_user = User.find_for_oauth(auth)
+
+            expect(created_user.website).to eq(website)
+          end
+
+          it 'does not fall back to the first website when no website context exists' do
+            fallback_website = FactoryBot.create(:pwb_website)
+            Pwb::Current.reset
+
+            expect { User.find_for_oauth(auth) }.to raise_error(ActiveRecord::RecordInvalid)
+            expect(User.exists?(email: auth.info[:email], website: fallback_website)).to be(false)
+          end
         end
       end
     end

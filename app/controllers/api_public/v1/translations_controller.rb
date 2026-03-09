@@ -18,6 +18,12 @@ module ApiPublic
           result: I18n.t(".", locale: locale)
         }
       end
+
+      private
+
+      def require_current_website?
+        false
+      end
     end
   end
 end

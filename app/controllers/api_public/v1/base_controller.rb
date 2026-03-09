@@ -12,11 +12,22 @@ module ApiPublic
       include ActiveStorage::SetCurrent
 
       skip_before_action :verify_authenticity_token
+      before_action :require_website!, if: :require_current_website?
 
       # Set HTTP cache headers and conditional GET for all api_public endpoints
       before_action :set_api_public_cache_headers
 
       private
+
+      def require_current_website?
+        true
+      end
+
+      def require_website!
+        return if current_website.present?
+
+        render json: { error: 'Website context required' }, status: :bad_request
+      end
 
       def set_api_public_cache_headers
         expires_in 1.hour, public: true

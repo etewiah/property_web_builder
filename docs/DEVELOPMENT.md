@@ -1,14 +1,21 @@
 # Development Guide
 
-This guide provides instructions for setting up PropertyWebBuilder v2.0.0 locally, running tests, and troubleshooting common issues.
+This guide provides instructions for setting up PropertyWebBuilder locally, running tests, and troubleshooting common issues.
 
 ## Prerequisites
 
-- **Ruby**: 3.4.7 or higher
-- **Rails**: 8.0
+- **Ruby**: 3.4.7 (see `.tool-versions`)
+- **Rails**: 8.1
 - **PostgreSQL**: Ensure you have PostgreSQL installed and running
-- **Node.js & npm**: Required for managing frontend dependencies (Vite, Vue.js)
-- **Redis**: Optional, used for Firebase certificate caching
+- **Node.js & npm**: Required for Tailwind build tooling, Playwright, and frontend asset utilities
+- **Redis**: Recommended for background jobs, caching, and some integration features
+
+## Current stack notes
+
+- **Frontend architecture**: Server-rendered ERB + Liquid templates with Tailwind CSS
+- **JavaScript**: Stimulus for browser interactions
+- **Deprecated**: Vue/Vite flows are no longer part of the active development path
+- **GraphQL**: Deprecated for new work; prefer the REST endpoints under `docs/api/`
 
 ## Setup
 
@@ -31,22 +38,30 @@ This guide provides instructions for setting up PropertyWebBuilder v2.0.0 locall
     npm install
     ```
 
-4.  **Setup the database:**
+4.  **Prepare the database:**
 
     ```bash
-    rails db:create
-    rails db:migrate
-    rails pwb:db:seed
+    bin/rails db:prepare
     ```
 
-5.  **Start the development server:**
+5.  **Optionally seed demo data:**
+
+    ```bash
+    bin/rails pwb:db:seed
+    ```
+
+6.  **Start the development server:**
 
     ```bash
     bin/dev
     ```
 
-    This starts both the Rails server and Vite for frontend asset compilation.
+    This starts the Rails server plus the Tailwind watcher defined in `Procfile.dev`.
     The application should now be accessible at `http://localhost:3000`.
+
+### Optional helper
+
+`bin/setup` is useful for Ruby dependency installation and `db:prepare`, but on a fresh clone you should still run `npm install` before starting `bin/dev`.
 
 ## Secrets (Rails Encrypted Credentials)
 
@@ -97,10 +112,10 @@ If you don’t want to store R2 secrets in Dokku env vars anymore, remove them a
 
 PropertyWebBuilder is a multi-tenant application. Each website is identified by subdomain:
 
-- `http://localhost:3000` - Default tenant
-- `http://tenant-a.localhost:3000` - Specific tenant (requires hosts file or subdomain setup)
+- `http://localhost:3000` - Local development entry point
+- `http://tenant-a.localhost:3000` - Specific tenant for subdomain testing
 
-For local subdomain testing, add entries to `/etc/hosts`:
+Modern browsers usually resolve `*.localhost` automatically. If your setup does not, add entries to `/etc/hosts`:
 ```
 127.0.0.1 tenant-a.localhost
 127.0.0.1 tenant-b.localhost
@@ -119,7 +134,7 @@ See [seeding documentation](./seeding/) for more details.
 
 ## Running Tests
 
-The project uses RSpec for testing.
+The project uses RSpec for unit/integration testing and Playwright for browser testing.
 
 - **Run all tests:**
 
@@ -133,15 +148,21 @@ The project uses RSpec for testing.
     bundle exec rspec spec/path/to/file_spec.rb
     ```
 
+- **Run Playwright tests:**
+
+    ```bash
+    npx playwright test
+    ```
+
 ## Database Seeding
 
-For comprehensive information about database seeding, including enhanced seeding features, multi-tenancy support, and safety mechanisms, see [docs/seeding.md](docs/seeding.md).
+For comprehensive information about database seeding, including enhanced seeding features, multi-tenancy support, and safety mechanisms, see [docs/seeding/README.md](./seeding/README.md).
 
 ## Troubleshooting
 
 ### API CSRF Issues
 
-If you encounter 422 Unprocessable Entity errors when making API requests (e.g., `PUT /api/v1/website`), it might be due to CSRF protection.
+If you encounter 422 Unprocessable Entity errors when making API requests, it might be due to CSRF protection.
 
 **Solution:**
 Ensure that the relevant API controller has CSRF protection disabled or configured correctly for API usage. For example:
@@ -155,12 +176,20 @@ end
 
 ### Asset Compilation
 
-If you see issues with missing assets or styles, try precompiling assets locally:
+If you see issues with missing assets or styles, try rebuilding Tailwind assets first:
 
 ```bash
-rails assets:precompile
+npm run tailwind:build
 ```
+
+Then, if needed, precompile assets locally:
+
+```bash
+bin/rails assets:precompile
+```
+
+If Stimulus or asset changes do not appear in development, try clearing `tmp/cache/assets`, restart the Rails server, and hard refresh the browser.
 
 ## Contributing
 
-Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute to this project.
+Please refer to [CONTRIBUTING.md](../CONTRIBUTING.md) for guidelines on how to contribute to this project.

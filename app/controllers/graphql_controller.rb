@@ -9,10 +9,21 @@ class GraphqlController < Pwb::ApplicationController
   protect_from_forgery with: :null_session
 
   include SubdomainTenant
+  include LocalhostDefaultWebsite
 
   # Override the before_action from SubdomainTenant to use our custom method name
+  skip_before_action :current_agency_and_website
+  skip_before_action :check_unseeded_website
+  skip_before_action :check_locked_website
+  skip_before_action :nav_links
+  skip_before_action :set_locale
+  skip_before_action :set_theme_path
+  skip_before_action :footer_content
   skip_before_action :set_current_website_from_request
+  skip_around_action :connect_to_tenant_shard
   before_action :set_current_website
+  before_action :require_current_website!
+  around_action :connect_to_graphql_tenant_shard
 
   def execute
     # Log deprecation warning (using Rails.logger as ActiveSupport::Deprecation.warn is private in Rails 8)
@@ -43,31 +54,29 @@ class GraphqlController < Pwb::ApplicationController
 
   private
 
-  def set_current_website
-    # Priority 1: Check for explicit header (useful for API clients)
-    slug = request.headers["X-Website-Slug"]
-    if slug.present?
-      Pwb::Current.website = Pwb::Website.find_by(slug: slug)
-    end
+  def connect_to_graphql_tenant_shard
+    set_current_website if Pwb::Current.website.blank?
 
-    # Priority 2: Try subdomain resolution
-    if Pwb::Current.website.blank?
-      subdomain = extract_subdomain
-      if subdomain.present?
-        Pwb::Current.website = Pwb::Website.find_by_subdomain(subdomain)
-      end
+    shard = Pwb::Current.website&.database_shard || :default
+    PwbTenant::ApplicationRecord.connected_to(shard: shard, role: :writing) do
+      yield
     end
-
-    # Fallback to default if not found or not provided
-    Pwb::Current.website ||= Pwb::Website.first
+  ensure
+    ActsAsTenant.current_tenant = nil
   end
 
-  # Extracts the subdomain from the request
-  def extract_subdomain
-    subdomain = request.subdomain
-    return nil if subdomain.blank?
-    return nil if %w[www api admin].include?(subdomain)
-    subdomain.split(".").first
+  def set_current_website
+    Pwb::Current.website = website_from_slug_header || Pwb::Website.find_by_host(request.host.to_s.downcase) || localhost_default_website
+    ActsAsTenant.current_tenant = Pwb::Current.website
+  end
+
+  def require_current_website!
+    return if Pwb::Current.website.present?
+
+    render json: {
+      errors: [{ message: 'Website context required. Provide X-Website-Slug or use a valid tenant host.' }],
+      data: {}
+    }, status: :bad_request
   end
 
   # gets current user from token stored in the session
@@ -109,5 +118,12 @@ class GraphqlController < Pwb::ApplicationController
     logger.error e.backtrace.join("\n")
 
     render json: { errors: [{ message: e.message, backtrace: e.backtrace }], data: {} }, status: 500
+  end
+
+  def website_from_slug_header
+    slug = request.headers["X-Website-Slug"]
+    return nil if slug.blank?
+
+    Pwb::Website.find_by(slug: slug) || Pwb::Website.find_by_subdomain(slug)
   end
 end
