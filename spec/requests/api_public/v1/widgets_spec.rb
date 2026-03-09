@@ -13,7 +13,7 @@ RSpec.describe "ApiPublic::V1::Widgets", type: :request do
 
   describe "GET /api_public/v1/widgets/:widget_key" do
     context 'with valid widget_key' do
-      before { host! 'widget-test.example.com' }
+      before { host! 'widget-test.localhost' }
 
       it 'returns the widget configuration' do
         get "/api_public/v1/widgets/#{widget.widget_key}"
@@ -63,7 +63,7 @@ RSpec.describe "ApiPublic::V1::Widgets", type: :request do
     end
 
     context 'with invalid widget_key' do
-      before { host! 'widget-test.example.com' }
+      before { host! 'widget-test.localhost' }
 
       it 'returns 404' do
         get '/api_public/v1/widgets/nonexistent'
@@ -77,7 +77,7 @@ RSpec.describe "ApiPublic::V1::Widgets", type: :request do
     context 'with inactive widget' do
       before do
         widget.update!(active: false)
-        host! 'widget-test.example.com'
+        host! 'widget-test.localhost'
       end
 
       it 'returns 404' do
@@ -89,7 +89,7 @@ RSpec.describe "ApiPublic::V1::Widgets", type: :request do
   end
 
   describe "GET /api_public/v1/widgets/:widget_key/properties" do
-    before { host! 'widget-test.example.com' }
+    before { host! 'widget-test.localhost' }
 
     it 'returns properties with pagination' do
       get "/api_public/v1/widgets/#{widget.widget_key}/properties"
@@ -121,7 +121,7 @@ RSpec.describe "ApiPublic::V1::Widgets", type: :request do
   end
 
   describe "POST /api_public/v1/widgets/:widget_key/impression" do
-    before { host! 'widget-test.example.com' }
+    before { host! 'widget-test.localhost' }
 
     it 'increments impression count' do
       expect {
@@ -139,7 +139,7 @@ RSpec.describe "ApiPublic::V1::Widgets", type: :request do
   end
 
   describe "POST /api_public/v1/widgets/:widget_key/click" do
-    before { host! 'widget-test.example.com' }
+    before { host! 'widget-test.localhost' }
 
     it 'increments click count' do
       expect {
@@ -160,7 +160,7 @@ RSpec.describe "ApiPublic::V1::Widgets", type: :request do
     context 'with no domain restrictions' do
       before do
         widget.update!(allowed_domains: [])
-        host! 'widget-test.example.com'
+        host! 'widget-test.localhost'
       end
 
       it 'allows requests from any origin' do
@@ -174,7 +174,7 @@ RSpec.describe "ApiPublic::V1::Widgets", type: :request do
     context 'with domain restrictions' do
       before do
         widget.update!(allowed_domains: ['allowed.com', '*.trusted.com'])
-        host! 'widget-test.example.com'
+        host! 'widget-test.localhost'
       end
 
       it 'allows requests from allowed domain' do
@@ -191,20 +191,29 @@ RSpec.describe "ApiPublic::V1::Widgets", type: :request do
         expect(response).to have_http_status(:ok)
       end
 
-      it 'logs warning for unauthorized domain but still responds' do
-        # Current implementation logs but doesn't block
+      it 'blocks requests from unauthorized domains' do
         expect(Rails.logger).to receive(:warn).with(/unauthorized domain/)
 
         get "/api_public/v1/widgets/#{widget.widget_key}",
           headers: { 'Origin' => 'https://unauthorized.com' }
 
-        expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq('Origin not allowed')
       end
 
       it 'allows direct API access without Origin header' do
         get "/api_public/v1/widgets/#{widget.widget_key}"
 
         expect(response).to have_http_status(:ok)
+      end
+
+      it 'does not track impressions from unauthorized domains' do
+        expect {
+          post "/api_public/v1/widgets/#{widget.widget_key}/impression",
+               headers: { 'Origin' => 'https://unauthorized.com' }
+        }.not_to change { widget.reload.impressions_count }
+
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end
@@ -219,7 +228,7 @@ RSpec.describe "ApiPublic::V1::Widgets", type: :request do
     end
 
     it 'widget is associated with correct website' do
-      host! 'widget-test.example.com'
+      host! 'widget-test.localhost'
       get "/api_public/v1/widgets/#{widget.widget_key}"
 
       expect(response).to have_http_status(:ok)
@@ -227,7 +236,7 @@ RSpec.describe "ApiPublic::V1::Widgets", type: :request do
     end
 
     it 'returns properties from widget website only' do
-      host! 'widget-test.example.com'
+      host! 'widget-test.localhost'
       get "/api_public/v1/widgets/#{widget.widget_key}"
 
       json = response.parsed_body
@@ -243,7 +252,7 @@ RSpec.describe "ApiPublic::V1::Widgets", type: :request do
     before do
       Pwb::ListedProperty.refresh(concurrently: false)
       widget.update!(listing_type: 'sale')
-      host! 'widget-test.example.com'
+      host! 'widget-test.localhost'
       # Stub the primary_host method which is called during property URL generation
       allow_any_instance_of(Pwb::Website).to receive(:primary_host).and_return('widget-test.propertywebbuilder.com')
     end

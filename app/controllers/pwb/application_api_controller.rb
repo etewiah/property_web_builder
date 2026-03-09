@@ -37,7 +37,10 @@ module Pwb
 
     def current_agency
       puts "ApplicationApiController#current_agency reached"
-      @current_agency ||= current_website.agency || current_website.build_agency
+      website = current_website
+      return if website.blank?
+
+      @current_agency ||= website.agency || website.build_agency
     end
 
     def current_website
@@ -45,8 +48,7 @@ module Pwb
 
       @current_website = current_website_from_subdomain ||
                          current_website_from_header ||
-                         Pwb::Current.website ||
-                         fallback_website
+                         Pwb::Current.website
 
       unless @current_website
         render json: { error: 'No website found for this request' }, status: :bad_request
@@ -63,15 +65,7 @@ module Pwb
       slug = request.headers['X-Website-Slug']
       return nil unless slug.present?
 
-      Website.find_by(subdomain: slug)
-    end
-
-    # Only use Website.first as fallback in non-production environments
-    def fallback_website
-      return nil if Rails.env.production?
-
-      Rails.logger.warn "[API] Using Website.first fallback - configure proper tenant resolution"
-      Website.first
+      Website.find_by(slug: slug) || Website.find_by_subdomain(slug)
     end
 
     def current_website_from_subdomain

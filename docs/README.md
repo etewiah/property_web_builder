@@ -17,7 +17,7 @@ Welcome to PropertyWebBuilder's documentation. This folder contains guides and r
 | Folder | Description |
 |--------|-------------|
 | **[admin/](./admin/)** | Admin interface and tenant management |
-| **[api/](./api/)** | REST and GraphQL API documentation |
+| **[api/](./api/)** | REST API documentation plus legacy GraphQL migration notes |
 | **[architecture/](./architecture/)** | System architecture, page parts, property models |
 | **[authentication/](./authentication/)** | Auth flows, Devise, OAuth, Firebase |
 | **[branding/](./branding/)** | Brand guidelines and CSS variables |
@@ -40,7 +40,7 @@ Welcome to PropertyWebBuilder's documentation. This folder contains guides and r
 ## Key References
 
 - **[DEVELOPMENT.md](./DEVELOPMENT.md)** - Development setup guide
-- **[CODE_REFERENCES.md](./CODE_REFERENCES.md)** - Code snippets with file paths
+- **[architecture/CODE_REFERENCES.md](./architecture/CODE_REFERENCES.md)** - Code snippets with file paths
 
 ## Reading Guide by Role
 
@@ -56,7 +56,7 @@ Welcome to PropertyWebBuilder's documentation. This folder contains guides and r
 
 ### For Frontend Developers
 1. [theming/](./theming/) - Theme system
-
+2. [frontend/](./frontend/) - Stimulus and frontend implementation notes
 3. [branding/](./branding/) - Design guidelines
 
 ## Quick Commands
@@ -86,7 +86,7 @@ docs/
 ├── 05_Frontend.md          # Frontend
 ├── 07_Assets_Management.md # Assets
 ├── DEVELOPMENT.md          # Dev setup
-├── CODE_REFERENCES.md      # Code snippets
+├── architecture/CODE_REFERENCES.md # Code snippets
 │
 ├── admin/                  # Admin interface
 ├── api/                    # API docs
@@ -101,7 +101,6 @@ docs/
 ├── migrations/            # Migration guides
 ├── multi_tenancy/         # Tenant isolation
 ├── provisioning/          # Website setup
-├── quasar/                # Admin frontend
 ├── seeding/               # Seed data
 ├── seo/                   # SEO guides
 ├── signup/                # Signup flow

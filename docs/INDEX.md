@@ -8,7 +8,7 @@ Complete documentation for understanding the PropertyWebBuilder codebase, archit
 
 **Start here if you're new to PropertyWebBuilder:**
 
-1. **[EXPLORATION_SUMMARY.md](EXPLORATION_SUMMARY.md)** (5 min read)
+1. **[architecture/EXPLORATION_SUMMARY.md](./architecture/EXPLORATION_SUMMARY.md)** (5 min read)
    - High-level overview of what was explored
    - Key insights and takeaways
    - Data model summary
@@ -20,7 +20,7 @@ Complete documentation for understanding the PropertyWebBuilder codebase, archit
 
 ### Architecture & System Design
 
-2. **[CODEBASE_STRUCTURE.md](CODEBASE_STRUCTURE.md)** (Comprehensive, 45 min read)
+2. **[architecture/CODEBASE_STRUCTURE.md](./architecture/CODEBASE_STRUCTURE.md)** (Comprehensive, 45 min read)
    - **14 major sections** covering:
      1. Property model structure (RealtyAsset, SaleListing, RentalListing, ListedProperty)
      2. Property photos & media
@@ -37,7 +37,7 @@ Complete documentation for understanding the PropertyWebBuilder codebase, archit
      13. Database relationships
      14. Configuration classes
 
-3. **[ARCHITECTURE_DIAGRAMS.md](ARCHITECTURE_DIAGRAMS.md)** (Visual, 30 min read)
+3. **[architecture/ARCHITECTURE_DIAGRAMS.md](./architecture/ARCHITECTURE_DIAGRAMS.md)** (Visual, 30 min read)
    - **10 detailed ASCII diagrams** showing:
      - Property model architecture & relationships
      - Content management system structure
@@ -73,14 +73,14 @@ Complete documentation for understanding the PropertyWebBuilder codebase, archit
 
 ## Specialized Guides (Optional)
 
-5. **[ADMIN_QUICK_REFERENCE.md](ADMIN_QUICK_REFERENCE.md)** (Admin focus)
-   - Platform admin operations (site_admin)
-   - Tenant admin operations (tenant_admin)
+5. **[site_admin/features/ADMIN_QUICK_REFERENCE.md](./site_admin/features/ADMIN_QUICK_REFERENCE.md)** (Admin focus)
+   - Website admin operations (`site_admin`)
+   - Cross-tenant/platform operations (`tenant_admin`)
    - User management
    - Subscription/billing workflows
    - Website provisioning
 
-6. **[THEME_QUICK_REFERENCE.md](THEME_QUICK_REFERENCE.md)** (Frontend/theming)
+6. **[theming/THEME_QUICK_REFERENCE.md](./theming/THEME_QUICK_REFERENCE.md)** (Frontend/theming)
    - Theme structure and organization
    - Tailwind CSS customization
    - Color palettes and variables
@@ -93,34 +93,34 @@ Complete documentation for understanding the PropertyWebBuilder codebase, archit
 ### I Want To...
 
 **Understand how properties work**
-→ Read CODEBASE_STRUCTURE.md section 1, then ARCHITECTURE_DIAGRAMS.md section 1
+→ Read `architecture/CODEBASE_STRUCTURE.md` section 1, then `architecture/ARCHITECTURE_DIAGRAMS.md` section 1
 
 **Query properties for search**
-→ QUICK_REFERENCE.md "Properties" section + CODEBASE_STRUCTURE.md section 1
+→ Read `QUICK_REFERENCE.md` "Properties" section + `architecture/CODEBASE_STRUCTURE.md` section 1
 
 **Add translations to new model**
-→ CODEBASE_STRUCTURE.md section 5 + QUICK_REFERENCE.md "Translation Attribute Patterns"
+→ Read `architecture/CODEBASE_STRUCTURE.md` section 5 + `QUICK_REFERENCE.md` "Translation Attribute Patterns"
 
 **Work with images/media**
-→ QUICK_REFERENCE.md "Image/Media Handling" section + CODEBASE_STRUCTURE.md section 2
+→ Read `QUICK_REFERENCE.md` "Image/Media Handling" section + `architecture/CODEBASE_STRUCTURE.md` section 2
 
 **Integrate AI features**
-→ CODEBASE_STRUCTURE.md section 12 + QUICK_REFERENCE.md "Integration Points for AI Features"
+→ Read `architecture/CODEBASE_STRUCTURE.md` section 12 + `QUICK_REFERENCE.md` "Integration Points for AI Features"
 
 **Understand multi-tenancy**
-→ ARCHITECTURE_DIAGRAMS.md section 6 + QUICK_REFERENCE.md "Tenancy Patterns"
+→ Read `architecture/ARCHITECTURE_DIAGRAMS.md` section 6 + `QUICK_REFERENCE.md` "Tenancy Patterns"
 
 **Set up a new website**
-→ CODEBASE_STRUCTURE.md section 7 + ADMIN_QUICK_REFERENCE.md
+→ Read `architecture/CODEBASE_STRUCTURE.md` section 7 + `site_admin/features/ADMIN_QUICK_REFERENCE.md`
 
 **Add new admin page**
-→ QUICK_REFERENCE.md "Admin Controllers" + ARCHITECTURE_DIAGRAMS.md section 8
+→ Read `QUICK_REFERENCE.md` "Admin Controllers" + `architecture/ARCHITECTURE_DIAGRAMS.md` section 8
 
 **Debug a query**
 → QUICK_REFERENCE.md "Common Queries" + "Pagination & Performance"
 
 **Understand data flow**
-→ ARCHITECTURE_DIAGRAMS.md section 3 (enquiries), section 10 (translations), or section 9 (storage)
+→ Read `architecture/ARCHITECTURE_DIAGRAMS.md` section 3 (enquiries), section 10 (translations), or section 9 (storage)
 
 ---
 
@@ -190,12 +190,12 @@ Complete documentation for understanding the PropertyWebBuilder codebase, archit
 
 | File | Size | Focus | Read Time |
 |------|------|-------|-----------|
-| EXPLORATION_SUMMARY.md | 12K | Overview | 5 min |
-| CODEBASE_STRUCTURE.md | 25K | Comprehensive | 45 min |
-| ARCHITECTURE_DIAGRAMS.md | 58K | Visual | 30 min |
+| architecture/EXPLORATION_SUMMARY.md | 12K | Overview | 5 min |
+| architecture/CODEBASE_STRUCTURE.md | 25K | Comprehensive | 45 min |
+| architecture/ARCHITECTURE_DIAGRAMS.md | 58K | Visual | 30 min |
 | QUICK_REFERENCE.md | 17K | Practical | 20 min |
-| ADMIN_QUICK_REFERENCE.md | 13K | Admin | 15 min |
-| THEME_QUICK_REFERENCE.md | 3.8K | Theming | 10 min |
+| site_admin/features/ADMIN_QUICK_REFERENCE.md | 13K | Admin | 15 min |
+| theming/THEME_QUICK_REFERENCE.md | 3.8K | Theming | 10 min |
 | **TOTAL** | **129K** | **All aspects** | **2+ hours** |
 
 ---
@@ -203,26 +203,26 @@ Complete documentation for understanding the PropertyWebBuilder codebase, archit
 ## Recommended Reading Order
 
 ### Quick Start (30 minutes)
-1. EXPLORATION_SUMMARY.md
+1. architecture/EXPLORATION_SUMMARY.md
 2. QUICK_REFERENCE.md (skim tables)
 
 ### Thorough Understanding (1-2 hours)
-1. EXPLORATION_SUMMARY.md
-2. CODEBASE_STRUCTURE.md (sections 1, 5, 6, 10)
-3. ARCHITECTURE_DIAGRAMS.md (sections 1, 6)
+1. architecture/EXPLORATION_SUMMARY.md
+2. architecture/CODEBASE_STRUCTURE.md (sections 1, 5, 6, 10)
+3. architecture/ARCHITECTURE_DIAGRAMS.md (sections 1, 6)
 4. QUICK_REFERENCE.md (all sections)
 
 ### Deep Dive (2+ hours)
-1. All sections of CODEBASE_STRUCTURE.md
-2. All diagrams in ARCHITECTURE_DIAGRAMS.md
+1. All sections of architecture/CODEBASE_STRUCTURE.md
+2. All diagrams in architecture/ARCHITECTURE_DIAGRAMS.md
 3. All examples in QUICK_REFERENCE.md
-4. Relevant sections of ADMIN_QUICK_REFERENCE.md
+4. Relevant sections of site_admin/features/ADMIN_QUICK_REFERENCE.md
 
 ### For Specific Tasks
-- **AI Integration**: CODEBASE_STRUCTURE.md section 12 → QUICK_REFERENCE.md "Integration Points"
-- **Admin Work**: ADMIN_QUICK_REFERENCE.md → ARCHITECTURE_DIAGRAMS.md section 8
-- **Frontend Dev**: THEME_QUICK_REFERENCE.md → ARCHITECTURE_DIAGRAMS.md section 5
-- **Database Work**: QUICK_REFERENCE.md "Database Indexes" → CODEBASE_STRUCTURE.md section 14
+- **AI Integration**: `architecture/CODEBASE_STRUCTURE.md` section 12 → `QUICK_REFERENCE.md` "Integration Points"
+- **Admin Work**: `site_admin/features/ADMIN_QUICK_REFERENCE.md` → `architecture/ARCHITECTURE_DIAGRAMS.md` section 8
+- **Frontend Dev**: `theming/THEME_QUICK_REFERENCE.md` → `architecture/ARCHITECTURE_DIAGRAMS.md` section 5
+- **Database Work**: `QUICK_REFERENCE.md` "Database Indexes" → `architecture/CODEBASE_STRUCTURE.md` section 14
 
 ---
 
@@ -252,9 +252,9 @@ PropertyWebBuilder is a **production-ready real estate SaaS platform** with:
 
 If you need to understand something specific:
 
-1. **Check the index** of CODEBASE_STRUCTURE.md
-2. **Search QUICK_REFERENCE.md** for the model/query you need
-3. **Look at ARCHITECTURE_DIAGRAMS.md** to see how components relate
+1. **Check the index** of `architecture/CODEBASE_STRUCTURE.md`
+2. **Search `QUICK_REFERENCE.md`** for the model/query you need
+3. **Look at `architecture/ARCHITECTURE_DIAGRAMS.md`** to see how components relate
 4. **Review actual models** in `/app/models/pwb/` for implementation details
 
 ---
@@ -270,11 +270,11 @@ If you need to understand something specific:
 
 ## Next Steps
 
-1. **Start with EXPLORATION_SUMMARY.md** for overview
+1. **Start with `architecture/EXPLORATION_SUMMARY.md`** for overview
 2. **Keep QUICK_REFERENCE.md nearby** for day-to-day development
-3. **Refer to CODEBASE_STRUCTURE.md** for deep understanding
-4. **Use ARCHITECTURE_DIAGRAMS.md** to visualize system flows
-5. **Consult specialized guides** (ADMIN_QUICK_REFERENCE.md, THEME_QUICK_REFERENCE.md) as needed
+3. **Refer to `architecture/CODEBASE_STRUCTURE.md`** for deep understanding
+4. **Use `architecture/ARCHITECTURE_DIAGRAMS.md`** to visualize system flows
+5. **Consult specialized guides** (`site_admin/features/ADMIN_QUICK_REFERENCE.md`, `theming/THEME_QUICK_REFERENCE.md`) as needed
 
 ---
 

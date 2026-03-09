@@ -30,6 +30,12 @@ module ApiPublic
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Theme not found' }, status: :not_found
       end
+
+      private
+
+      def require_current_website?
+        false
+      end
     end
   end
 end

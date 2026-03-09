@@ -13,6 +13,8 @@ module Pwb
   # 7. GET /signup/complete - Show completion page (step 4)
   #
   class SignupController < ActionController::Base
+    include LocalhostDefaultWebsite
+
     include SignupSession
 
     protect_from_forgery with: :exception
@@ -243,12 +245,7 @@ module Pwb
       # Check if a website already exists for this subdomain (or root/localhost)
       subdomain = request.subdomain
 
-      website = if subdomain.present?
-                  Pwb::Website.find_by_subdomain(subdomain)
-                else
-                  # For localhost/IP access, check for default or any website
-                  Pwb::Website.find_by_subdomain('default') || Pwb::Website.first
-                end
+      website = subdomain.present? ? Pwb::Website.find_by_subdomain(subdomain) : localhost_default_website
 
       return if website.nil?
 

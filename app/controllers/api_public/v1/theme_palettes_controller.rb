@@ -43,6 +43,10 @@ module ApiPublic
 
       private
 
+      def require_current_website?
+        false
+      end
+
       def find_theme
         theme_name = params[:theme_name].to_s
         return nil if theme_name.blank?

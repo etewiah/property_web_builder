@@ -105,16 +105,16 @@ The `AdminPanelController` is the main controller for the admin panel.
 
 ### AdminPanelVueController (`app/controllers/pwb/admin_panel_vue_controller.rb`)
 
-The `AdminPanelVueController` is the controller for the Vue.js version of the admin panel.
+The `AdminPanelVueController` represents a legacy Vue-based admin entry point.
 
-**Purpose:**
+**Status:**
 
-*   To render the layout for the Vue.js admin panel.
-*   To provide a secure area for administrators to manage the website.
+*   Deprecated/removed for active development.
+*   New work should use the server-rendered `site_admin` and `tenant_admin` interfaces instead.
 
 **Actions:**
 
-*   `show`: This action renders the layout for the Vue.js admin panel. It also checks that the current user is an administrator.
+*   `show`: Legacy compatibility endpoint for the old Vue admin shell.
 
 ---
 
@@ -182,11 +182,16 @@ The `SquaresController` is used to display property information from Firebase.
 
 ### VuePublicController (`app/controllers/pwb/vue_public_controller.rb`)
 
-The `VuePublicController` is used to render the public-facing Vue.js application.
+The `VuePublicController` is a legacy controller from the removed Vue public frontend.
+
+**Status:**
+
+*   Deprecated/removed for active development.
+*   Public pages should be built with server-rendered Rails views, theme templates, and Stimulus where needed.
 
 **Actions:**
 
-*   `show`: This action renders the layout for the public-facing Vue.js application.
+*   `show`: Legacy compatibility endpoint for the old Vue public app.
 
 ---
 

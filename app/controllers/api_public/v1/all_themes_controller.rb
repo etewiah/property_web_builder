@@ -29,6 +29,12 @@ module ApiPublic
           data: themes
         }
       end
+
+      private
+
+      def require_current_website?
+        false
+      end
     end
   end
 end

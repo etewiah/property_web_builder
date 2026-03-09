@@ -19,7 +19,7 @@ RSpec.describe 'API Public Multi-tenancy', type: :request do
 
   describe 'GET /api_public/v1/links' do
     it 'returns links for correct tenant via subdomain' do
-      host! 'tenant1.example.com'
+      host! 'tenant1.localhost'
       get '/api_public/v1/links'
 
       expect(response).to have_http_status(:success)
@@ -40,7 +40,7 @@ RSpec.describe 'API Public Multi-tenancy', type: :request do
     end
 
     it 'header takes precedence over subdomain' do
-      host! 'tenant1.example.com'
+      host! 'tenant1.localhost'
       get '/api_public/v1/links', headers: { 'X-Website-Slug' => 'tenant-2' }
 
       expect(response).to have_http_status(:success)
@@ -50,15 +50,24 @@ RSpec.describe 'API Public Multi-tenancy', type: :request do
       expect(slugs).not_to include('link1')
     end
 
+    it 'returns bad request when no tenant can be resolved' do
+      host! 'unknown.example.com'
+
+      get '/api_public/v1/links'
+
+      expect(response).to have_http_status(:bad_request)
+      expect(response.parsed_body['error']).to eq('Website context required')
+    end
+
     it 'isolates data between tenants', skip: 'host! not properly resetting between requests in same test' do
       # Tenant 1 request
-      host! 'tenant1.example.com'
+      host! 'tenant1.localhost'
       Pwb::Current.reset
       get '/api_public/v1/links'
       tenant1_response = response.parsed_body
 
       # Tenant 2 request - reset current between requests
-      host! 'tenant2.example.com'
+      host! 'tenant2.localhost'
       Pwb::Current.reset
       ActsAsTenant.current_tenant = nil
       get '/api_public/v1/links'

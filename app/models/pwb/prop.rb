@@ -178,7 +178,7 @@ module Pwb
     private
 
     def set_defaults
-      current_website = Pwb::Current.website || website || Pwb::Website.first
+      current_website = Pwb::Current.website || website
       return if current_website.nil?
 
       if current_website.default_currency.present?

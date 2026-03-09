@@ -5,6 +5,8 @@ module Pwb
   # for the current subdomain. It allows users to create and seed a new website
   # from available seed packs.
   class SetupController < ActionController::Base
+    include LocalhostDefaultWebsite
+
     protect_from_forgery with: :exception
 
     layout 'pwb/setup'
@@ -64,12 +66,7 @@ module Pwb
       # Check if a website already exists for this subdomain
       subdomain = request.subdomain
 
-      website = if subdomain.present?
-                  Pwb::Website.find_by_subdomain(subdomain)
-                else
-                  # For localhost/IP access, check for default or any website
-                  Pwb::Website.find_by_subdomain('default') || Pwb::Website.first
-                end
+      website = subdomain.present? ? Pwb::Website.find_by_subdomain(subdomain) : localhost_default_website
 
       return if website.nil?
 

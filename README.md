@@ -49,11 +49,11 @@ PropertyWebBuilder 2.0 is a major release representing 5 years of development an
 **Architecture Changes:**
 - Converted from Rails engine to standalone application
 - Full multi-tenancy with `acts_as_tenant` gem
-- Dual admin interfaces: `site_admin` (super admin) and `tenant_admin` (per-tenant)
+- Dual admin interfaces: `site_admin` (per-website) and `tenant_admin` (cross-tenant/platform)
 - New property model architecture: `RealtyAsset` with separate `SaleListing`/`RentalListing`
 
 **Tech Stack Upgrades:**
-- Rails 5.2 → 8.0
+- Rails 5.2 → 8.1
 - Ruby 3.4.7
 - Bootstrap → Tailwind CSS for public themes
 - Globalize → Mobility for translations
@@ -93,9 +93,9 @@ Here is a video about how to deploy to heroku:
 
 ## Installation & Development
 
-For detailed development instructions, including setup, testing, and troubleshooting, please refer to [DEVELOPMENT.md](DEVELOPMENT.md).
+For detailed development instructions, including setup, testing, and troubleshooting, please refer to [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md).
 
-For comprehensive documentation covering architecture, APIs, frontend implementation, and more, visit the [Documentation Portal](./docs/).
+For comprehensive documentation covering architecture, REST APIs, frontend implementation, and more, visit the [Documentation Portal](./docs/).
 
 
 ### Branches
@@ -109,10 +109,10 @@ git checkout v2.0.0
 ```
 
 For detailed documentation, see the [docs folder](./docs/), which includes:
-- [API Documentation](./docs/04_API.md)
+- [API Documentation](./docs/api/README.md)
 - [Frontend Documentation](./docs/05_Frontend.md)
 - [Multi-Tenancy Guide](./docs/multi_tenancy/README.md)
-- [Theming System](./docs/11_Theming_System.md)
+- [Theming System](./docs/theming/11_Theming_System.md)
 - [Seeding Guide](./docs/seeding/)
 - [Deployment Guides](./docs/deployment/) for 10+ platforms
 
@@ -123,7 +123,7 @@ Additional auto-generated documentation is available at:
 
 ## Rails Version
 
-PropertyWebBuilder runs with Rails '~> 8.0'
+PropertyWebBuilder runs with Rails '~> 8.1'
 
 ## Ruby Version
 
@@ -132,15 +132,15 @@ PropertyWebBuilder runs with Ruby 3.4.7 or higher.
 
 ## Features
 
-* **Modern Tech Stack** - Rails 8, Ruby 3.4.7, Tailwind CSS
+* **Modern Tech Stack** - Rails 8.1, Ruby 3.4.7, Tailwind CSS
 * **Multi-Tenancy** - Host multiple websites from a single installation
 * **Multilingual** - Support for multiple languages with Mobility gem
 * **Multi-currency** - Handle properties in different currencies
 * **Powerful Search** - Faceted search with field key filtering
-* **Dual Admin Panels** - Site admin (super admin) and tenant admin interfaces
+* **Dual Admin Panels** - `site_admin` for per-website management and `tenant_admin` for cross-tenant operations
 * **Embeddable Widgets** - Embed property listings on external websites with customizable themes
 * **Firebase Auth** - Optional Firebase authentication with Devise fallback
-* **Modern Themes** - Brisbane, Bologna, Bristol themes with Tailwind CSS and color palettes
+* **Modern Themes** - Brisbane, Bologna, Barcelona, Biarritz, Brussels, and default themes with Tailwind CSS and color palettes
 * **Seed Packs** - Scenario-based seeding for quick site setup
 * **Google Maps Integration** - Interactive property maps with location picker
 * **Customisable** - CSS variables, Liquid templates, page parts system
@@ -166,14 +166,13 @@ PropertyWebBuilder can be deployed to multiple platforms. We have comprehensive 
 * **[Argonaut](./docs/deployment/argonaut.md)** - Deployment automation
 * **[Coherence](./docs/deployment/withcoherence.md)** - Full-stack cloud platform
 
-For development setup instructions, see [DEVELOPMENT.md](DEVELOPMENT.md).
+For development setup instructions, see [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md).
 
 ## Coming Soon
 
 These are features planned for future releases. If there's something you need that's not on the list, please let us know. Your feedback helps us prioritize!
 
 * **Property Comparisons** - Side-by-side property comparison tool
-* **Saved Searches** - Allow users to save and receive alerts for new matches
 * **Virtual Tours** - 360° photo and video tour integration
 * **Mobile Apps** - iOS and Android native apps
 * ~~**RETS/IDX Support**~~ - *(Deprecated - RETS protocol being phased out; consider RESO Web API)*

@@ -35,4 +35,20 @@ RSpec.describe 'Pwb::SignupController Security', type: :request do
       expect(response).to redirect_to(root_path)
     end
   end
+
+  context 'when only a non-default website exists' do
+    let!(:existing_website) do
+      Pwb::Website.create!(
+        subdomain: 'other-site',
+        provisioning_state: 'live'
+      )
+    end
+
+    it 'does not treat the first website as the localhost tenant' do
+      get '/signup', headers: { 'HTTP_HOST' => 'localhost:3000' }
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('Create Your Property Website')
+    end
+  end
 end

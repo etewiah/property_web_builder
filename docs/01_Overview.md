@@ -9,7 +9,7 @@ PropertyWebBuilder is a multi-tenant Ruby on Rails application for creating real
 ### Key Concepts
 
 - **Multi-Tenancy:** Each website is a tenant. The `acts_as_tenant` gem ensures data isolation between tenants.
-- **Dual Admin Interfaces:** `site_admin` for super admins (cross-tenant), `tenant_admin` for per-tenant management.
+- **Dual Admin Interfaces:** `site_admin` for per-website management and `tenant_admin` for cross-tenant/platform operations.
 - **Property Model:** Properties are `RealtyAsset` records with separate `SaleListing` and `RentalListing` records for different listing types.
 - **Theming:** Tailwind CSS-based themes with CSS variables, Liquid templates, and a page parts system.
 
@@ -18,7 +18,7 @@ PropertyWebBuilder is a multi-tenant Ruby on Rails application for creating real
 *   **Overview:** High-level architecture and main components.
 *   **Data Models:** Database schema, models, and associations including the tenant-scoped `PwbTenant::` namespace.
 *   **Controllers:** Controller actions, request handling, and the dual admin architecture.
-*   **API:** RESTful and GraphQL API documentation.
+*   **API:** REST-first API documentation plus notes for deprecated GraphQL surfaces.
 *   **Frontend:** Tailwind CSS public themes.
 *   **Multi-Tenancy:** How tenant isolation works with `acts_as_tenant`.
 *   **Theming System:** Creating and customizing themes.
@@ -28,10 +28,10 @@ PropertyWebBuilder is a multi-tenant Ruby on Rails application for creating real
 
 PropertyWebBuilder is a multi-tenant Ruby on Rails application with a modern tech stack:
 
-- **Backend:** Ruby on Rails 8.0, Ruby 3.4.7, PostgreSQL
+- **Backend:** Ruby on Rails 8.1, Ruby 3.4.7, PostgreSQL
 - **Multi-Tenancy:** `acts_as_tenant` gem with `Pwb::` (base) and `PwbTenant::` (tenant-scoped) namespaces
 - **Frontend:** Rails Views (ERB) with Tailwind CSS for admin and public themes
-- **API:** RESTful API for admin panel and external integrations, GraphQL API for flexible data querying
+- **API:** RESTful APIs for admin panel and external integrations, with deprecated GraphQL support retained only for legacy clients
 - **Authentication:** Firebase authentication with Devise fallback
 - **File Storage:** ActiveStorage with S3/Cloudflare R2 support
 - **Translations:** Mobility gem for multilingual content

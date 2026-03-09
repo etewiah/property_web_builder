@@ -50,6 +50,32 @@ module Pwb
           website.agency.update!(company_name: "my re")
         end
 
+        it "returns bad request when no tenant can be resolved" do
+          allow(Pwb::Current).to receive(:website).and_return(nil)
+          request.host = 'unknown.example.com'
+
+          get :show
+
+          expect(response.status).to eq(400)
+          expect(response.parsed_body['error']).to eq('No website found for this request')
+        end
+
+        it "resolves tenant from X-Website-Slug without relying on Website.first" do
+          allow(Pwb::Current).to receive(:website).and_return(nil)
+          request.host = 'unknown.example.com'
+
+          header_website = create(:pwb_website, slug: 'header-site', subdomain: 'header-site')
+          header_website.agency.update!(company_name: 'header re')
+          create(:pwb_user_membership, :admin, user: controller.current_user, website: header_website)
+
+          allow(controller).to receive(:current_website_from_header).and_return(header_website)
+
+          get :show
+
+          expect(response.status).to eq(200)
+          expect(response.parsed_body.dig('agency', 'company_name')).to eq('header re')
+        end
+
         it "returns correct agency and default setup info" do
           get :show
           # , format: :json

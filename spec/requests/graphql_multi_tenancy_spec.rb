@@ -133,24 +133,36 @@ RSpec.describe "GraphQL Multi-tenancy", type: :request do
       end
     end
 
-    describe "Fallback" do
-      it "uses default site when header is missing" do
-        # In the controller we have: Pwb::Current.website ||= Pwb::Website.first
-        # This will use the first website in the database if no header provided.
-
-        query = <<~GQL
+    describe "tenant resolution failures" do
+      let(:query) do
+        <<~GQL
           query {
             getSiteDetails(locale: "en") {
               slug
             }
           }
         GQL
+      end
+
+      it "returns bad request when no tenant can be resolved" do
+        host! 'unknown.example.com'
 
         post "/graphql", params: { query: query }
 
-        # json = JSON.parse(response.body)
-        # It might return a new website with ID 1 if not present.
-        # Or if website1 happened to get ID 1.
+        expect(response).to have_http_status(:bad_request)
+        json = response.parsed_body
+        expect(json.dig('errors', 0, 'message')).to include('Website context required')
+        expect(json['data']).to eq({})
+      end
+
+      it "returns bad request for an invalid website slug header when host is also unknown" do
+        host! 'unknown.example.com'
+
+        post "/graphql", params: { query: query }, headers: { 'X-Website-Slug' => 'missing-site' }
+
+        expect(response).to have_http_status(:bad_request)
+        json = response.parsed_body
+        expect(json.dig('errors', 0, 'message')).to include('Website context required')
       end
     end
   end

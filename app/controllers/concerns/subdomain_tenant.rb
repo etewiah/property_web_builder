@@ -8,7 +8,7 @@
 # 1. X-Website-Slug header (for API/GraphQL requests)
 # 2. Custom domain match (for non-platform domains like www.myrealestate.com)
 # 3. Subdomain match (for platform domains like tenant.propertywebbuilder.com)
-# 4. Fallback to default website
+# 4. Localhost root fallback to the explicit `default` website only
 #
 # Usage:
 #   include SubdomainTenant
@@ -17,6 +17,7 @@
 # before each action.
 module SubdomainTenant
   extend ActiveSupport::Concern
+  include LocalhostDefaultWebsite
 
   included do
     before_action :set_current_website_from_request
@@ -28,23 +29,8 @@ module SubdomainTenant
   # Supports both subdomain-based routing (for platform domains) and
   # custom domain routing (for tenant's own domains).
   def set_current_website_from_request
-    # First check for explicit header (useful for API clients)
-    slug = request.headers["X-Website-Slug"]
-    if slug.present?
-      Pwb::Current.website = Pwb::Website.find_by(slug: slug)
-      if Pwb::Current.website.present?
-        ActsAsTenant.current_tenant = Pwb::Current.website
-        return
-      end
-    end
-
-    # Use the unified find_by_host method which handles both
-    # custom domains and platform subdomains
     host = request.host.to_s.downcase
-    Pwb::Current.website = Pwb::Website.find_by_host(host)
-
-    # Fallback to default if not found
-    Pwb::Current.website ||= Pwb::Website.first
+    Pwb::Current.website = website_from_slug_header || website_from_host || localhost_default_website
 
     # Set ActsAsTenant for PwbTenant:: models
     ActsAsTenant.current_tenant = Pwb::Current.website
@@ -53,6 +39,17 @@ module SubdomainTenant
     if Rails.env.development? && Pwb::Current.website
       Rails.logger.debug { "[Tenant] Resolved #{host} -> Website##{Pwb::Current.website.id} (#{Pwb::Current.website.subdomain || Pwb::Current.website.custom_domain})" }
     end
+  end
+
+  def website_from_slug_header
+    slug = request.headers["X-Website-Slug"]
+    return nil if slug.blank?
+
+    Pwb::Website.find_by(slug: slug) || Pwb::Website.find_by_subdomain(slug)
+  end
+
+  def website_from_host
+    Pwb::Website.find_by_host(request.host.to_s.downcase)
   end
 
   # Helper method to get the current website

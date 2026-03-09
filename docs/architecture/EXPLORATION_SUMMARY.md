@@ -73,7 +73,7 @@
 
 ## Key Files Created
 
-1. **`docs/CODEBASE_STRUCTURE.md`** (Comprehensive)
+1. **`docs/architecture/CODEBASE_STRUCTURE.md`** (Comprehensive)
    - Detailed explanation of all 14 core sections
    - Property model architecture breakdown
    - Photo/media handling
@@ -88,7 +88,7 @@
    - File storage
    - Integration points for AI
 
-2. **`docs/ARCHITECTURE_DIAGRAMS.md`** (Visual)
+2. **`docs/architecture/ARCHITECTURE_DIAGRAMS.md`** (Visual)
    - 10 detailed ASCII diagrams showing:
      - Property model relationships
      - Content management system
@@ -291,9 +291,9 @@ options = Pwb::FieldKey.get_options_by_tag("property-types")
 ## Next Steps for Implementation
 
 ### To Build AI Features:
-1. Choose integration points from CODEBASE_STRUCTURE.md section 12
-2. Reference QUICK_REFERENCE.md for common patterns
-3. Use ARCHITECTURE_DIAGRAMS.md to understand data flows
+1. Choose integration points from `architecture/CODEBASE_STRUCTURE.md` section 12
+2. Reference `QUICK_REFERENCE.md` for common patterns
+3. Use `architecture/ARCHITECTURE_DIAGRAMS.md` to understand data flows
 4. Hook into model callbacks for automation
 5. Store AI metadata in JSON columns (details, configuration, admin_config)
 6. Test tenancy isolation thoroughly
@@ -313,8 +313,8 @@ options = Pwb::FieldKey.get_options_by_tag("property-types")
 
 All exploration documentation is in `/Users/etewiah/dev/sites-older/property_web_builder/docs/`:
 
-- `CODEBASE_STRUCTURE.md` - Comprehensive technical breakdown
-- `ARCHITECTURE_DIAGRAMS.md` - Visual architecture with ASCII diagrams
+- `architecture/CODEBASE_STRUCTURE.md` - Comprehensive technical breakdown
+- `architecture/ARCHITECTURE_DIAGRAMS.md` - Visual architecture with ASCII diagrams
 - `QUICK_REFERENCE.md` - Practical quick-lookup guide
 - `EXPLORATION_SUMMARY.md` - This file (high-level overview)
 
@@ -340,4 +340,4 @@ The codebase is **ready for AI integration** with clear hooks for:
 - Enquiry processing
 - SEO optimization
 
-**Recommendation**: Use the QUICK_REFERENCE.md for day-to-day work, CODEBASE_STRUCTURE.md for deep dives, and ARCHITECTURE_DIAGRAMS.md to understand system flows.
+**Recommendation**: Use `QUICK_REFERENCE.md` for day-to-day work, `architecture/CODEBASE_STRUCTURE.md` for deep dives, and `architecture/ARCHITECTURE_DIAGRAMS.md` to understand system flows.
