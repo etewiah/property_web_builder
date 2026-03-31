@@ -6,6 +6,9 @@
 
 Please help support this project by making a contribution to PropertyWebBuilder here: https://opencollective.com/property_web_builder
 
+If you want to hear more about the story of propertywebbuilder, check out this episode of the "Coding with Jason" podcast:
+https://www.linkedin.com/pulse/propertywebbuilder-code-jason-podcast-ed-tewiah-pupue/
+
 [![Backers on Open Collective](https://opencollective.com/property_web_builder/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/property_web_builder/sponsors/badge.svg)](#sponsors)
 [![Gitter](https://badges.gitter.im/dev-1pr/1pr.svg)](https://gitter.im/property_web_builder/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
