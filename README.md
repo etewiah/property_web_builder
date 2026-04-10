@@ -6,6 +6,7 @@
 
 Please help support this project by making a contribution to PropertyWebBuilder here: https://opencollective.com/property_web_builder
 
+
 If you want to hear more about the story of propertywebbuilder, check out this episode of the "Coding with Jason" podcast:
 https://www.linkedin.com/pulse/propertywebbuilder-code-jason-podcast-ed-tewiah-pupue/
 
@@ -14,6 +15,13 @@ https://www.linkedin.com/pulse/propertywebbuilder-code-jason-podcast-ed-tewiah-p
 [![Gitter](https://badges.gitter.im/dev-1pr/1pr.svg)](https://gitter.im/property_web_builder/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
+
+## New: Use with EmDash from Cloudflare!
+
+With the release of Emdash (Wordpress Alternative) from CloudFlare you can now get the best of both worlds by using it with property_web_builder!
+
+Checkout the repo here:
+https://github.com/RealEstateWebTools/emdash_property_web_builder
 
 ## Version 2.1.0 - December 2025
 
