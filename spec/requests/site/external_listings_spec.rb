@@ -106,8 +106,8 @@ RSpec.describe "Site::ExternalListings", type: :request do
       external_feed_config: { api_key: "test123" }
     )
 
-    # Set current website for requests
-    allow_any_instance_of(Pwb::ApplicationController).to receive(:current_website).and_return(website)
+    # Set current website via subdomain-based host routing
+    host! "#{website.subdomain}.localhost"
   end
 
   after do

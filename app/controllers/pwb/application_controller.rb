@@ -116,12 +116,11 @@ module Pwb
     # Reserved subdomains that should not be used for tenant resolution
     RESERVED_SUBDOMAINS = %w[www api admin].freeze
 
-    # Determine the current website based on subdomain
+    # Determine the current website based on the request host.
+    # Uses Website.find_by_host which handles both platform subdomains (including
+    # localhost-based test hosts) and custom domains correctly.
     def current_website_from_subdomain
-      subdomain = request.subdomain
-      return nil if subdomain.blank?
-      return nil if RESERVED_SUBDOMAINS.include?(subdomain.downcase)
-      Website.find_by_subdomain(subdomain)
+      Website.find_by_host(request.host.to_s.downcase)
     end
 
     # Returns the current website, preferring @current_website if already set

@@ -2,6 +2,8 @@
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= "test"
+# Add example.com as a platform domain so tests using `host! 'subdomain.example.com'` work correctly
+ENV["PLATFORM_DOMAINS"] ||= "propertywebbuilder.com,pwb.localhost,e2e.localhost,localhost,example.com"
 require File.expand_path("../../config/environment", __FILE__)
 
 # Prevent database truncation if the environment is production
