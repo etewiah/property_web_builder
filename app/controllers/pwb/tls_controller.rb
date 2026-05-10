@@ -35,6 +35,8 @@ module Pwb
     # Skip authentication - this is called by the TLS proxy, not users
     skip_before_action :authenticate_user!, raise: false
     skip_before_action :verify_authenticity_token, raise: false
+    # TLS check is a platform endpoint - no tenant website required
+    skip_before_action :check_unseeded_website, raise: false
 
     # Optional: Add IP-based or secret-based authentication
     before_action :verify_tls_request
