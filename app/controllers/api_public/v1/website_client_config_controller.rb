@@ -78,6 +78,10 @@ module ApiPublic
         }
       end
 
+      def require_current_website?
+        false
+      end
+
       private
 
       def theme_data(theme)

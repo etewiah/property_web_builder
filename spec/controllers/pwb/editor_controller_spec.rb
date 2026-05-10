@@ -10,6 +10,7 @@ module Pwb
 
     before do
       @request.env["devise.mapping"] = ::Devise.mappings[:user]
+      allow(controller).to receive(:current_website).and_return(website)
     end
 
     describe "GET #show" do

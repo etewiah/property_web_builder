@@ -53,7 +53,7 @@ RSpec.describe Pwb::WebsiteDomainConfigurable, type: :model do
 
     describe 'custom_domain' do
       it 'allows valid domains' do
-        %w[example.com www.example.com sub.domain.co.uk].each do |domain|
+        %w[example.test www.example.test sub.domain.co.uk].each do |domain|
           website.custom_domain = domain
           expect(website).to be_valid
         end
@@ -92,19 +92,19 @@ RSpec.describe Pwb::WebsiteDomainConfigurable, type: :model do
 
   describe '.find_by_custom_domain' do
     before do
-      website.update!(custom_domain: 'example.com')
+      website.update!(custom_domain: 'example.test')
     end
 
     it 'finds website by exact domain' do
-      expect(Pwb::Website.find_by_custom_domain('example.com')).to eq(website)
+      expect(Pwb::Website.find_by_custom_domain('example.test')).to eq(website)
     end
 
     it 'finds website case-insensitively' do
-      expect(Pwb::Website.find_by_custom_domain('EXAMPLE.COM')).to eq(website)
+      expect(Pwb::Website.find_by_custom_domain('EXAMPLE.TEST')).to eq(website)
     end
 
     it 'handles www prefix' do
-      expect(Pwb::Website.find_by_custom_domain('www.example.com')).to eq(website)
+      expect(Pwb::Website.find_by_custom_domain('www.example.test')).to eq(website)
     end
 
     it 'returns nil for non-existent domain' do
@@ -130,20 +130,20 @@ RSpec.describe Pwb::WebsiteDomainConfigurable, type: :model do
 
   describe '.normalize_domain' do
     it 'removes protocol' do
-      expect(Pwb::Website.normalize_domain('https://example.com')).to eq('example.com')
-      expect(Pwb::Website.normalize_domain('http://example.com')).to eq('example.com')
+      expect(Pwb::Website.normalize_domain('https://example.test')).to eq('example.test')
+      expect(Pwb::Website.normalize_domain('http://example.test')).to eq('example.test')
     end
 
     it 'removes path' do
-      expect(Pwb::Website.normalize_domain('example.com/path/to/page')).to eq('example.com')
+      expect(Pwb::Website.normalize_domain('example.test/path/to/page')).to eq('example.test')
     end
 
     it 'removes port' do
-      expect(Pwb::Website.normalize_domain('example.com:3000')).to eq('example.com')
+      expect(Pwb::Website.normalize_domain('example.test:3000')).to eq('example.test')
     end
 
     it 'lowercases and strips whitespace' do
-      expect(Pwb::Website.normalize_domain('  EXAMPLE.COM  ')).to eq('example.com')
+      expect(Pwb::Website.normalize_domain('  EXAMPLE.TEST  ')).to eq('example.test')
     end
   end
 
@@ -154,7 +154,7 @@ RSpec.describe Pwb::WebsiteDomainConfigurable, type: :model do
     end
 
     it 'returns false for non-platform domains' do
-      expect(Pwb::Website.platform_domain?('example.com')).to be false
+      expect(Pwb::Website.platform_domain?('example.test')).to be false
     end
   end
 
@@ -165,7 +165,7 @@ RSpec.describe Pwb::WebsiteDomainConfigurable, type: :model do
     end
 
     it 'returns nil for non-platform domains' do
-      expect(Pwb::Website.extract_subdomain_from_host('example.com')).to be_nil
+      expect(Pwb::Website.extract_subdomain_from_host('example.test')).to be_nil
     end
   end
 
@@ -184,20 +184,20 @@ RSpec.describe Pwb::WebsiteDomainConfigurable, type: :model do
     end
 
     it 'returns true when verified' do
-      website.update!(custom_domain: 'example.com', custom_domain_verified: true)
+      website.update!(custom_domain: 'example.test', custom_domain_verified: true)
       expect(website.custom_domain_active?).to be true
     end
 
     it 'returns true in development/test even if not verified' do
-      website.update!(custom_domain: 'example.com', custom_domain_verified: false)
+      website.update!(custom_domain: 'example.test', custom_domain_verified: false)
       expect(website.custom_domain_active?).to be true
     end
   end
 
   describe '#primary_url' do
     it 'returns custom domain URL when active' do
-      website.update!(custom_domain: 'example.com', custom_domain_verified: true)
-      expect(website.primary_url).to eq('https://example.com')
+      website.update!(custom_domain: 'example.test', custom_domain_verified: true)
+      expect(website.primary_url).to eq('https://example.test')
     end
 
     it 'returns subdomain URL when no custom domain' do

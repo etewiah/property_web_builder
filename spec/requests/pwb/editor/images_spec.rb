@@ -10,6 +10,7 @@ module Pwb
     let(:user) { Pwb::User.create!(email: 'admin@example.com', password: 'password123', admin: true, website: website) }
 
     before do
+      host! "#{website.subdomain}.example.com"
       sign_in user
       Pwb::Current.website = website
     end
