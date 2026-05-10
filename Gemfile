@@ -159,7 +159,7 @@ gem "liquid", "~> 5.3"
 
 # gem "vite_rails", "~> 3.0"  # Removed - was only used for Vue apps
 
-gem "graphql", "~> 2.0"
+gem "graphql", "~> 2.5"
 gem "graphiql-rails", group: :development
 
 gem "faraday", "~> 2.3"

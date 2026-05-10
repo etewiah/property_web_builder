@@ -276,7 +276,7 @@ GEM
       signet (>= 0.16, < 2.a)
     graphiql-rails (1.10.5)
       railties
-    graphql (2.5.23)
+    graphql (2.5.26)
       base64
       fiber-storage
       logger
@@ -821,7 +821,7 @@ DEPENDENCIES
   geocoder (~> 1.8)
   get_process_mem
   graphiql-rails
-  graphql (~> 2.0)
+  graphql (~> 2.5)
   groupdate (~> 6.0)
   http (~> 5.0)
   i18n (~> 1.10)
