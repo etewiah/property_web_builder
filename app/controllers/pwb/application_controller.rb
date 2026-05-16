@@ -79,7 +79,7 @@ module Pwb
     private
 
     def current_agency_and_website
-      @current_website = current_website_from_subdomain || Pwb::Current.website
+      @current_website = current_website
       # Ensure Pwb::Current.website is set for Ahoy analytics and other services
       Pwb::Current.website ||= @current_website
       # Set ActsAsTenant for PwbTenant:: models

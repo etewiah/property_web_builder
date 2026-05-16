@@ -66,7 +66,10 @@ class GraphqlController < Pwb::ApplicationController
   end
 
   def set_current_website
-    Pwb::Current.website = website_from_slug_header || Pwb::Website.find_by_host(request.host.to_s.downcase) || localhost_default_website
+    Pwb::Current.website = website_from_slug_header ||
+                           Pwb::Website.find_by_host(request.host.to_s.downcase) ||
+                           default_platform_website ||
+                           localhost_default_website
     ActsAsTenant.current_tenant = Pwb::Current.website
   end
 
@@ -125,5 +128,14 @@ class GraphqlController < Pwb::ApplicationController
     return nil if slug.blank?
 
     Pwb::Website.find_by(slug: slug) || Pwb::Website.find_by_subdomain(slug)
+  end
+
+  def default_platform_website
+    host = request.host.to_s.downcase
+    return nil unless Pwb::Website.platform_domain?(host)
+
+    Pwb::Website.find_by_subdomain('default') ||
+      Pwb::Website.find_by(slug: 'default') ||
+      Pwb::Website.find_by(id: 1)
   end
 end

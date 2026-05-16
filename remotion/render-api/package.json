@@ -8,8 +8,8 @@
     "dev": "ts-node-dev --respawn index.ts"
   },
   "dependencies": {
-    "@remotion/bundler": "4.0.242",
-    "@remotion/renderer": "4.0.242",
+    "@remotion/bundler": "4.0.459",
+    "@remotion/renderer": "4.0.459",
     "express": "^4.21.0"
   },
   "devDependencies": {

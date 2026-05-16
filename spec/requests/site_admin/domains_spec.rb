@@ -37,7 +37,7 @@ RSpec.describe 'SiteAdmin::DomainsController', type: :request do
     context 'with custom domain set but not verified' do
       before do
         website.update!(
-          custom_domain: 'example.com',
+          custom_domain: 'example.test',
           custom_domain_verified: false,
           custom_domain_verification_token: 'test-token-123'
         )
@@ -53,7 +53,7 @@ RSpec.describe 'SiteAdmin::DomainsController', type: :request do
     context 'with verified custom domain' do
       before do
         website.update!(
-          custom_domain: 'example.com',
+          custom_domain: 'example.test',
           custom_domain_verified: true,
           custom_domain_verified_at: Time.current
         )
@@ -80,7 +80,7 @@ RSpec.describe 'SiteAdmin::DomainsController', type: :request do
 
     it 'redirects with notice' do
       patch site_admin_domain_path,
-            params: { website: { custom_domain: 'new.example.com' } },
+            params: { website: { custom_domain: 'new.example.test' } },
             headers: { 'HTTP_HOST' => 'domain-test.test.localhost' }
 
       expect(response).to redirect_to(site_admin_domain_path)
@@ -90,7 +90,7 @@ RSpec.describe 'SiteAdmin::DomainsController', type: :request do
     context 'when removing domain' do
       before do
         website.update!(
-          custom_domain: 'old.example.com',
+          custom_domain: 'old.example.test',
           custom_domain_verified: true
         )
       end
@@ -117,7 +117,7 @@ RSpec.describe 'SiteAdmin::DomainsController', type: :request do
     context 'when changing domain' do
       before do
         website.update!(
-          custom_domain: 'old.example.com',
+          custom_domain: 'old.example.test',
           custom_domain_verified: true,
           custom_domain_verified_at: 1.day.ago
         )
@@ -125,11 +125,11 @@ RSpec.describe 'SiteAdmin::DomainsController', type: :request do
 
       it 'resets verification status' do
         patch site_admin_domain_path,
-              params: { website: { custom_domain: 'new.example.com' } },
+              params: { website: { custom_domain: 'new.example.test' } },
               headers: { 'HTTP_HOST' => 'domain-test.test.localhost' }
 
         website.reload
-        expect(website.custom_domain).to eq('new.example.com')
+        expect(website.custom_domain).to eq('new.example.test')
         expect(website.custom_domain_verified).to be false
         expect(website.custom_domain_verified_at).to be_nil
       end
@@ -150,7 +150,7 @@ RSpec.describe 'SiteAdmin::DomainsController', type: :request do
     context 'with custom domain' do
       before do
         website.update!(
-          custom_domain: 'verify.example.com',
+          custom_domain: 'verify.example.test',
           custom_domain_verification_token: 'test-token'
         )
       end

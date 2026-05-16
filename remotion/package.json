@@ -10,14 +10,14 @@
     "upgrade": "remotion upgrade"
   },
   "dependencies": {
-    "@remotion/cli": "4.0.242",
-    "@remotion/media": "4.0.242",
-    "@remotion/transitions": "4.0.242",
-    "@remotion/zod-types": "4.0.242",
+    "@remotion/cli": "4.0.459",
+    "@remotion/media": "4.0.459",
+    "@remotion/transitions": "4.0.459",
+    "@remotion/zod-types": "4.0.459",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "remotion": "4.0.242",
-    "zod": "3.22.3"
+    "remotion": "4.0.459",
+    "zod": "4.3.6"
   },
   "devDependencies": {
     "@types/react": "^18.3.12",
