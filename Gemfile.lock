@@ -322,7 +322,7 @@ GEM
     json_spec (1.1.5)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
-    jwt (3.1.2)
+    jwt (3.2.0)
       base64
     language_server-protocol (3.17.0.5)
     launchy (3.1.1)
@@ -829,7 +829,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   importmap-rails (~> 2.0)
   json_spec
-  jwt (~> 3.1)
+  jwt (~> 3.2)
   launchy
   letter_opener
   liquid (~> 5.3)
