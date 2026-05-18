@@ -201,7 +201,7 @@ GEM
       railties (>= 6.1.0)
     faker (3.6.1)
       i18n (>= 1.8.11, < 2)
-    faraday (2.14.1)
+    faraday (2.14.2)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
@@ -814,7 +814,7 @@ DEPENDENCIES
   eu_central_bank (~> 2.0)
   factory_bot_rails
   faker
-  faraday (~> 2.3)
+  faraday (~> 2.14)
   firebase
   flag_shih_tzu (~> 0.3.23)
   font-awesome-rails
