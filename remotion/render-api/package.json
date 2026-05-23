@@ -10,7 +10,7 @@
   "dependencies": {
     "@remotion/bundler": "4.0.459",
     "@remotion/renderer": "4.0.459",
-    "express": "^4.21.0"
+    "express": "^4.22.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
