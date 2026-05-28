@@ -10,7 +10,7 @@
     "upgrade": "remotion upgrade"
   },
   "dependencies": {
-    "@remotion/cli": "4.0.459",
+    "@remotion/cli": "4.0.468",
     "@remotion/media": "4.0.459",
     "@remotion/transitions": "4.0.459",
     "@remotion/zod-types": "4.0.459",
