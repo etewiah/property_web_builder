@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe "ApiManage::V1::PageParts", type: :request do
   let!(:website) { FactoryBot.create(:pwb_website, subdomain: "manage-parts-test") }
+  let!(:manage_api_user) { FactoryBot.create(:pwb_user, :admin, website: website) }
   let!(:page) do
     ActsAsTenant.with_tenant(website) do
       FactoryBot.create(:pwb_page, slug: "test-page", website: website)

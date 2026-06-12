@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'ApiManage::V1::Reports::Cmas', type: :request do
   let(:website) { create(:pwb_website) }
+  let!(:manage_api_user) { create(:pwb_user, :admin, website: website) }
   let(:property) do
     create(:pwb_realty_asset, :with_location, :with_sale_listing,
            website: website,

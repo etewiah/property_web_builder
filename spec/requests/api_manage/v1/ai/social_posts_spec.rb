@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'ApiManage::V1::Ai::SocialPosts', type: :request do
   let!(:website) { create(:pwb_website) }
+  let!(:manage_api_user) { create(:pwb_user, :admin, website: website) }
   let!(:property) { create(:pwb_realty_asset, website: website) }
 
   # Mock LLM response

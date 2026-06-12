@@ -1,6 +1,9 @@
 module Pwb
-  class Api::V1::WebContentsController < ApplicationController
-    protect_from_forgery with: :null_session
+  class Api::V1::WebContentsController < ApplicationApiController
+    # Reads (index/show) remain public for legacy embeds/widgets on tenant sites.
+    # All write actions require admin auth via ApplicationApiController.
+    skip_before_action :authenticate_user!, :current_agency, :check_user, only: %i[index show]
+
     before_action :set_current_website
 
     # GET /api/v1/web-contents
@@ -111,16 +114,7 @@ module Pwb
     end
 
     def set_current_website
-      Pwb::Current.website = current_website_from_subdomain
-    end
-
-    def current_website_from_subdomain
-      return nil unless request.subdomain.present?
-      Website.find_by_subdomain(request.subdomain)
-    end
-
-    def current_website
-      @current_website ||= Pwb::Current.website
+      Pwb::Current.website = current_website
     end
   end
 end

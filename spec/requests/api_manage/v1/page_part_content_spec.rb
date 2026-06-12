@@ -6,6 +6,7 @@ module ApiManage
   module V1
     RSpec.describe "PagePartContent", type: :request do
       let(:website) { FactoryBot.create(:pwb_website, subdomain: 'content-test') }
+      let!(:manage_api_user) { FactoryBot.create(:pwb_user, :admin, website: website) }
       let!(:page) do
         ActsAsTenant.with_tenant(website) do
           FactoryBot.create(:pwb_page, slug: 'contact-us', website: website)

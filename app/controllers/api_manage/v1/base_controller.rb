@@ -22,6 +22,9 @@ module ApiManage
       # Require website context for all API requests
       before_action :require_website!
 
+      # Require an authenticated user (with access to current_website) for all API requests
+      before_action :require_user!
+
       # JSON API responses
       rescue_from ActiveRecord::RecordNotFound do |e|
         StructuredLogger.warn("[API] Record not found", path: request.path, error: e.message)

@@ -54,7 +54,7 @@ RSpec.describe 'ApiManage::V1 Cross-Tenant Isolation', type: :request do
     context 'with subdomain' do
       it 'accepts request with valid subdomain' do
         get '/api_manage/v1/en/pages',
-            headers: { 'HTTP_HOST' => 'tenant-a.example.com' }
+            headers: { 'HTTP_HOST' => 'tenant-a.example.com', 'X-User-Email' => user_a.email }
 
         expect(response).to have_http_status(:ok)
       end
@@ -85,7 +85,7 @@ RSpec.describe 'ApiManage::V1 Cross-Tenant Isolation', type: :request do
     describe 'GET /api_manage/v1/:locale/pages' do
       it 'only returns pages for current tenant' do
         get '/api_manage/v1/en/pages',
-            headers: { 'HTTP_HOST' => 'tenant-a.example.com' }
+            headers: { 'HTTP_HOST' => 'tenant-a.example.com', 'X-User-Email' => user_a.email }
 
         expect(response).to have_http_status(:ok)
         json = response.parsed_body
@@ -99,7 +99,7 @@ RSpec.describe 'ApiManage::V1 Cross-Tenant Isolation', type: :request do
     describe 'GET /api_manage/v1/:locale/pages/:id' do
       it 'allows access to own page' do
         get "/api_manage/v1/en/pages/#{page_a.id}",
-            headers: { 'HTTP_HOST' => 'tenant-a.example.com' }
+            headers: { 'HTTP_HOST' => 'tenant-a.example.com', 'X-User-Email' => user_a.email }
 
         expect(response).to have_http_status(:ok)
         json = response.parsed_body
@@ -108,7 +108,7 @@ RSpec.describe 'ApiManage::V1 Cross-Tenant Isolation', type: :request do
 
       it 'denies access to another tenant page' do
         get "/api_manage/v1/en/pages/#{page_b.id}",
-            headers: { 'HTTP_HOST' => 'tenant-a.example.com' }
+            headers: { 'HTTP_HOST' => 'tenant-a.example.com', 'X-User-Email' => user_a.email }
 
         expect(response).to have_http_status(:not_found)
       end
@@ -139,7 +139,7 @@ RSpec.describe 'ApiManage::V1 Cross-Tenant Isolation', type: :request do
     describe 'GET /api_manage/v1/:locale/page_parts' do
       it 'only returns page_parts for current tenant' do
         get '/api_manage/v1/en/page_parts',
-            headers: { 'HTTP_HOST' => 'tenant-a.example.com' }
+            headers: { 'HTTP_HOST' => 'tenant-a.example.com', 'X-User-Email' => user_a.email }
 
         expect(response).to have_http_status(:ok)
         json = response.parsed_body
@@ -153,14 +153,14 @@ RSpec.describe 'ApiManage::V1 Cross-Tenant Isolation', type: :request do
     describe 'GET /api_manage/v1/:locale/page_parts/:id' do
       it 'allows access to own page_part' do
         get "/api_manage/v1/en/page_parts/#{page_part_a.id}",
-            headers: { 'HTTP_HOST' => 'tenant-a.example.com' }
+            headers: { 'HTTP_HOST' => 'tenant-a.example.com', 'X-User-Email' => user_a.email }
 
         expect(response).to have_http_status(:ok)
       end
 
       it 'denies access to another tenant page_part' do
         get "/api_manage/v1/en/page_parts/#{page_part_b.id}",
-            headers: { 'HTTP_HOST' => 'tenant-a.example.com' }
+            headers: { 'HTTP_HOST' => 'tenant-a.example.com', 'X-User-Email' => user_a.email }
 
         expect(response).to have_http_status(:not_found)
       end
@@ -401,7 +401,7 @@ RSpec.describe 'ApiManage::V1 Cross-Tenant Isolation', type: :request do
     it 'prevents accessing another tenant resource by guessing ID' do
       # Try to access page_b (ID from tenant B) while authenticated as tenant A
       get "/api_manage/v1/en/pages/#{page_b.id}",
-          headers: { 'HTTP_HOST' => 'tenant-a.example.com' }
+          headers: { 'HTTP_HOST' => 'tenant-a.example.com', 'X-User-Email' => user_a.email }
 
       expect(response).to have_http_status(:not_found)
     end
@@ -411,7 +411,7 @@ RSpec.describe 'ApiManage::V1 Cross-Tenant Isolation', type: :request do
 
       patch "/api_manage/v1/en/pages/#{page_b.id}",
             params: { page: { slug: 'hacked' } },
-            headers: { 'HTTP_HOST' => 'tenant-a.example.com' }
+            headers: { 'HTTP_HOST' => 'tenant-a.example.com', 'X-User-Email' => user_a.email }
 
       expect(response).to have_http_status(:not_found)
       expect(page_b.reload.slug).to eq(original_slug)
@@ -420,7 +420,7 @@ RSpec.describe 'ApiManage::V1 Cross-Tenant Isolation', type: :request do
     it 'prevents deleting another tenant resource by ID manipulation' do
       expect {
         delete "/api_manage/v1/en/pages/#{page_b.id}",
-               headers: { 'HTTP_HOST' => 'tenant-a.example.com' }
+               headers: { 'HTTP_HOST' => 'tenant-a.example.com', 'X-User-Email' => user_a.email }
       }.not_to change(Pwb::Page, :count)
 
       expect(response).to have_http_status(:not_found)

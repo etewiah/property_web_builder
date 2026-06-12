@@ -76,6 +76,7 @@ module Pwb
     end
 
     def bypass_authentication?
+      return false unless Pwb::ApplicationApiController::ALLOWED_BYPASS_ENVIRONMENTS.include?(Rails.env)
       ENV['BYPASS_API_AUTH'] == 'true'
     end
 

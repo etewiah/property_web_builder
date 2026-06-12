@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'ApiManage::V1::Pages', type: :request do
   let!(:website) { create(:pwb_website) }
+  let!(:manage_api_user) { create(:pwb_user, :admin, website: website) }
   let!(:test_page) do
     ActsAsTenant.with_tenant(website) do
       create(:pwb_page, website: website, slug: 'test-page', visible: true)

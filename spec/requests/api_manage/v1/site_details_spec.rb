@@ -11,6 +11,8 @@ RSpec.describe 'ApiManage::V1::SiteDetails', type: :request do
            supported_locales: %w[en es])
   end
 
+  let!(:manage_api_user) { create(:pwb_user, :admin, website: website) }
+
   let!(:visible_page) do
     ActsAsTenant.with_tenant(website) do
       create(:pwb_page,

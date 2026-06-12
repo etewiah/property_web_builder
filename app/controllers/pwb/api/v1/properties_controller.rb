@@ -1,8 +1,11 @@
 module Pwb
-  class Api::V1::PropertiesController < ApplicationController
+  class Api::V1::PropertiesController < ApplicationApiController
     include LocalizedSerializer
 
-    protect_from_forgery with: :null_session
+    # Reads (index/show) remain public for legacy embeds/widgets on tenant sites.
+    # All write actions require admin auth via ApplicationApiController.
+    skip_before_action :authenticate_user!, :current_agency, :check_user, only: %i[index show]
+
     before_action :set_current_website
 
     # DEPRECATION WARNING: This controller uses the deprecated Pwb::Prop model for write operations.
@@ -217,12 +220,7 @@ module Pwb
     end
 
     def set_current_website
-      Pwb::Current.website = current_website_from_subdomain
-    end
-
-    def current_website_from_subdomain
-      return nil unless request.subdomain.present?
-      Website.find_by_subdomain(request.subdomain)
+      Pwb::Current.website = current_website
     end
 
     def properties_params(propertiesJSON)

@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe "Editor Images API", type: :request do
   let!(:website) { create(:pwb_website, subdomain: 'editor-images-test') }
   let!(:admin_user) { create(:user, :admin, website: website) }
+  let!(:manage_api_user) { admin_user }
 
   before do
     host! 'editor-images-test.example.com'

@@ -11,7 +11,6 @@ module ApiManage
     #   PUT  /api_manage/v1/:locale/spp_listings/:id             — Update SPP listing content
     #
     class SppListingsController < BaseController
-      before_action :require_user!
       before_action :set_property, only: %i[publish unpublish leads]
       before_action :set_spp_listing, only: %i[update]
       before_action :setup_locale, only: %i[update]
