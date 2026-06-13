@@ -29,6 +29,10 @@ class SitemapsController < ActionController::Base
 
   private
 
+  def current_website
+    helper_current_website
+  end
+
   def fetch_properties
     # Use the materialized view for efficient querying
     # Note: title is computed from associated listings, not a column

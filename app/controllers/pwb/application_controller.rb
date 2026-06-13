@@ -2,6 +2,7 @@ module Pwb
   class ApplicationController < ActionController::Base
     protect_from_forgery with: :exception
     helper AuthHelper
+    helper_method :current_website
 
     before_action :current_agency_and_website, :check_unseeded_website, :check_locked_website, :nav_links,
       :set_locale, :set_theme_path, :footer_content

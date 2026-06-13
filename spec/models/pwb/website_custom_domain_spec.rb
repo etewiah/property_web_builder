@@ -10,12 +10,12 @@ module Pwb
 
       describe 'validations' do
         it 'allows valid custom domains' do
-          website.custom_domain = 'example.com'
+          website.custom_domain = 'myotherrealestate.com'
           expect(website).to be_valid
         end
 
         it 'allows www subdomain' do
-          website.custom_domain = 'www.example.com'
+          website.custom_domain = 'www.myotherrealestate.com'
           expect(website).to be_valid
         end
 

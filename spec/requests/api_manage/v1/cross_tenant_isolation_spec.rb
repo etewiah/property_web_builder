@@ -9,45 +9,36 @@ RSpec.describe 'ApiManage::V1 Cross-Tenant Isolation', type: :request do
   let!(:user_b) { create(:pwb_user, :admin, website: website_b, email: 'admin@tenant-b.test') }
 
   describe 'Website Context Requirement' do
-    # NOTE: Current implementation falls back to first website when context
-    # cannot be determined. These tests verify the current behavior.
-    # For stricter API security, consider removing the fallback for API endpoints.
-
     context 'without website context' do
-      # Current behavior: Falls back to first website in DB
-      # Future improvement: Return 400 Bad Request for API endpoints
-      it 'falls back to a default website (current behavior)' do
+      it 'returns 400 when no tenant context can be resolved' do
         # Request without subdomain or X-Website-Slug header
         get '/api_manage/v1/en/pages',
             headers: { 'HTTP_HOST' => 'localhost' }
 
-        # Current behavior allows this - falls back to first website
-        expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:bad_request)
       end
     end
 
     context 'with X-Website-Slug header' do
-      it 'accepts request with valid website slug' do
+      it 'accepts request with valid website subdomain' do
         get '/api_manage/v1/en/pages',
             headers: {
               'HTTP_HOST' => 'localhost',
-              'X-Website-Slug' => website_a.slug
+              'X-Website-Slug' => website_a.subdomain,
+              'X-User-Email' => user_a.email
             }
 
         expect(response).to have_http_status(:ok)
       end
 
-      # Current behavior: Falls back when slug not found
-      # Future improvement: Return 400 Bad Request for invalid slug
-      it 'falls back when website slug not found (current behavior)' do
+      it 'returns 400 when X-Website-Slug does not match any website' do
         get '/api_manage/v1/en/pages',
             headers: {
               'HTTP_HOST' => 'localhost',
               'X-Website-Slug' => 'nonexistent-slug'
             }
 
-        # Current behavior allows this - falls back to first website
-        expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:bad_request)
       end
     end
 

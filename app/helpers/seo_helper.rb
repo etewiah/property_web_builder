@@ -33,7 +33,7 @@ module SeoHelper
     end
 
     # Site name
-    site_name = current_website&.company_display_name.presence || current_website&.subdomain.presence || 'PropertyWebBuilder'
+    site_name = helper_current_website&.company_display_name.presence || helper_current_website&.subdomain.presence || 'PropertyWebBuilder'
     parts << site_name if parts.empty? || seo_data[:include_site_name] != false
 
     parts.uniq.join(' | ')
@@ -43,8 +43,8 @@ module SeoHelper
   def seo_description
     seo_data[:description].presence ||
       @meta_description.presence ||
-      current_website&.default_meta_description.presence ||
-      "Find your perfect property with #{current_website&.company_display_name || 'us'}"
+      helper_current_website&.default_meta_description.presence ||
+      "Find your perfect property with #{helper_current_website&.company_display_name || 'us'}"
   end
 
   # Get canonical URL
@@ -67,7 +67,7 @@ module SeoHelper
       end
     else
       # Fallback to website logo or default
-      current_website&.logo_url.presence
+      helper_current_website&.logo_url.presence
     end
   end
 
@@ -87,9 +87,9 @@ module SeoHelper
   # Search Engine Verification Meta Tags
   # Generates meta tags for Google Search Console and Bing Webmaster Tools verification
   def verification_meta_tags
-    return nil unless current_website.present?
+    return nil unless helper_current_website.present?
 
-    social_media = current_website.social_media || {}
+    social_media = helper_current_website.social_media || {}
     tags = []
 
     # Google Search Console verification
@@ -125,7 +125,7 @@ module SeoHelper
     tags << tag.meta(property: 'og:title', content: seo_title)
     tags << tag.meta(property: 'og:description', content: seo_description) if seo_description.present?
     tags << tag.meta(property: 'og:url', content: seo_canonical_url)
-    tags << tag.meta(property: 'og:site_name', content: current_website&.company_display_name.presence || 'PropertyWebBuilder')
+    tags << tag.meta(property: 'og:site_name', content: helper_current_website&.company_display_name.presence || 'PropertyWebBuilder')
     tags << tag.meta(property: 'og:image', content: seo_image) if seo_image.present?
     tags << tag.meta(property: 'og:locale', content: I18n.locale.to_s.tr('-', '_'))
 
@@ -246,25 +246,25 @@ module SeoHelper
 
   # Generate JSON-LD for organization/website
   def organization_json_ld
-    return nil unless current_website.present?
+    return nil unless helper_current_website.present?
 
     data = {
       '@context' => 'https://schema.org',
       '@type' => 'RealEstateAgent',
       # Use agency display_name (primary), fallback to website.company_display_name (deprecated), then subdomain
-      'name' => current_website.agency&.display_name.presence ||
-                current_website.agency&.company_name.presence ||
-                current_website.company_display_name.presence ||
-                current_website.subdomain,
+      'name' => helper_current_website.agency&.display_name.presence ||
+                helper_current_website.agency&.company_name.presence ||
+                helper_current_website.company_display_name.presence ||
+                helper_current_website.subdomain,
       'url' => root_url
     }
 
-    data['logo'] = current_website.logo_url if current_website.respond_to?(:logo_url) && current_website.logo_url.present?
-    data['description'] = current_website.default_meta_description if current_website.default_meta_description.present?
+    data['logo'] = helper_current_website.logo_url if helper_current_website.respond_to?(:logo_url) && helper_current_website.logo_url.present?
+    data['description'] = helper_current_website.default_meta_description if helper_current_website.default_meta_description.present?
 
     # Contact info from agency if available
-    if current_website.respond_to?(:agency) && current_website.agency.present?
-      agency = current_website.agency
+    if helper_current_website.respond_to?(:agency) && helper_current_website.agency.present?
+      agency = helper_current_website.agency
       data['telephone'] = agency.phone if agency.respond_to?(:phone) && agency.phone.present?
       data['email'] = agency.email if agency.respond_to?(:email) && agency.email.present?
     end
@@ -358,7 +358,7 @@ module SeoHelper
 
   private
 
-  def current_website
+  def helper_current_website
     return @current_website if defined?(@current_website)
     @current_website = Pwb::Current.website rescue nil
   end

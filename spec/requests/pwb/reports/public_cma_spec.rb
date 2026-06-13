@@ -7,6 +7,10 @@ RSpec.describe 'Pwb::Reports::PublicCma', type: :request do
   # as this can cause issues with transactional test fixtures
   let(:website) { Pwb::Website.first || create(:pwb_website) }
 
+  before do
+    host! "#{website.subdomain}.example.com"
+  end
+
   describe 'GET /reports/shared/:share_token' do
     context 'with valid share token' do
       let!(:shared_report) do

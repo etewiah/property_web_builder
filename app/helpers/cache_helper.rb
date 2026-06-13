@@ -135,7 +135,7 @@ module CacheHelper
 
   # Cache key for navigation/header elements
   def navigation_cache_key
-    website = current_website
+    website = helper_current_website
     return cache_key_for("nav", "none") unless website
 
     cache_key_for(
@@ -147,7 +147,7 @@ module CacheHelper
 
   # Cache key for footer
   def footer_cache_key
-    website = current_website
+    website = helper_current_website
     return cache_key_for("footer", "none") unless website
 
     cache_key_for(
@@ -273,8 +273,8 @@ module CacheHelper
   private
 
   def current_website_id
-    if defined?(current_website) && current_website
-      current_website.id
+    if defined?(helper_current_website) && helper_current_website
+      helper_current_website.id
     elsif defined?(Pwb::Current) && Pwb::Current.website
       Pwb::Current.website.id
     else
@@ -282,7 +282,7 @@ module CacheHelper
     end
   end
 
-  def current_website
+  def helper_current_website
     if defined?(@current_website)
       @current_website
     elsif defined?(Pwb::Current)

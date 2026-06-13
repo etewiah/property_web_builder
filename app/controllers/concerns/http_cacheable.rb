@@ -21,7 +21,7 @@ module HttpCacheable
 
   included do
     # Add ETag support
-    etag { current_website&.id }
+    etag { helper_current_website&.id }
     etag { I18n.locale }
   end
 
@@ -78,7 +78,7 @@ module HttpCacheable
     return nil unless record
 
     parts = [
-      current_website&.id || "global",
+      helper_current_website&.id || "global",
       I18n.locale,
       record.class.name.underscore,
       record.try(:id),
@@ -88,7 +88,7 @@ module HttpCacheable
     parts.join("/")
   end
 
-  def current_website
+  def helper_current_website
     return @current_website if defined?(@current_website)
     @current_website = Pwb::Current.website rescue nil
   end
