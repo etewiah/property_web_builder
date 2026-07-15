@@ -5,7 +5,7 @@
 # =============================================================================
 # Stage 1: Node.js Builder - Compile Tailwind CSS and other assets
 # =============================================================================
-FROM node:22-bookworm-slim AS node_builder
+FROM node:22.18-bookworm-slim AS node_builder
 
 WORKDIR /app
 
