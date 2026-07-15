@@ -34,6 +34,7 @@ module TenantAdmin
 
     def create
       @user = Pwb::User.new(user_params)
+      @user.website = selected_website if selected_website
 
       if @user.save
         create_or_update_website_membership(@user)
@@ -49,6 +50,8 @@ module TenantAdmin
     end
 
     def update
+      @user.website = selected_website if selected_website
+
       if @user.update(user_params)
         create_or_update_website_membership(@user)
         redirect_to tenant_admin_user_path(@user), notice: "User updated successfully."
@@ -101,9 +104,15 @@ module TenantAdmin
         :email,
         :password,
         :password_confirmation,
-        :admin,
-        :website_id
+        :admin
       )
+    end
+
+    def selected_website
+      website_id = params.dig(:pwb_user, :website_id)
+      return if website_id.blank?
+
+      @selected_website ||= Pwb::Website.unscoped.find_by(id: website_id)
     end
 
     # Create or update UserMembership when user is assigned to a website with admin role
