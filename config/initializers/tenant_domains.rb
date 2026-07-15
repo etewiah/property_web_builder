@@ -21,7 +21,7 @@
 Rails.application.config.tenant_domains = {
   # Platform domains where subdomains are treated as tenant identifiers
   # e.g., tenant-a.propertywebbuilder.com -> tenant-a
-  platform_domains: ENV.fetch('PLATFORM_DOMAINS', 'propertywebbuilder.com').split(',').map(&:strip),
+  platform_domains: ENV.fetch('PLATFORM_DOMAINS', 'propertywebbuilder.com,pwb.localhost,e2e.localhost,test.host,localhost').split(',').map(&:strip),
 
   # Whether to allow unverified custom domains (should only be true in dev/test)
   allow_unverified_domains: ENV.fetch('ALLOW_UNVERIFIED_DOMAINS', 'false') == 'true' ||

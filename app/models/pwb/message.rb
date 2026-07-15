@@ -74,11 +74,11 @@ module Pwb
     private
 
     def increment_contact_unread_count
-      contact&.increment!(:unread_messages_count) unless read?
+      contact.increment!(:unread_messages_count) if unread_message_for_contact_tenant?
     end
 
     def sync_contact_unread_count_on_update
-      return unless contact && saved_change_to_read?
+      return unless saved_change_to_read? && same_tenant_contact?
 
       if read?
         contact.decrement!(:unread_messages_count)
@@ -88,7 +88,15 @@ module Pwb
     end
 
     def decrement_contact_unread_count
-      contact&.decrement!(:unread_messages_count) unless read?
+      contact.decrement!(:unread_messages_count) if unread_message_for_contact_tenant?
+    end
+
+    def unread_message_for_contact_tenant?
+      !read? && same_tenant_contact?
+    end
+
+    def same_tenant_contact?
+      contact.present? && contact.website_id == website_id
     end
   end
 end

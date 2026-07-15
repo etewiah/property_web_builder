@@ -360,6 +360,8 @@ module SeoHelper
 
   def helper_current_website
     return @current_website if defined?(@current_website)
+    return current_website if respond_to?(:current_website) && current_website.present?
+
     @current_website = Pwb::Current.website rescue nil
   end
 

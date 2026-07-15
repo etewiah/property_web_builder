@@ -105,7 +105,7 @@ module Website
 
       # Get list of platform domains from configuration
       def platform_domains
-        ENV.fetch('PLATFORM_DOMAINS', 'propertywebbuilder.com,pwb.localhost,e2e.localhost,localhost').split(',').map(&:strip)
+        Rails.application.config.tenant_domains[:platform_domains]
       end
 
       # Find website by email verification token
