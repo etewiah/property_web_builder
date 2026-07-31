@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 ENV["RAILS_ENV"] ||= "test"
+# Add example.com as a platform domain so tests using `host! 'subdomain.example.com'` work correctly.
+# Must be set here (before config/environment is required below) rather than in rails_helper.rb,
+# since this file boots Rails first when loaded via the `--require spec_helper` .rspec option.
+ENV["PLATFORM_DOMAINS"] ||= "propertywebbuilder.com,pwb.localhost,e2e.localhost,test.host,localhost,example.com"
 
 require "simplecov"
 # SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter

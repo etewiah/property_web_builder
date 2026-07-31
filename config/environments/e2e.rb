@@ -82,6 +82,7 @@ Rails.application.configure do
   config.middleware.delete Rack::Attack
 
   # Log to both file and stdout for better debugging
+  FileUtils.mkdir_p("#{Rails.root}/log")
   file_logger = ActiveSupport::Logger.new("#{Rails.root}/log/e2e.log")
   stdout_logger = ActiveSupport::Logger.new(STDOUT)
 
