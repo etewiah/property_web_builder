@@ -24,8 +24,11 @@ cloudflare_r2:
   bucket: <%= ENV['CDN_IMAGES_BUCKET'] || Rails.application.credentials.dig(:r2, :bucket) || ENV['R2_BUCKET'] %>
   endpoint: <%= begin
     r2_account_id = Rails.application.credentials.dig(:r2, :account_id) || ENV['R2_ACCOUNT_ID']
-    raise 'Missing R2 account id (set credentials.r2.account_id or R2_ACCOUNT_ID)' if r2_account_id.blank?
-    "https://#{r2_account_id}.r2.cloudflarestorage.com"
+    # This whole file is ERB-parsed eagerly regardless of which service is
+    # actually selected (config.active_storage.service), so only fail fast
+    # here in production, where the r2 service is actually used.
+    raise 'Missing R2 account id (set credentials.r2.account_id or R2_ACCOUNT_ID)' if r2_account_id.blank? && Rails.env.production?
+    r2_account_id.present? ? "https://#{r2_account_id}.r2.cloudflarestorage.com" : nil
   end %>
   force_path_style: true
   public: true
