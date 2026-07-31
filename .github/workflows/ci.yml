@@ -72,6 +72,10 @@ jobs:
     env:
       RAILS_ENV: test
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/pwb_test
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
       REDIS_URL: redis://localhost:6379/0
       DISABLE_SPRING: 1
 
@@ -143,6 +147,10 @@ jobs:
     env:
       RAILS_ENV: e2e
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/pwb_e2e
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
       REDIS_URL: redis://localhost:6379/0
       DISABLE_SPRING: 1
 
