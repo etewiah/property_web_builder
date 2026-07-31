@@ -35,18 +35,14 @@ group :development, :test do
   #   gem 'simplecov',                 require: false
   # end
   gem "simplecov", require: false
-  unless ENV["CI"]
-    # uncommenting below will result in travis ci prompting me to Run `bundle install` elsewhere and add the
-    # updated Gemfile.lock to version control
-    # gem 'launchy'
-    # gem 'annotate'
-    gem 'annotaterb'
-    # gem 'bumpy'
-    # gem 'yard'
-    # gem 'redcarpet'
-    # gem 'spring'
-    # gem 'spring-commands-rspec'
-  end
+  # gem 'launchy'
+  # gem 'annotate'
+  gem 'annotaterb'
+  # gem 'bumpy'
+  # gem 'yard'
+  # gem 'redcarpet'
+  # gem 'spring'
+  # gem 'spring-commands-rspec'
 
   gem "launchy"
   # launchy allows me to use save_and_open_page
