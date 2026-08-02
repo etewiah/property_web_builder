@@ -4,6 +4,8 @@
 
 # PropertyWebBuilder: real estate sites, real fast ⚡
 
+PropertyWebBuilder is part of a small stable of property-tech products, alongside [SinglePropertyPages](https://singlepropertypages.com), [HomesToCompare](https://homestocompare.com), [House Price Guess](https://housepriceguess.com), and [ChattyMaps](https://chattymaps.com).
+
 Please help support this project by making a contribution to PropertyWebBuilder here: https://opencollective.com/property_web_builder
 
 
@@ -210,6 +212,15 @@ Thanks to the awesome [Locale](http://www.localeapp.com/) contributing to the tr
 - **That's it!**
 - The maintainer will then pull translations from the Locale project and push to Github.
 -->
+
+## Other products
+
+PropertyWebBuilder is built and maintained alongside a small stable of other property-tech products:
+
+* **[SinglePropertyPages](https://singlepropertypages.com)** — publishable single-property websites with lead capture for estate agents, running on PropertyWebBuilder as its system of record.
+* **[HomesToCompare](https://homestocompare.com)** — helps property buyers compare options and make decisions with confidence.
+* **[House Price Guess](https://housepriceguess.com)** — a local price-guessing game that builds a property-interested audience.
+* **[ChattyMaps](https://chattymaps.com)** — anonymous, map-based group decision polling.
 
 ## Contributors
 
