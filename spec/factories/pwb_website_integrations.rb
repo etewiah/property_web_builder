@@ -60,6 +60,13 @@ FactoryBot.define do
       settings { { 'default_model' => 'anthropic/claude-3.5-sonnet', 'max_tokens' => 4096 } }
     end
 
+    trait :requesty do
+      category { 'ai' }
+      provider { 'requesty' }
+      credentials { { 'api_key' => 'sk-rq-...2345' } }
+      settings { { 'default_model' => 'openai/gpt-4o-mini', 'max_tokens' => 4096 } }
+    end
+
     trait :spp do
       category { 'spp' }
       provider { 'single_property_pages' }

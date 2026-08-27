@@ -126,6 +126,11 @@ module Ai
           when 'open_router'
             # RubyLLM has native OpenRouter support
             config.openrouter_api_key = @integration.credential(:api_key)
+          when 'requesty'
+            # Requesty exposes an OpenAI-compatible API, so we point RubyLLM's
+            # OpenAI client at the Requesty router base URL.
+            config.openai_api_key = @integration.credential(:api_key)
+            config.openai_api_base = Integrations::Providers::Requesty::API_BASE_URL
           end
         else
           # Fall back to ENV variables
