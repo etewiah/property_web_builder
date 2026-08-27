@@ -194,7 +194,10 @@ gem "stimulus-rails", "~> 1.3"
 # This allows redis 5.x and removes httparty/redis-namespace dependencies
 gem "active_storage_dashboard"
 
-gem "pghero"
+# Pinned below 4.0: that release dropped the Ruby API (PgHero.slow_queries,
+# .index_hit_rate, .cache_hit_rate, .relation_sizes, .connections,
+# .database_size), which Pwb::ShardHealthCheck calls directly.
+gem "pghero", "~> 3.8"
 
 # AWS SDK for S3-compatible storage (Cloudflare R2)
 gem "aws-sdk-s3", require: false

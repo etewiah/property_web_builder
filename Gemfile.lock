@@ -852,7 +852,7 @@ DEPENDENCIES
   omniauth-facebook
   pagy (~> 43.0)
   pg
-  pghero
+  pghero (~> 3.8)
   prawn (~> 2.5)
   prawn-table (~> 0.2)
   pry-byebug
