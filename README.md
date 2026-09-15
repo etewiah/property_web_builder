@@ -79,7 +79,7 @@ PropertyWebBuilder 2.0 is a major release representing 5 years of development an
 - Enhanced theming with CSS variables and Liquid templates
 - Faceted search with field key filtering
 - Comprehensive SEO implementation
-- Audit logging for authentication events
+- Audit logging for authentication eventszZ
 - Push notifications via ntfy.sh
 
 See the full [CHANGELOG](./CHANGELOG.md) for details.
@@ -163,6 +163,10 @@ PropertyWebBuilder runs with Ruby 3.4.7 or higher.
 * **Setup Wizard** - Guided onboarding for new websites
 * **Fully Open Source** - MIT License
 
+
+## Real estate payment solutions
+
+PropertyWebBuilder can be complemented by payment solutions for real estate businesses, such as [ZokiPay](https://zokipay.com.br/), which offers payment splitting, boleto and Pix services.
 ## Deployment Options
 
 PropertyWebBuilder can be deployed to multiple platforms. We have comprehensive deployment guides for:
