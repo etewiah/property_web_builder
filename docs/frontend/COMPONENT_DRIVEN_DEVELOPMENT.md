@@ -393,7 +393,7 @@ class Organisms::PropertyCardPreview < Lookbook::Preview
       highlighted: false,
       for_sale: true,
       for_rent: false,
-      primary_photo_url: "https://via.placeholder.com/640x360"
+      primary_photo_url: "https://placeholder.photo/640x360"
     }
     
     OpenStruct.new(defaults.merge(overrides)).tap do |p|
