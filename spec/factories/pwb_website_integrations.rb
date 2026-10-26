@@ -67,6 +67,13 @@ FactoryBot.define do
       settings { { 'default_model' => 'openai/gpt-4o-mini', 'max_tokens' => 4096 } }
     end
 
+    trait :cheaper_inference do
+      category { 'ai' }
+      provider { 'cheaper_inference' }
+      credentials { { 'api_key' => 'ci-test-key-12345' } }
+      settings { { 'default_model' => 'gpt-5.4-mini', 'max_tokens' => 4096 } }
+    end
+
     trait :spp do
       category { 'spp' }
       provider { 'single_property_pages' }
