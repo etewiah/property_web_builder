@@ -131,6 +131,11 @@ module Ai
             # OpenAI client at the Requesty router base URL.
             config.openai_api_key = @integration.credential(:api_key)
             config.openai_api_base = Integrations::Providers::Requesty::API_BASE_URL
+          when 'cheaper_inference'
+            # Cheaper Inference exposes an OpenAI-compatible API, so we point
+            # RubyLLM's OpenAI client at the Cheaper Inference base URL.
+            config.openai_api_key = @integration.credential(:api_key)
+            config.openai_api_base = Integrations::Providers::CheaperInference::API_BASE_URL
           end
         else
           # Fall back to ENV variables

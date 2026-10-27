@@ -33,7 +33,7 @@ RSpec.describe Integrations::Registry do
     it 'returns all providers for a category' do
       providers = described_class.providers_for(:ai)
       expect(providers).to be_a(Hash)
-      expect(providers).to include(:anthropic, :openai, :open_router, :requesty)
+      expect(providers).to include(:anthropic, :openai, :open_router, :requesty, :cheaper_inference)
     end
 
     it 'returns empty hash for unknown category' do
@@ -207,6 +207,53 @@ RSpec.describe Integrations::Registry do
       # Should include models from different providers
       expect(model_strings.any? { |m| m.start_with?('anthropic/') }).to be true
       expect(model_strings.any? { |m| m.start_with?('openai/') }).to be true
+    end
+  end
+
+  describe 'Cheaper Inference provider' do
+    let(:provider) { described_class.provider(:ai, :cheaper_inference) }
+
+    it 'is registered' do
+      expect(provider).to eq(Integrations::Providers::CheaperInference)
+    end
+
+    it 'has correct display name' do
+      expect(provider.display_name).to eq('Cheaper Inference')
+    end
+
+    it 'has correct category' do
+      expect(provider.category).to eq(:ai)
+    end
+
+    it 'has a description mentioning OpenAI compatibility' do
+      expect(provider.description).to include('OpenAI-compatible')
+    end
+
+    it 'defines required api_key credential' do
+      expect(provider.credential_fields[:api_key]).to be_present
+      expect(provider.credential_fields[:api_key][:required]).to be true
+    end
+
+    it 'api_key help text mentions cheaperinference.com' do
+      expect(provider.credential_fields[:api_key][:help]).to include('cheaperinference.com')
+    end
+
+    it 'uses the Cheaper Inference base URL' do
+      expect(provider::API_BASE_URL).to eq('https://api.cheaperinference.com/v1')
+    end
+
+    it 'defines default_model setting' do
+      expect(provider.setting_fields[:default_model]).to be_present
+      expect(provider.setting_fields[:default_model][:type]).to eq(:select)
+    end
+
+    it 'has a sensible default model' do
+      expect(provider.default_for(:default_model)).to eq('gpt-5.4-mini')
+    end
+
+    it 'defines max_tokens setting' do
+      expect(provider.setting_fields[:max_tokens]).to be_present
+      expect(provider.default_for(:max_tokens)).to eq(4096)
     end
   end
 end
