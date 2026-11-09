@@ -119,7 +119,7 @@ gem "pg" #, "~> 0.21.0"
 
 gem "devise", "~> 5.0"
 
-gem "omniauth", "~> 2.1"
+gem "omniauth", "~> 2.2"
 
 gem "geocoder", "~> 1.8"
 
