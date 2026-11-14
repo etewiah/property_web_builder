@@ -8,6 +8,7 @@ module Pwb
       skip_before_action :footer_content
       # Skip CSRF for API calls
       skip_before_action :verify_authenticity_token
+      before_action :authenticate_admin_user!
 
       def index
         images = []
@@ -97,6 +98,12 @@ module Pwb
       end
 
       private
+
+      def authenticate_admin_user!
+        unless current_user && current_user.admin_for?(@current_website)
+          render json: { error: "Unauthorized" }, status: :unauthorized
+        end
+      end
 
       def thumbnail_url(image)
         return url_for(image) unless image.variable?
